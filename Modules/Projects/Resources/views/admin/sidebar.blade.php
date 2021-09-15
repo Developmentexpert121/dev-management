@@ -9,13 +9,13 @@
 
           <li class="nav-item nav-category">Users</li>
           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic13" aria-expanded="false" aria-controls="ui-basic">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic13" aria-expanded="false" aria-controls="ui-basic13">
               <i class="menu-icon mdi mdi-floor-plan"></i>
               <span class="menu-title">User List</span>
               <i class="menu-arrow"></i> 
             </a>
 
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="ui-basic13">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href='{{url("admin/user")}}'>New User</a></li>
                 <li class="nav-item"> <a class="nav-link" href='{{url("admin/userlist")}}'>User List</a></li>
@@ -27,12 +27,14 @@
           <li class="nav-item nav-category">Project</li>
          
            <li class="nav-item active">
-            <a class="nav-link" href='{{url("admin/project/template")}}'>
-              <i class="mdi mdi-grid-large menu-icon" ></i>
+         
+            <a class="nav-link" href='{{url("admin/project/information")}}'>
+              <i class="mdi mdi-grid-large menu-icon" ></i> 
               <span class="menu-title">Software development</span>
             </a>
-          </li> 
 
+          </li> 
+         <!-- <a class="nav-link" href='{{url("admin/project/template")}}'>-->
           
          
         </ul>

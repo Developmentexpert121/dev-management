@@ -22,7 +22,7 @@ use App\Http\Controllers\HrController;
 
       Route::get('/',function (){
       return redirect('login');
-      });
+      }); 
 
 
       Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

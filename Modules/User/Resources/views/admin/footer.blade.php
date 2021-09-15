@@ -32,7 +32,7 @@
   $(document).ready(function() { 
     $('#example').DataTable();
 } );
-</script>
+</script> 
 </body>
 </html>
 

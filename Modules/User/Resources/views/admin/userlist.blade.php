@@ -21,7 +21,7 @@
             <th>Sr.No</th>
             <th>Name</th>
             <th>Email</th>
-           <!-- <th>Role</th>-->
+    
             <th>Created at</th>
             <th>Action</th>
            
@@ -32,7 +32,7 @@
        <?php
         $i=1;
         foreach($user_list as $data){ 
-          //  $data->id = base64_encode($data->id);
+     
          if($data->user_role==1){
            $user_role='Team Leader';
          }
@@ -50,7 +50,7 @@
             <td><?php echo $i++; ?></td>
             <td><?php echo $data->name; ?></td>
             <td><?php echo $data->email; ?></td>
-            <!--<td><?php //echo //$user_role; ?></td>-->
+   
             <td><?php echo $data->created_at; ?></td> 
             <td><a href="<?php  echo url("admin/user/view/{$data->id}") ?>"> <i class="fa fa-eye" aria-hidden="true" ></i></a>  &nbsp;
             <a href="<?php  echo url("admin/user/delete/{$data->id}") ?>"><i class="fa fa-trash-o fa-lg" style="font-size:21px;color:red"></i> </a>&nbsp; &nbsp; <a href="<?php  echo url("admin/user/edit/{$data->id}") ?>"><i class="fa fa-edit" style="font-size:18px;color:green"></i></a></td>
@@ -66,7 +66,7 @@
         <th>Sr.No</th>
             <th>Name</th>
             <th>Email</th>
-            <!--<th>Role</th>-->
+  
             <th>Created at</th>
             <th>Action</th>
         </tr>
@@ -79,16 +79,6 @@
 </div>
 </div>
 </div>
-
-
-
-
-
-<script>
-  $(document).ready(function() {
-    $('#example').DataTable();
-} );
-
 
 
 @include('user::admin.footer') 

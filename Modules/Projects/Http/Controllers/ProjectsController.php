@@ -33,15 +33,40 @@ class ProjectsController extends Controller
       
         return view('projects::admin.company_management');  
     } 
-    public function slug()
+    public function slug(Request $request)
     {
-        
-        $num = str_pad(mt_rand(1,99999999),8,'0',STR_PAD_LEFT);
+      
+        $divider = '-';
+
+        $text=$request->name ;
+
+        //$num = str_pad(mt_rand(1,99999999),8,'0',STR_PAD_LEFT);
+       
+         // replace non letter or digits by divider
+          $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
+
+         // transliterate
+          $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+         // remove unwanted characters
+          $text = preg_replace('~[^-\w]+~', '', $text);
+
+         // trim
+          $text = trim($text, $divider);
+
+         // remove duplicate divider
+         $text = preg_replace('~-+~', $divider, $text);
+
+        // lowercase
+         $text = strtolower($text);
+
+
+
 
         return response()->json(
             [
                 'success' => true,
-                'message' => $num
+                'message' => $text 
             ]
         );
 
@@ -52,7 +77,7 @@ class ProjectsController extends Controller
     {
         
         $validator = Validator::make($request->all(),[
-            'name' => 'required',
+            'name' => 'required|unique:project',
             'key' => 'required',
         ]);
        
@@ -80,24 +105,25 @@ class ProjectsController extends Controller
                    'project_type'=>$project_type
             )
         );
-
+        $lastId=DB::getPdo()->lastInsertId();
 
         if($data)
         {  
-            return Redirect::back()->with('message', 'Thanks for Project registering!');    
+            return Redirect('admin/project/company/'.$lastId);    
         }
 
 
-    }
+    } 
+    
 
     public function team_management_insert(Request $request)
     {
    
         $validator = Validator::make($request->all(),[
-            'name' => 'required',
+            'name' => 'required|unique:project',
             'key' => 'required',
         ]);
-       
+         
          
         if ($validator->fails()){
  
@@ -109,7 +135,7 @@ class ProjectsController extends Controller
        $name= $request->name;
        $key= $request->key;
        $template= $request->template;
-       $project_type= $request->project_type;
+       $project_type= $request->project_type; 
       
     
         $data = DB::table('project')->insert(
@@ -121,14 +147,32 @@ class ProjectsController extends Controller
                    'project_type'=>$project_type
             )
         ); 
-
+        $lastId=DB::getPdo()->lastInsertId();
+     
 
         if($data)
         {  
-            return Redirect::back()->with('message', 'Thanks for Project registering!');    
+            
+            return Redirect('admin/project/team/'.$lastId);    
         }
  
-    }   
+    } 
+    
+    public function  information()
+    { 
+    
+
+
+        $project_list =  DB::table('project')
+       ->select('project.*','users.name as username')
+       ->join('users','users.id','=','project.createby')
+       ->orderBy('project.id', 'DESC')
+       ->get();
+       
+       
+        return view('projects::admin.datatable')->with('project_list',$project_list);  
+
+    }
 
  
 }

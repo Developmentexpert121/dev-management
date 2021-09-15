@@ -23,19 +23,14 @@
           </li>
 
           
-
-          
           <li class="nav-item nav-category">Project</li>
          
- 
            <li class="nav-item active">
-            <a class="nav-link" href='{{url("admin/project/template")}}'>
+            <a class="nav-link" href='{{url("admin/project/information")}}'>
               <i class="mdi mdi-grid-large menu-icon" ></i>
               <span class="menu-title">Software development</span>
             </a>
-          </li> 
-
-          
-         
+          </li>  
+           
         </ul>
-      </nav>
+      </nav>  

@@ -90,6 +90,7 @@
            {
               if(response.success)
               {
+                 console.log(response.message);
                  $("#key").val(response.message)
 
               }

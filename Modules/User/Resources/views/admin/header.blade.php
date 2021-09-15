@@ -5,12 +5,11 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Admin Penal</title>
+  <title>Admin Panel</title>
 
 <!--  Data Table -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" defer></script>
 
 
   <link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap4.min.css">
@@ -23,7 +22,7 @@
    
   <!-- plugins:css -->
   <link rel="stylesheet" href=" {{ asset('vendors/feather/feather.css') }} ">
-  <link rel="stylesheet" href="{{ asset('vendors/mdi/css/materialdesignicons.min.css') }}">
+  <!--<link rel="stylesheet" href="{{ asset('vendors/mdi/css/materialdesignicons.min.css') }}">-->
   <link rel="stylesheet" href="{{ asset('vendors/ti-icons/css/themify-icons.css') }}">
   <link rel="stylesheet" href="{{ asset('vendors/typicons/typicons.css') }}">
   <link rel="stylesheet" href="{{ asset('vendors/simple-line-icons/css/simple-line-icons.css') }}">
@@ -31,7 +30,7 @@
   <!-- endinject -->
   <!-- Plugin css for this page -->
   
-  <link rel="stylesheet" href="{{ asset('js/select.dataTables.min.css') }}">
+ 
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <link rel="stylesheet" href="{{ asset('css/vertical-layout-light/style.css') }}">
@@ -44,7 +43,7 @@
 </head>
 <body> 
 
-
+ 
 <div class="container-scroller">      
       
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
@@ -225,7 +224,6 @@
     </nav>
 
 
-
     <div class="container-fluid page-body-wrapper">
-   
-    @include('user::admin.sidebar') 
+    @include('user::admin.sidebar')
+    

@@ -56,4 +56,5 @@
 </div>
 
 
+@include('projects::admin.footer')
 

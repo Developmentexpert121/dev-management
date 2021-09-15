@@ -14,7 +14,7 @@
   <!-- Plugin js for this page -->
   <script src="{{ asset('vendors/chart.js/Chart.min.js') }}"></script>
   <script src="{{ asset('vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
-  <!--<script src="{{ asset('vendors/progressbar.js/progressbar.min.js') }}"></script>-->
+  <script src="{{ asset('vendors/progressbar.js/progressbar.min.js') }}"></script>
 
   <!-- End plugin js for this page -->
   <!-- inject:js -->
@@ -29,12 +29,9 @@
   <script src="{{ asset('js/Chart.roundedBarCharts.js') }}"></script>
   
   <script>
-    $(document).ready(function() {
+  $(document).ready(function() { 
     $('#example').DataTable();
-});
-    
-   
-
+} );
 </script>
 </body>
 </html>
