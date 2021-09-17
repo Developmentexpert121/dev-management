@@ -158,11 +158,8 @@ class ProjectsController extends Controller
  
     } 
     
-    public function  information()
+    public function information()
     { 
-    
-
-
         $project_list =  DB::table('project')
        ->select('project.*','users.name as username')
        ->join('users','users.id','=','project.createby')

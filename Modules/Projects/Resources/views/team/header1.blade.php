@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Team Penal</title>
+  <title>create issue</title>
 
 <!--  Data Table -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -38,7 +38,7 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 
 </head>
@@ -65,13 +65,12 @@
             
             <h3 class="welcome-sub-text">
               <?php 
-
-               if(!empty($project_data)){
-                 echo $project_data->name?$project_data->name:'';
-               }
          
-              
-             ?>
+              if(!$project_data->name ==''){
+                 echo $project_data->name;  
+              }
+            
+             ?> 
             </h3>
           </li>
         </ul>
@@ -81,14 +80,14 @@
           <li class="nav-item dropdown d-none d-lg-block">
           <label for="Project">All Project:</label>
             <select name="project" id="project">
-              <?php 
+             <?php 
                foreach($drop_down_data as $val){
               ?>
              <option value="<?php  echo $val->id ?>"><?php  echo $val->name ?></option>
              
             <?php 
             }
-             ?>
+             ?> 
            </select>
 
             </li>

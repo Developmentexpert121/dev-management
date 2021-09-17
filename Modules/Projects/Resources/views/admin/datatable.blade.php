@@ -31,6 +31,7 @@
    
      <?php 
      $i=1;
+     
      foreach($project_list as $data){
 
         if($data->template==1)
@@ -49,19 +50,21 @@
 
         if($data->project_type==1){
             $project_type='Team';
+            $project_name = 'team';
         }
         else{
             $project_type='Company';
+            $project_name = 'company';
         }
         
         ?>
         <tr> 
             <td><?php echo $i++  ?></td> 
-            <td><?php echo $data->name;  ?></td>
-            <td><?php echo $data->key  ?></td>
-            <td><?php echo $data->username  ?></td> 
-            <td><?php echo $templatename  ?></td>
-            <td><?php echo $project_type ?></td>
+            <td><a href='{{url("admin/project/{$project_name}/{$data->id}")}}'><?php echo ucfirst($data->name);  ?></a></td>
+            <td><?php echo ucfirst($data->key) ; ?></td>
+            <td><?php echo ucfirst($data->username) ; ?></td> 
+            <td><?php echo $templatename ; ?></td>
+            <td><?php echo $project_type ;?></td>
     
         </tr>
      <?php } ?>
