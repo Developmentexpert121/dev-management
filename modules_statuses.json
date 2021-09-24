@@ -1,4 +1,6 @@
 {
     "Projects": true,
-    "User": true
+    "User": true,
+    "Migration": true,
+    "CreateIssues": true
 }
