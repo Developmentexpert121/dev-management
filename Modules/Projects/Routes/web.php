@@ -49,7 +49,10 @@ Route::post('project/team/save_issue','TeamController@store_issue')->middleware(
 Route::any('project/team/backlog/create_sprint','TeamController@create_sprint')->middleware('CheckRole');
 Route::get('project/team/active_sprints','TeamController@active_sprints')->middleware('CheckRole');
 Route::post('project/team/save_sprint','TeamController@store_sprints')->middleware('CheckRole');
+<<<<<<< HEAD
 Route::get('project/team/backlog/sprints/form/{id}','TeamController@sprint_view')->middleware('CheckRole');
 Route::get('project/team/sprint/detail/{id}/{issue_id}','TeamController@single_sprint')->middleware('CheckRole');
+=======
+>>>>>>> 78b4940f56b5dd1616af9de10c3db15b80024d19
 });  
 

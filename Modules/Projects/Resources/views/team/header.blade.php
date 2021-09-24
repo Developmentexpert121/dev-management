@@ -81,8 +81,12 @@
               <?php 
 
                if(!empty($project_data)){
+<<<<<<< HEAD
                  echo $project_data->name;
 
+=======
+                 echo $project_data->name?$project_data->name:'';
+>>>>>>> 78b4940f56b5dd1616af9de10c3db15b80024d19
                }
          
               

@@ -18,6 +18,7 @@ class TeamController extends Controller
 
    public function index(Request $request){
    }
+<<<<<<< HEAD
 
    public function load_page(Request $request){
       $project_data = project::where('id',$request->id)->first();
@@ -103,6 +104,68 @@ class TeamController extends Controller
       return view('projects::team.Sprintview', compact('drop_down_data','project_data', 'project_id'));
    }
 
+=======
+
+   public function load_page(Request $request){
+      $project_data = project::where('id',$request->id)->first();
+      $drop_down_data = project::orderBy('id', 'DESC')->get();
+      $project_id = $request->id;
+      return view("projects::team.dashboard", compact('drop_down_data','project_data', 'project_id'));
+   }
+
+   public function backlog_view(Request $request){ 
+      $project_id = $request->id;
+      $project_data = project::where('id',$request->id)->first();
+      $drop_down_data = project::orderBy('id', 'DESC')->get();
+      return view("projects::team.backlog", compact('drop_down_data','project_data', 'project_id'));
+   }
+
+   public function create_issue(Request $request){
+      $project_id = $request->id;
+   $project_data = project::where('id',$request->id)->first();
+      $drop_down_data = project::orderBy('id', 'DESC')->get();
+      return view('projects::team.createissue', compact('drop_down_data','project_data', 'project_id'));
+   }
+
+   public function store_issue(Request $request){
+
+      $validator = Validator::make($request->all(),[
+           'project_name' => 'required',
+           'task_type' => 'required', 
+           'summary'=>'required', 
+           'description' => 'required',
+           'priority' => 'required', 
+          
+       ]);
+       if ($validator->fails()){
+           return Redirect::back()->withErrors($validator)->withInput();
+       }
+
+       $project_id = $request->project_id;
+    
+     
+      $createdby= Auth::id();
+
+    
+      $modal=new task();
+        $modal->project_name=$request->input('project_name');
+        $modal->task_type=$request->input('task_type');
+        $modal->project_type='1';
+        $modal->summary=$request->input('summary');
+        $modal->description=$request->input('description');
+        $modal->created_by=$createdby;
+        $modal->task_prioprity=$request->input('priority');
+
+        $modal->save();
+
+      
+    $project_data = project::where('id',$request->id)->first();
+      $drop_down_data = project::orderBy('id', 'DESC')->get();
+      $url = "/admin/project/team/backlog/$project_id";
+      return redirect($url);
+   }
+
+>>>>>>> 78b4940f56b5dd1616af9de10c3db15b80024d19
       public function store_sprints(Request $request){
 
           $validator = Validator::make($request->all(),[
@@ -111,23 +174,35 @@ class TeamController extends Controller
            'start_date'=>'required', 
            'end_date' => 'required',
            'sprint_goal' => 'required', 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 78b4940f56b5dd1616af9de10c3db15b80024d19
           
        ]);
        if ($validator->fails()){
            return Redirect::back()->withErrors($validator)->withInput();
        }
+<<<<<<< HEAD
          $user_check= Auth::id();
 
         
         $modal=new allsprint();
+=======
+         $user_check= Auth::user();
+        
+      $modal=new allsprint();
+>>>>>>> 78b4940f56b5dd1616af9de10c3db15b80024d19
         $modal->sprint_name=$request->input('sprint_name');
         $modal->duration=$request->input('duration');
         $modal->start_date=$request->input('start_date');
         $modal->end_date=$request->input('end_date');
         $modal->sprint_goal=$request->input('sprint_goal');
+<<<<<<< HEAD
         $modal->created_by = $user_check;
         $modal->project_id = $request->input('project_id');;
+=======
+>>>>>>> 78b4940f56b5dd1616af9de10c3db15b80024d19
         $modal->save();
 
             return redirect()->back();
@@ -142,6 +217,7 @@ class TeamController extends Controller
          // print_r( $new_sprints);
           die();
       }
+<<<<<<< HEAD
 
       public function single_sprint(REQUEST $request)
       {
@@ -161,4 +237,16 @@ class TeamController extends Controller
          return view('projects::team.single_sprint', compact('drop_down_data','project_data', 'project_id','task_data'));
       }
 
+=======
+   
+      public function create_sprint(){
+         die('gfgg');
+      $project_data = project::where('id',$request->id)->first();
+      $drop_down_data = project::orderBy('id', 'DESC')->get();
+        
+        
+      }
+
+     
+>>>>>>> 78b4940f56b5dd1616af9de10c3db15b80024d19
 }

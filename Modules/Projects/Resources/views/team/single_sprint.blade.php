@@ -7,6 +7,7 @@
             <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
+<<<<<<< HEAD
                 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -36,6 +37,9 @@
 </table>
 
    
+=======
+              bghbnfhnhfbfjb
+>>>>>>> 78b4940f56b5dd1616af9de10c3db15b80024d19
               
     
 </div>
