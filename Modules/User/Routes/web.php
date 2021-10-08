@@ -13,7 +13,9 @@
 
 
 // ***************************** Admin Route ****************************************************//
+
 Route::prefix('admin')->group(function() {
+
     Route::get('/', 'UserController@index'); 
     Route::get('dashbaord','UserController@dashbaord')->middleware('CheckRole'); 
     Route::get('user','UserController@addUser')->middleware('CheckRole'); 
@@ -23,6 +25,7 @@ Route::prefix('admin')->group(function() {
     Route::get('user/edit/{id}','UserController@user_edit')->middleware('CheckRole'); 
     Route::post('newuser','UserController@index')->middleware('CheckRole');
     Route::get('user/delete/{id}','UserController@delete')->middleware('CheckRole');  
+       
 
 });
  
@@ -53,14 +56,13 @@ Route::prefix('admin')->group(function() {
       });
        //*******************************end Employee  Route*************************************************//
 
-
        
         // ***************************** Manager Route ****************************************************//
         Route::group(['middleware' => ['auth:web','CheckRole'], 'prefix' => 'manager'],function() 
         {
-           Route::get('dashbaord','ManagerController@dashbaord'); 
+           Route::get('dashbaord','ManagerController@dashbaord');   
         
-        });
+        });  
            //*******************************end Manager Route*************************************************//
 
 

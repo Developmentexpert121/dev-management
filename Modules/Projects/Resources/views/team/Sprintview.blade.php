@@ -1,5 +1,5 @@
 @include('projects::team.header')
-<<<<<<< HEAD
+
 <div class="content-wrapper">
           <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
@@ -9,13 +9,12 @@
                   <p class="card-description">
                     Create Sprint
                   </p> 
-=======
+
   <div class="main-panel">  
  <!--  <a href='{{url("admin/project/team/createissue/{$project_id}")}}'><button type="button" class="create_button"> Create Task</a> </button> 
 <button type="button" class="create_button" id="sprint_button"> Create Sprint</button></a> -->
         <div id="all_sprints" class="all_sprints" >
->>>>>>> 78b4940f56b5dd1616af9de10c3db15b80024d19
-  
+
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -26,7 +25,6 @@
     </div>  
     @endif
  
-<<<<<<< HEAD
         <form method="post" action="{{ url('admin/project/team/save_sprint') }}"> 
 
         <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
@@ -61,8 +59,7 @@
    </div> 
 
     
-                    
-=======
+           
   <form method="post" action="{{ url('admin/project/team/save_sprint') }}"> 
 
     <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
@@ -159,18 +156,4 @@
                         </div>
                       </div>
                     </div>
-                    
-
->>>>>>> 78b4940f56b5dd1616af9de10c3db15b80024d19
-    @include('projects::team.footer') 
-
-
-
-
-
-
-
-
-
-
-
+    @include('projects::team.footer')

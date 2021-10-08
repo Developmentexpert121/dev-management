@@ -222,8 +222,14 @@
         </button>
       </div>
     </nav>
-
-
     <div class="container-fluid page-body-wrapper">
-    @include('projects::admin.sidebar')
+    @if(!empty($single_project))
+     @if($single_project == 'single_project')
+        @include('projects::admin.single_sidebar')
+      @else
+        @include('projects::admin.sidebar')
+      @endif
+    @else
+      @include('projects::admin.sidebar')
+    @endif
     

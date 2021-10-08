@@ -1,5 +1,4 @@
-
-  <form method="post" action="{{ url('admin/project/team/save_sprint') }}"> 
+<form method="post" action="{{ url('admin/project/team/save_sprint') }}"> 
    	<input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
    Sprint Name	<input type="text" name="sprint_name" value=""><br><br>
    Duration:<select name="duration" >
