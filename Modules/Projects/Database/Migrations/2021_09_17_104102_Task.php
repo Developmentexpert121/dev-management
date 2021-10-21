@@ -1,9 +1,7 @@
 <?php
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
 class Task extends Migration
 {
     /**
@@ -26,11 +24,13 @@ class Task extends Migration
             $table->string('summary');
             $table->longText('description');
             $table->string('task_prioprity');
-           
+            $table->string('image');
+            $table->string('linked_issues');
+            $table->string('issue');
+            $table->string('epic_link');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
