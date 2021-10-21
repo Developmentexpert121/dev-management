@@ -20,9 +20,22 @@ Route::prefix('projects')->group(function() {
 	Route::post('team/project/add_sprint', 'Projects2Controller@saveSprint');
 
 
+	Route::post('sprint/create_issue/action','Projects2Controller@action_issue');
+	Route::get('team/sprint/delete/issue_create/{id}','Projects2Controller@delete_issue');
+
+	Route::post('team/create/issue/update','Projects2Controller@update_issue'); 
+
+	Route::get('team/issue/delete/{id}','Projects2Controller@issue_delete');
+
+	Route::post('team/create/issue/update','Projects2Controller@issue_update'); 
+
+	
 	
 
+
+
 	// Route::get('team/{id}/roadmap', 'Projects2Controller@roadmap');
+
 	
 });
 
@@ -56,8 +69,6 @@ Route::prefix('admin')->group(function(){
 	Route::get('project/team/delete_sprint/{project_id}/{delete_id}','Projects2Controller@delete_sprint'); 
 	  
 	
-	
-
 	// Route::get('dashbaord', [DashbaordController::class, 'index'])->middleware('CheckRole');
 	Route::get('project/team/{id}','TeamController@load_page')->middleware('CheckRole');
 	Route::get('project/team/{id}/settings','TeamController@project_settngs')->middleware('CheckRole');
@@ -74,5 +85,25 @@ Route::prefix('admin')->group(function(){
 	Route::get('delete/category/{id}','Projects2Controller@deleteCat')->middleware('CheckRole');
 
 	
+
+	//  
+	
+	Route::get('project/sprint/create_issue/{project_id}/{sprint_id}','Projects2Controller@sprint_create_issue');
+	Route::post('projects/team/sprint/add_issue_create','Projects2Controller@add_issue_create');
+	Route::post('projects/team/start/sprint','Projects2Controller@add_issue_create');
+	Route::post('projects/team/sprint/start','Projects2Controller@start_sprint');
+    
+	Route::post('projects/team/sprint/complete','Projects2Controller@complete_sprint'); 
+	 
+
+
+    Route::get('project/team/{project_id}/board','Projects2Controller@board');  
+	 
+	
+	
+	 
+ 
+	//  
+
 	  
 });
