@@ -97,7 +97,9 @@ Route::prefix('admin')->group(function(){
 	 
 
 
-    Route::get('project/team/{project_id}/board','Projects2Controller@board');  
+    Route::get('project/team/{project_id}/board','Projects2Controller@board'); 
+
+	Route::get('project/team/{project_id}/boardmove','Projects2Controller@boardMove');   
 	 
 	
 	

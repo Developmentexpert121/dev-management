@@ -1,105 +1,148 @@
 @include('projects::admin.header')
-<div class="main-panel">    
-  <div class="content-wrapper">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="project_detail">
-           <p>Project / teammmmm</p> 
-           <h2>TM Sprint 2</h2>  
-           <p>fd</p>
-      </div>
-     </div>
-     </div>
-
-    <div class="row mt-3">
-      <div class="col-md-6">
-        <div class="filer-search">  
-            <input type="text" placeholder="filter issues"> 
-            <i class="icon-search"></i>
-        </div>
-      </div>
-      <div class="col-md-6"></div>
-    </div>
-     
-    <div class="row mt-3">
-      <div class="col-md-4 table_head border-right">
-        <p>TO DO 2 ISSUES</p>  
-        <div class="ticket">
-          <span>USER</span>
-          <p>TM-3</p> 
-        </div>
-
-      </div> 
-      
-      <div class="col-md-4 table_head border-right">
-        <p>IN PROGRESS</p>
-          
-      </div>
-      <div class="col-md-4 table_head" >
-        <p>DONE</p> 
-        
-      </div> 
-    </div> 
-
-  </div>
-</div>
 
 
-@include('projects::team.footer')
+<link rel="stylesheet"
+    href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <style>
-  .table_head p{
-
-    font-size:14px;
-    color:#5e6c84;
-    font-weight:600;
-
-  }
-  .filer-search {
-
-    width: 40%;
-    float: left;
-    position: relative;
-
-} 
-.filer-search input { 
-
-    width: 100%;  
-    border: 1px solid #999;  
-    border-radius: 4px;  
-    padding: 5px 6px; 
-
+ 
+body {
+    font-family: arial;
 }
-.filer-search i.icon-search {
+.task-board {
 
-    position: absolute;  
-    right: 5px;  
-    top: 50%;  
-    transform: translate(0px, -50%);  
+    display: inline-block;
+    padding: 12px;
+    border-radius: 3px;
+    weight:100%;
 
+ 
+   
 }
-.project_detail p {
 
-  color:#6B778C !important; 
+.status-card {
+    width: 250px;
+    margin-right: 8px;
+    background: #e2e4e6;
+    border-radius: 3px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 0.9em;
+}
 
+.status-card:last-child {
+    margin-right: 0px;
 }
-.project_detail h2 {
-  font-size: 28px;  
-}
-.ticket {
+
+.card-header {
     width: 100%;
-    float: left;
-    box-shadow: -1px 1px 3px #999;
+    padding: 10px 10px 0px 10px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    display: block;
+    font-weight: bold;
+}
+
+.card-header-text {
+    display: block;
+}
+
+ul.sortable {
+    padding-bottom: 10px;
+}
+
+ul.sortable li:last-child {
+    margin-bottom: 0px;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0px;
+}
+
+.text-row {
     padding: 15px 10px;
-    border-radius: 5px;
-    margin-bottom:20px;
+    margin: 10px;
+    background: #fff;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 0.8em;
+    white-space: normal;
+    line-height: 20px;
 }
-.ticket span {
-  font-size: 15px;
-    font-weight: 600;
-    margin-bottom:10px;
+
+.ui-sortable-placeholder {
+    visibility: inherit !important;
+    background: transparent;
+    border: #666 2px dashed;
 }
-.ticket p{
-  margin-top: 20px;
-}
+
+
 </style>
+
+        <div class="task-board">
+          
+           @foreach ($statusResult as $statusRow)
+       
+              
+                <div class="status-card">
+                    <div class="card-header">
+                        <span class="card-header-text"><?php echo $statusRow->status_name; ?></span>
+                    </div>
+                    <ul class="sortable ui-sortable"
+                        id="sort<?php echo $statusRow->id; ?>"
+                        data-status-id="<?php echo $statusRow->id ?>">
+             
+                  @if(! empty($taskResult)) 
+          
+                  @foreach ($taskResult as $taskRow)
+                       
+                      @if($taskRow->issue_status== 0 && $statusRow->id == 1 ) 
+                      
+                            <li class="text-row ui-sortable-handle" 
+                            data-task-id="<?php echo $taskRow->id ?>"><?php echo $taskRow->issue_name; ?></li>
+                           
+                            @elseif($taskRow->issue_status==1 && $statusRow->id == 2 )
+                             <li class="text-row ui-sortable-handle" 
+                            data-task-id="<?php echo $taskRow->id ?>"><?php echo $taskRow->issue_name; ?></li>
+
+                            @elseif($taskRow->issue_status==2 && $statusRow->id == 3 )
+                             <li class="text-row ui-sortable-handle" 
+                            data-task-id="<?php echo $taskRow->id ?>"><?php echo $taskRow->issue_name; ?></li>
+                            @endif
+                            
+                  @endforeach
+                  @endif 
+               
+                  </ul>
+                </div>
+            @endforeach
+        </div>
+    <script>
+ $( function() {
+  
+     var url = 'boardmove';
+     $('ul[id^="sort"]').sortable({
+
+         connectWith: ".sortable",
+         receive: function (e, ui) {
+            var status_id = $(ui.item).parent(".sortable").data("status-id");
+            var task_id = $(ui.item).data("task-id");
+    
+             $.ajax({   
+                 url: url+'?header_id='+status_id+'&issue_id='+task_id,
+                 success: function(response){  
+                     }
+             }); 
+
+             } 
+     
+     }).disableSelection();
+     } ); 
+
+  </script>

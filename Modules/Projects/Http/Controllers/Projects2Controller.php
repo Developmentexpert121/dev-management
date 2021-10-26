@@ -697,6 +697,7 @@ class Projects2Controller extends Controller
 
    }
    
+
    public function update_issue(Request $request)
    {
     if ($request->isMethod('post'))
@@ -705,21 +706,20 @@ class Projects2Controller extends Controller
         $id = $request->issue_id;
         $name = $request->issue_name; 
      
-
          $validator = Validator::make($request->all(),[
             'issue_name' => 'required'
          ]); 
 
          if ($validator->fails())
-         {
+         {  
             return Redirect::back()->withErrors($validator)->withInput();
-         }
-
+         }  
+            
          $res = Sprint_Issue::where('id',$id)
          ->update([
           "issue_name"=> $name
-         ]);
-        
+         ]); 
+         
          return Redirect::back()->with('message','Sprint Update Successfully'); 
 
     }
@@ -747,7 +747,7 @@ class Projects2Controller extends Controller
 
       if ($request->isMethod('post'))
       {
-
+          
           $issue_id = $request->issue_id; 
           $name = $request->name; 
           $eSummary = $request->eSummary; 
@@ -762,11 +762,11 @@ class Projects2Controller extends Controller
 
           if ($validator->fails())
           {
-           return Redirect::back()->withErrors($validator)->withInput();
+            return Redirect::back()->withErrors($validator)->withInput();
           }
-
+        
           $res = Issue::where('id',$issue_id) 
-          ->update([
+          ->update([  
             "issue_type" => $name,   
             "summary" => $eSummary,     
             "description" => $eDescription    
@@ -779,17 +779,36 @@ class Projects2Controller extends Controller
 
     }
 
-
+    
     public function board(Request $request)
     {
        
-      $project_data = Project::where('id',$request->id)->first();
-      $drop_down_data = Project::orderBy('id', 'DESC')->get();
-      $project_id = $request->project_id; 
-      $single_project = 'single_project';   
-      return view('projects::board',compact('single_project','project_data','drop_down_data','project_id')); 
+      $project_data = Project::where('id',$request->id)->first(); 
+      $drop_down_data = Project::orderBy('id', 'DESC')->get(); 
+      $project_id = $request->project_id;  
+      $single_project = 'single_project'; 
+      $statusResult = DB::table('board_heading')->get();
+      $taskResult = Sprint_Issue::get(); 
+      
+      return view('projects::board',compact('single_project','project_data','drop_down_data','project_id','statusResult','taskResult')); 
 
  
+    }
+
+ 
+    public function boardMove(Request $request)
+    {
+
+      $header_id = $request->header_id; 
+      $issue_id = $request->issue_id;
+
+      $res = Sprint_Issue::where('id',$issue_id) 
+      ->update([  
+        "issue_status" => $header_id-1
+       ]);  
+    
+       return $res;  
+
     }
 
 
