@@ -43,6 +43,7 @@ class TeamController extends Controller
       return view('projects::team.createissue', compact('drop_down_data','project_data', 'project_id','sprint','createdby','employee'));
    }
 
+   
    public function store_issue(Request $request){
       $validator = Validator::make($request->all(),[
            'project_name' => 'required',
@@ -52,6 +53,7 @@ class TeamController extends Controller
            'priority' => 'required', 
            'sprint'=>'required',          
        ]);
+
 
        if ($validator->fails()){
           return Redirect::back()->withErrors($validator)->withInput();
