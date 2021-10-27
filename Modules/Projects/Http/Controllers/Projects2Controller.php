@@ -788,8 +788,16 @@ class Projects2Controller extends Controller
       $project_id = $request->project_id;  
       $single_project = 'single_project'; 
       $statusResult = DB::table('board_heading')->get();
-      $taskResult = Sprint_Issue::get(); 
-      
+
+      //$taskResult = Sprint_Issue::get(); 
+
+      $taskResult = DB::table('sprint_issue')
+      ->Join('all_sprints', 'all_sprints.id', '=', 'sprint_issue.sprint_id')
+      ->select(['sprint_issue.*','all_sprints.sprint_start_status'])
+      ->where('sprint_issue.project_id',$project_id)
+      ->orderBy('sprint_issue.id', 'desc') 
+      ->get();
+
       return view('projects::board',compact('single_project','project_data','drop_down_data','project_id','statusResult','taskResult')); 
 
  

@@ -25,9 +25,20 @@ Route::prefix('admin')->group(function() {
     Route::get('user/edit/{id}','UserController@user_edit')->middleware('CheckRole'); 
     Route::post('newuser','UserController@index')->middleware('CheckRole');
     Route::get('user/delete/{id}','UserController@delete')->middleware('CheckRole');  
-       
+    
+    Route::get('/user/profile','UserController@profile')->middleware('CheckRole');
+    Route::get('/user/manage-profile/profile-and-visibility','UserController@manageprofile')->middleware('CheckRole');
+    Route::get('/user/change-password','UserController@security')->middleware('CheckRole')->name('change.password');
+    Route::post('/user/change-password','UserController@changePassword')->middleware('CheckRole')->name('change.password');
+    Route::get('/user/profile-email','UserController@profileEmail')->middleware('CheckRole');
+    
 
 });
+    Route::post('/user/user_job_title','UserController@user_job_title');
+    Route::post('/user/your_department','UserController@your_department');
+    Route::post('/user/your_organisation','UserController@your_organisation');
+    Route::post('/user/your_location','UserController@your_location');
+    Route::post('photo','UserController@save');
  
 // *****************************End Admin Route ****************************************************//
 
