@@ -43,7 +43,7 @@
 
       <a class="nav-link" href='{{url("admin/project/team/$project_id/board")}}'>
         <i class="fa fa-bars"></i>&nbsp;
-        <span class="menu-title">Board</span> 
+        <span class="menu-title">Board</span>   
       </a>
 
 

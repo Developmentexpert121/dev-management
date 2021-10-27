@@ -72,6 +72,8 @@ Route::prefix('admin')->group(function(){
 	// Route::get('dashbaord', [DashbaordController::class, 'index'])->middleware('CheckRole');
 	Route::get('project/team/{id}','TeamController@load_page')->middleware('CheckRole');
 	Route::get('project/team/{id}/settings','TeamController@project_settngs')->middleware('CheckRole');
+	Route::post('project/team/{id}/settings','TeamController@project_details')->middleware('CheckRole')->name('save.detail');
+	
 	Route::get('project/team/{id}/roadmap','Projects2Controller@roadmap')->middleware('CheckRole');
 	Route::get('project/team/{id}/sprints','Projects2Controller@sprints')->middleware('CheckRole');
 	Route::get('project/team/{id}/backlog','Projects2Controller@backlog')->middleware('CheckRole');
@@ -107,3 +109,5 @@ Route::prefix('admin')->group(function(){
 
 	  
 });
+
+Route::post('photo-save','TeamController@project_photo_save')->middleware('CheckRole')->name('save.detail');

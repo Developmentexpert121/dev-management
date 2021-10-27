@@ -11,6 +11,7 @@ use Redirect;
 use Modules\Projects\Entities\AllSprint;
 use Modules\Projects\Entities\Task;
 use Modules\Projects\Entities\Project;
+use Modules\Projects\Entities\category;
 use App\Models\User;
 /* Load Auth  */
 use Auth;
@@ -43,7 +44,6 @@ class TeamController extends Controller
       return view('projects::team.createissue', compact('drop_down_data','project_data', 'project_id','sprint','createdby','employee'));
    }
 
-   
    public function store_issue(Request $request){
       $validator = Validator::make($request->all(),[
            'project_name' => 'required',
@@ -53,7 +53,6 @@ class TeamController extends Controller
            'priority' => 'required', 
            'sprint'=>'required',          
        ]);
-
 
        if ($validator->fails()){
           return Redirect::back()->withErrors($validator)->withInput();
@@ -92,11 +91,57 @@ class TeamController extends Controller
 
   public function project_settngs(Request $request){
 
+    $categorys = category::get();
     $project_data = Project::where('id',$request->id)->first();
     $drop_down_data = Project::orderBy('id', 'DESC')->get();
     $project_id = $request->id;
     $single_project = 'single_project';
-    return view("projects::project_settngs", compact('drop_down_data','project_data', 'project_id','single_project'));
+    return view("projects::project_settngs", compact('drop_down_data','project_data', 'project_id','single_project','categorys'));
   
    }
+   public function project_details(Request $request)
+   {
+    
+
+ }
+
+public function project_photo_save(Request $request)
+{
+    $title = $_POST["description"];
+
+     $project_id = $request->project_id;
+
+         $userexist = Project::select('*')->where('id', $project_id)->first();
+          if($userexist == null){
+          
+        if ($files = $request->file('image')) {
+            
+            $fileName =  "image-".time().'.'.$request->image->getClientOriginalExtension();
+            $request->image->storeAs('image', $fileName);
+            
+            $image = new Project;
+            $image->image = $fileName;
+            $image->save();      
+        }
+        return response()->json(['status' => 'true', 'message' => 'Profile Image added successfully!']);
+      }else{  
+        // echo '<pre>';
+        // print_r($userexist);        
+        //   die('stop');
+        if ($files = $request->file('image')) {
+                
+                $fileName = time().'.'.$request->image->getClientOriginalExtension();
+                $request->image->storeAs('image', $fileName);
+              }
+
+            $results = Project::where('id',$project_id)->update([
+            'image' =>  $fileName,
+            'Description' => $title,
+
+          ]);
+            return response()->json(['status' => 'true', 'message' => 'Profile Image updated successfully!']);
+
+   }
+    }
+  
 }

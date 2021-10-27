@@ -1,15 +1,18 @@
 @include('projects::admin.header')
 <div class="main-panel">    
   <div class="content-wrapper">
+
+
     <div class="row">
       <div class="col-md-6">
         <div class="project_detail">
-           <p>Project / teammmmm</p> 
+           <p>Project / teammmmm</p>  
            <h2>TM Sprint 2</h2>  
            <p>fd</p>
       </div>
      </div>
      </div>
+
 
     <div class="row mt-3">
       <div class="col-md-6">
@@ -17,11 +20,12 @@
             <input type="text" placeholder="filter issues"> 
             <i class="icon-search"></i>
         </div>
-      </div>
+      </div> 
       <div class="col-md-6"></div>
-    </div>
+    </div>  
      
     <div class="row mt-3">
+
       <div class="col-md-4 table_head border-right">
         <p>TO DO 2 ISSUES</p>  
         <div class="ticket">
@@ -35,11 +39,13 @@
         <p>IN PROGRESS</p>
           
       </div>
+
       <div class="col-md-4 table_head" >
         <p>DONE</p> 
         
-      </div> 
-    </div> 
+      </div>  
+
+    </div>  
 
   </div>
 </div>
