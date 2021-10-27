@@ -1,5 +1,4 @@
 @include('projects::team.header')
-<<<<<<< HEAD
 <div class="main-panel">    
  <a href='<?php echo url("admin/project/team/backlog/sprints/form/$project_id") ?>'><button type="button" class="create_button"> Create Sprint</button> </a> 
 
@@ -58,7 +57,6 @@
 </div>
 </div>
     @include('projects::team.footer')
-=======
   <div class="main-panel">  
   <a href='{{url("admin/project/team/createissue/{$project_id}")}}'><button type="button" class="create_button"> Create Task</a> </button> 
 <button type="button" class="create_button" id="sprint_button"> Create Sprint</button></a>

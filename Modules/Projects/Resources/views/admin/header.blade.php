@@ -6,20 +6,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Software development</title>
-
-<!--  Data Table -->
+  
+<!--  Data Table --> 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" defer></script>
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
 
-<!-- End Data Table -->
-
-
-
-   
   <!-- plugins:css -->
   <link rel="stylesheet" href=" {{ asset('vendors/feather/feather.css') }} ">
   <!--<link rel="stylesheet" href="{{ asset('vendors/mdi/css/materialdesignicons.min.css') }}">-->
@@ -36,7 +34,6 @@
   <link rel="stylesheet" href="{{ asset('css/vertical-layout-light/style.css') }}">
   <!-- endinject -->
   <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
-
 
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 
@@ -201,7 +198,7 @@
                 <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
                 <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p> 
               </div>
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
+              <a class="dropdown-item" href="{{ URL('admin/user/profile') }}" ><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>
@@ -222,8 +219,14 @@
         </button>
       </div>
     </nav>
-
-
     <div class="container-fluid page-body-wrapper">
-    @include('projects::admin.sidebar')
+    @if(!empty($single_project))
+     @if($single_project == 'single_project')
+        @include('projects::admin.single_sidebar')
+      @else
+        @include('projects::admin.sidebar')
+      @endif
+    @else
+      @include('projects::admin.sidebar')
+    @endif
     

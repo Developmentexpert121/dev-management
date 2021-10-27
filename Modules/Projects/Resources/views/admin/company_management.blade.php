@@ -16,15 +16,7 @@
 
                               <div class="card-body">
                              
-                              @if ($errors->any())
-                               <div class="alert alert-danger">
-                              <ul>
-                                @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                                 @endforeach
-                              </ul>
-                              </div>  
-                              @endif 
+                        
 
 
                   @if(Session::has('message'))
@@ -39,16 +31,22 @@
 
                              <div class="form-group">
                               <label for="exampleInputUsername1">Name</label>
-                             <input type="text" class="form-control" id="name" name='name' placeholder="Project Name" >
-                             </div>
+                             <input type="text" class="form-control" id="name" name='name'  value="{{old('name')}}" placeholder="Project Name" >
+                             @if($errors->has('name'))
+                           <div class="error">{{ $errors->first('name') }}</div>
+                             @endif
+                           </div>
 
                                <input type='hidden' name='template' value='2'/>
                                <input type='hidden' name='project_type' value='2'/>
 
                               <div class="form-group">
                               <label for="exampleInputEmail1">key</label>
-                              <input type="text" class="form-control" id="key" name='key' placeholder="key" readonly>
-                              </div>
+                              <input type="text" class="form-control" id="key" name='key' value="{{old('key')}}" placeholder="key" readonly>
+                              @if($errors->has('key'))
+                           <div class="error">{{ $errors->first('key') }}</div>
+                             @endif
+                           </div>
                                 
                               <button type="submit" class="btn btn-primary me-2" >Submit</button>
 

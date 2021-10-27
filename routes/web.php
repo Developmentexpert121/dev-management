@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersContollerRole;
 use App\Http\Controllers\DashbaordController;
@@ -20,39 +19,15 @@ use App\Http\Controllers\HrController;
 |
 */
 
-      Route::get('/',function (){
-      return redirect('login');
-      }); 
+Route::get('/',function (){
+	return redirect('login');
+}); 
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+	return redirect('dashbaord');
+})->name('dashboard'); 
 
-      Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-     
-        return redirect('dashbaord');    
-       
-       })->name('dashboard'); 
-       
-       
+Route::get('dashbaord', [DashbaordController::class, 'index'])->middleware('CheckRole');
 
-      Route::get('dashbaord', [DashbaordController::class, 'index'])->middleware('CheckRole');
-
-
-
-
-      
-      Auth::routes();    
-      Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); 
-      Auth::routes();  
-
-
-
-
-
-
-  
-
-
-
- 
-
-
-
+Auth::routes();    
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

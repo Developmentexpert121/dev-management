@@ -30765,5 +30765,10 @@ div.tagsinput span.tag a {
     display: none;
   }
 }
-
+   
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */
+
+.error {
+  color: #ff000091;
+  font-size: 13px;
+}
