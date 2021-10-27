@@ -21,6 +21,8 @@ class CreatedProjects extends Migration
             $table->string('createby');
             $table->string('template');
             $table->string('project_type');
+            $table->string('image');
+            $table->string('Description');
             $table->timestamps();
         });
     }

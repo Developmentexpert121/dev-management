@@ -16,18 +16,12 @@ class CreateSprint extends Migration
         Schema::create('all_sprints', function (Blueprint $table) {
         $table->increments('id');
         $table->string('sprint_name');
-<<<<<<< HEAD
         $table->string('created_by');
-=======
->>>>>>> 78b4940f56b5dd1616af9de10c3db15b80024d19
         $table->string('duration');
         $table->string('start_date');
         $table->string('end_date');
         $table->string('sprint_goal');
-<<<<<<< HEAD
         $table->string('project_id');
-=======
->>>>>>> 78b4940f56b5dd1616af9de10c3db15b80024d19
         $table->timestamps();
         });
     }

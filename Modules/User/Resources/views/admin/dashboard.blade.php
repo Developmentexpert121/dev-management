@@ -1,5 +1,5 @@
 @include('user::admin.header')
- 
+     
     <div class="main-panel">    
         
     <div class="row"> 
@@ -22,7 +22,7 @@
                             </div>
                           </div>
                         </div> 
-                      </div>
+                      </div> 
                       <div class="col-lg-4 d-flex flex-column">
                         <div class="row flex-grow">
                           <div class="col-md-6 col-lg-12 grid-margin stretch-card">

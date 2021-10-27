@@ -30,7 +30,16 @@
               <i class="mdi mdi-grid-large menu-icon" ></i>
               <span class="menu-title">Software development</span>
             </a>
-          </li>  
+          </li>   
+       
+          <li class="nav-item nav-category">Category</li> 
+         
+         <li class="nav-item active">
+          <a class="nav-link" href='{{url("admin/add/category")}}'>
+            <i class="mdi mdi-grid-large menu-icon" ></i>
+            <span class="menu-title">Project Category</span>  
+          </a>
+         </li>  
            
         </ul>
       </nav>  
