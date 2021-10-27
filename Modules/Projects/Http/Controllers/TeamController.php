@@ -110,43 +110,49 @@ class TeamController extends Controller
    }
   
   public function project_photo_save(Request $request)
-  {
-      $title = $_POST["description"];
-  
-       $project_id = $request->project_id;
-  
-           $userexist = Project::select('*')->where('id', $project_id)->first();
-            if($userexist == null){
+{
+    $name = $_POST["name"];
+    $key = $_POST["key"];
+    $description = $_POST["description"];
+
+     $project_id = $request->project_id;
+
+         $userexist = Project::select('*')->where('id', $project_id)->first();
+          if($userexist == null){
+
+          
+        if ($files = $request->file('image')) {
             
-          if ($files = $request->file('image')) {
-              
-              $fileName =  "image-".time().'.'.$request->image->getClientOriginalExtension();
-              $request->image->storeAs('image', $fileName);
-              
-              $image = new Project;
-              $image->image = $fileName;
-              $image->save();      
-          }
-          return response()->json(['status' => 'true', 'message' => 'Profile Image added successfully!']);
-        }else{  
-          // echo '<pre>';
-          // print_r($userexist);        
-          //   die('stop');
-          if ($files = $request->file('image')) {
-                  
-                  $fileName = time().'.'.$request->image->getClientOriginalExtension();
-                  $request->image->storeAs('image', $fileName);
-                }
-  
-              $results = Project::where('id',$project_id)->update([
-              'image' =>  $fileName,
-              'Description' => $title,
-  
-            ]);
-              return response()->json(['status' => 'true', 'message' => 'Profile Image updated successfully!']);
-  
-     }
-      }
+            $fileName =  "image-".time().'.'.$request->image->getClientOriginalExtension();
+            $request->image->storeAs('image', $fileName);
+            
+            $image = new Project;
+            $image->image = $fileName;
+            $image->save();      
+        }
+        return response()->json(['status' => 'true', 'message' => 'Profile Image added successfully!']);
+      }else{  
+
+        // echo '<pre>';
+        // print_r($userexist);        
+        //   die('stop');
+        if ($files = $request->file('image')) {
+                
+                $fileName = time().'.'.$request->image->getClientOriginalExtension();
+                $files->move('user/images/',$fileName);
+              }
+
+            $results = Project::where('id',$project_id)->update([
+            'image' =>  $fileName,
+            'name' => $name,
+            'key' => $key,
+            'Description' => $description,
+
+          ]);
+            return response()->json(['status' => 'true', 'message' => 'Profile Image updated successfully!']);
+
+   }
+    }
    
 
 }
