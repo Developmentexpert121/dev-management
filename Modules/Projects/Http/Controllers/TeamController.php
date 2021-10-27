@@ -55,6 +55,8 @@ class TeamController extends Controller
            'sprint'=>'required',          
        ]);
 
+
+
        if ($validator->fails()){
           return Redirect::back()->withErrors($validator)->withInput();
        }
@@ -81,6 +83,7 @@ class TeamController extends Controller
       $drop_down_data = project::orderBy('id', 'DESC')->get();
       $url = "/admin/project/team/backlog/$project_id";
       return redirect($url);
+
    }
 
    public function sprint_view(Request $request){
@@ -144,4 +147,23 @@ class TeamController extends Controller
   
      }
       }
+   }
+
+   public function sprint_view(Request $request){
+    $project_id = $request->id;
+    $project_data = Project::where('id',$request->id)->first();
+    $drop_down_data = Project::orderBy('id', 'DESC')->get();
+    return view('projects::team.Sprintview', compact('drop_down_data','project_data', 'project_id'));
+   }
+
+  public function project_settngs(Request $request){
+
+    $project_data = Project::where('id',$request->id)->first();
+    $drop_down_data = Project::orderBy('id', 'DESC')->get();
+    $project_id = $request->id;
+    $single_project = 'single_project';
+    return view("projects::project_settngs", compact('drop_down_data','project_data', 'project_id','single_project'));
+  
+   }
+
 }

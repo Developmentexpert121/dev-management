@@ -788,6 +788,7 @@ class Projects2Controller extends Controller
       $project_id = $request->project_id;  
       $single_project = 'single_project'; 
       $statusResult = DB::table('board_heading')->get();
+
       //$taskResult = Sprint_Issue::get(); 
 
       $taskResult = DB::table('sprint_issue')
@@ -796,7 +797,7 @@ class Projects2Controller extends Controller
       ->where('sprint_issue.project_id',$project_id)
       ->orderBy('sprint_issue.id', 'desc') 
       ->get();
-       
+
       return view('projects::board',compact('single_project','project_data','drop_down_data','project_id','statusResult','taskResult')); 
 
  

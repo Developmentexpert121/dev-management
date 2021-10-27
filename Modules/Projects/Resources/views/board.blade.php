@@ -84,9 +84,8 @@ ul {
 
 
 </style>
-   
 
-        <div class="task-board">
+  <div class="task-board">
           
            @foreach ($statusResult as $statusRow)
        
@@ -124,6 +123,9 @@ ul {
                 </div>
             @endforeach
         </div>
+       
+              
+           
     <script>
  $( function() {
   
