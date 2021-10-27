@@ -170,6 +170,7 @@ class UserController extends Controller
         $user_role = $request->user_role;
         $password = $request->password;
         $hashed = Hash::make($password);
+        
         $data = array(
                   'name'=> $user_name , 
                   'email' => $email,
@@ -243,6 +244,7 @@ class UserController extends Controller
     return response()->json(['status' => 'true', 'message' => 'job_title updated successfully!']);
     }
     }
+
     public function your_department(Request $request){
 
     $your_department = $_POST["your_department"];
@@ -271,6 +273,7 @@ class UserController extends Controller
 
     }
     }
+
     public function your_organisation(Request $request){
 
     $your_organisation = $_POST["your_organisation"];
@@ -297,6 +300,7 @@ class UserController extends Controller
 
     }
     }
+
     public function your_location(Request $request){
 
     $your_location = $_POST["your_location"]; 
@@ -324,6 +328,7 @@ class UserController extends Controller
 
     }
     }
+
     public function save(Request $request)
     {
         $user_id = Auth::user()->id;
@@ -364,6 +369,7 @@ class UserController extends Controller
     }
 
     }
+
     public function manageprofile(){
 
     $task = Auth::user();
@@ -372,6 +378,7 @@ class UserController extends Controller
 
     return view('user::profile.manage',compact('task','profiledata'));
     }
+
     public function security()
     {
 
@@ -398,13 +405,13 @@ class UserController extends Controller
         return back()->with('success', 'Password successfully changed!');
 
     }
+
     public function profileEmail(){
 
     $userdata = Auth::user();
 
     return view('user::profile.email',compact('userdata'));
     }
-
 
 
  //======================== END ==============================
