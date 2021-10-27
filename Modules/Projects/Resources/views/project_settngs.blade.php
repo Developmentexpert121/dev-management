@@ -5,6 +5,13 @@
       <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body mx-auto ">
+            <?php 
+                // echo '<pre>';
+                // print_r($project_data);
+                // die('test');
+
+
+            ?>
             <form class="forms-sample" id="project_details" action="{{ route('save.detail',$project_id) }}" method='post' enctype="multipart/form-data">
 
                 <input type="hidden" name="_token" value="{{csrf_token() }}">
@@ -18,7 +25,7 @@
 
                 <div class="form-group">
                   <label for="exampleInputEmail1">Key</label>
-                  <input type="text" class="form-control" id="key" name='key' placeholder="key" value="{{$project_data->key}}" readonly>
+                  <input type="text" class="form-control" id="key" name='key' placeholder="key" value="{{$project_data->key}}" >
                 </div>
 
                 <div class="form-group">
@@ -33,11 +40,11 @@
                   <label for="exampleInputEmail1">Avatar</label>
                   <div class="row profile_box">
                     <div class="col-md-4 mb-2">
-                     <?php if (!empty ($profiledata->image)){ ?>
+                     <?php if (!empty ($project_data->image)){ ?>
 
-                         <img class="setting_image" id="image_preview_container" alt="{{$project_data->name}}"  src="http://localhost/dev-management/storage/app/image/{{$profiledata->image}}"  alt="preview image" style="max-height: 48px;">
+                         <img class="setting_image" id="image_preview_container" alt="{{$project_data->name}}" src="{{url('user/images/', $project_data->image)}}"  alt="preview image" style="max-height: 48px;">
                        <?php }else{ ?> 
-                        <img id="image_preview_container"  src="http://localhost/dev-management/storage/app/image/default/image-1634637893.png"  alt="preview image" style="max-height: 48px;">
+                        <img id="image_preview_container"  src="{{url('user/images/default.png')}}"  alt="preview image" style="max-height: 48px;">
 
                        <?php } ?> 
                        
@@ -78,7 +85,7 @@
                 </div>
 
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary me-2" >Submit</button>
+                  <button type="submit" class="btn btn-primary me-2" id="form_submit" >Submit</button>
                 </div>
             </form>
           </div>
@@ -111,7 +118,7 @@
            
     let reader = new FileReader();
 
-    reader.onload = (e) => {  
+    reader.onload = (e) => { 
 
       $('#image_preview_container').attr('src', e.target.result); 
     }
@@ -128,7 +135,7 @@
   
      $.ajax({
         type:'POST',
-        url: "{{ url('photo-save') }}",
+        url: "{{ route('save.detail') }}",
         data: formData,
         cache:false,
         contentType: false,
@@ -136,6 +143,7 @@
         success: (data) => {
            // this.reset();
            alert('Image has been uploaded successfully');
+            location.reload();
         },
         error: function(data){
            console.log(data);
