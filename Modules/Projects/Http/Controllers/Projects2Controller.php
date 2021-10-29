@@ -247,10 +247,15 @@ class Projects2Controller extends Controller
   
   }
   public function settings_access(Request $request){
+
+    $user_access = Auth::user();
+    // echo '<pre>';
+    // print_r($user_access);
+    // die();
     $project_id = $request->id;
     $single_project = 'single_project';
 
-    return view('projects::access', compact('single_project','project_id'));
+    return view('projects::access', compact('single_project','project_id','user_access'));
   }
 
   public function saveIssue(Request $request){

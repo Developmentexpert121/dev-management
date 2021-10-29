@@ -124,7 +124,7 @@ ul {
             @endforeach
         </div>
        
-              
+        @include('projects::admin.footer')      
            
     <script>
  $( function() {

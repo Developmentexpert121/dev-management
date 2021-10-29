@@ -356,8 +356,8 @@ class UserController extends Controller
 
         if ($files = $request->file('image')) {
             
-            $fileName =  "image-".time().'.'.$request->image->getClientOriginalExtension();
-            $request->image->storeAs('image', $fileName);
+            $fileName = time().'.'.$request->image->getClientOriginalExtension();
+                $files->move('user/images/',$fileName);
         }
 
         $results = usersdata::where('user_id',$user_id)->update([
