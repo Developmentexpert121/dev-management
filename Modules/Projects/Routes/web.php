@@ -76,6 +76,7 @@ Route::prefix('admin')->group(function(){
 	Route::get('project/team/{id}/sprints','Projects2Controller@sprints')->middleware('CheckRole');
 	Route::get('project/team/{id}/backlog','Projects2Controller@backlog')->middleware('CheckRole');
     Route::get('project/team/{id}/issues','Projects2Controller@project_issues')->middleware('CheckRole');
+    Route::get('project/team/{id}/access','Projects2Controller@settings_access')->middleware('CheckRole');
 
  
 	Route::get('add/category','Projects2Controller@category')->middleware('CheckRole');
@@ -107,3 +108,4 @@ Route::prefix('admin')->group(function(){
 	  
 });
 Route::post('photo-save','TeamController@project_photo_save')->middleware('CheckRole')->name('save.detail');
+
