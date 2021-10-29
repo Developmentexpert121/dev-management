@@ -21,6 +21,7 @@
       <div class="collapse" id="settings_tabs">
         <ul class="nav flex-column">
           <li class=""> <a class="nav-link" href='{{url("admin/project/team/$project_id/settings")}}'><i class="fa fa-info-circle"></i>&nbsp; Details</a></li>
+          <li class=""> <a class="nav-link" href='{{url("admin/project/team/$project_id/access")}}'><i class="fa fa-info-circle"></i>&nbsp; Access</a></li>
           <li class=""> <a class="nav-link" href='{{url("admin/project/team/$project_id/issues")}}'><i class="fa fa-info-circle"></i>&nbsp; Issue Types</a></li>
         </ul>
       </div>

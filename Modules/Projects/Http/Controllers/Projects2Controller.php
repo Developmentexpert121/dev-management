@@ -246,6 +246,12 @@ class Projects2Controller extends Controller
     return view('projects::issues', compact('single_project','project_data','drop_down_data','project_id', 'issues'));
   
   }
+  public function settings_access(Request $request){
+    $project_id = $request->id;
+    $single_project = 'single_project';
+
+    return view('projects::access', compact('single_project','project_id'));
+  }
 
   public function saveIssue(Request $request){
 
