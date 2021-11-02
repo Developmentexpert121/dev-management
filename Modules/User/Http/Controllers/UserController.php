@@ -155,8 +155,8 @@ class UserController extends Controller
         
         if($request->hasFile('image')) {
            $image = $request->file('image');
-           $image_name = rand() . '.' . $image->getClientOriginalExtension();
-           Storage::disk('public')->putFileAs('images', $request->file('image'), $image_name);
+           $image_name = time().'.'.$request->image->getClientOriginalExtension();
+           $image->move('user/images/',$fileName);
         }
 
         if($validator->fails()){

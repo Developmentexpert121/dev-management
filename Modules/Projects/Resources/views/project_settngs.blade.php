@@ -19,24 +19,6 @@
                 <!-- <input type='hidden' name='project_type' value='1'/> -->
 
                 <div class="form-group">
-                  <label for="exampleInputUsername1">Name</label>
-                  <input type="text" class="form-control" id="name" name='name' placeholder="Project Name" value="{{$project_data->name}}">
-                </div>
-
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Key</label>
-                  <input type="text" class="form-control" id="key" name='key' placeholder="key" value="{{$project_data->key}}" >
-                </div>
-
-                <div class="form-group">
-                <label for="exampleInputEmail1">Project Category</label>
-                  <select class="form-control" name="category">
-                @foreach($categorys as $category)
-                    <option value="{{$category->name}}">{{$category->name}}</option>
-                   @endforeach
-                  </select>
-                </div>
-                <div class="form-group">
                   <label for="exampleInputEmail1">Avatar</label>
                   <div class="row profile_box">
                     <div class="col-md-4 mb-2">
@@ -62,6 +44,24 @@
             </div> 
                 <img class="setting_image" src="" ><br>
                 <input type="file" name="image" id="image">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputUsername1">Name</label>
+                  <input type="text" class="form-control" id="name" name='name' placeholder="Project Name" value="{{$project_data->name}}">
+                </div>
+
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Key</label>
+                  <input type="text" class="form-control" id="key" name='key' placeholder="key" value="{{$project_data->key}}" >
+                </div>
+
+                <div class="form-group">
+                <label for="exampleInputEmail1">Project Category</label>
+                  <select class="form-control" name="category">
+                @foreach($categorys as $category)
+                    <option value="{{$category->name}}">{{$category->name}}</option>
+                   @endforeach
+                  </select>
                 </div>
 
                 <div class="col-12">

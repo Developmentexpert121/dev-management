@@ -123,8 +123,8 @@ class TeamController extends Controller
           
         if ($files = $request->file('image')) {
             
-            $fileName =  "image-".time().'.'.$request->image->getClientOriginalExtension();
-            $request->image->storeAs('image', $fileName);
+             $fileName = time().'.'.$request->image->getClientOriginalExtension();
+                $files->move('user/images/',$fileName);
             
             $image = new Project;
             $image->image = $fileName;
