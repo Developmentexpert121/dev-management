@@ -128,5 +128,4 @@
   </div>
 </div>
 
-
 @include('projects::admin.footer')

@@ -14,7 +14,7 @@ use Http\Controllers\Projects2Controller;
 Route::prefix('projects')->group(function() 
 {
 
-    Route::get('/', 'Projects2Controller@index');
+    Route::get('/', 'Projects2Controller@index'); 
 	Route::post('team/project/settings_save', 'Projects2Controller@settings_save');
 	Route::post('team/project/add_task', 'Projects2Controller@taskSave');
 	Route::post('team/project/issueadd', 'Projects2Controller@saveIssue');
@@ -36,7 +36,7 @@ Route::prefix('projects')->group(function()
 	// Route::get('team/{id}/roadmap', 'Projects2Controller@roadmap');
 
 	
-});
+}); 
 
 Route::prefix('admin')->group(function(){ 
 
@@ -79,7 +79,7 @@ Route::prefix('admin')->group(function(){
     Route::get('project/team/{id}/issues','Projects2Controller@project_issues')->middleware('CheckRole');
     Route::get('project/team/{id}/access','Projects2Controller@settings_access')->middleware('CheckRole');
 
- 
+  
 	Route::get('add/category','Projects2Controller@category')->middleware('CheckRole');
 	Route::post('save/category','Projects2Controller@savecategory')->middleware('CheckRole');
 	Route::get('edit/category/{id}','Projects2Controller@editCategory')->middleware('CheckRole');
@@ -103,10 +103,12 @@ Route::prefix('admin')->group(function(){
 
     Route::get('project/team/{project_id}/board','Projects2Controller@board'); 
 
-	Route::get('project/team/{project_id}/boardmove','Projects2Controller@boardMove');   
+	Route::get('project/team/{project_id}/boardmove','Projects2Controller@boardMove');  
 	
- 
-	//  
+
+	
+  
+	//   
 
 	  
 });

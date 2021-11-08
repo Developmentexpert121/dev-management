@@ -14,7 +14,7 @@ use Modules\Projects\Entities\AllSprint;
 use Modules\Projects\Entities\Sprint_start;
 use Modules\Projects\Entities\task;
 use Modules\Projects\Entities\Issue;
-use Modules\Projects\Entities\category; 
+use Modules\Projects\Entities\category;  
 use Session;
 use Modules\User\Entities\User;
 use Modules\Projects\Entities\Sprint_Issue;
@@ -22,23 +22,28 @@ use Modules\User\Entities\Usersdata;
 class Projects2Controller extends Controller
 {
 
-  public function index() {
+  public function index()
+  {
     return view('projects::index');    
   }
 
-  public function scrum_template(){
+  public function scrum_template()
+  {
     return view('projects::admin.scrum_template');
   }
 
-  public function team_management(){
+  public function team_management()
+  {
     return view('projects::admin.team_management');  
   }
 
-  public function company_management(){
+  public function company_management()
+  {
     return view('projects::admin.company_management');  
   } 
 
-  public function slug(Request $request){  
+  public function slug(Request $request)
+  {  
     $divider = '-';
     $text = $request->name ;
     //$num = str_pad(mt_rand(1,99999999),8,'0',STR_PAD_LEFT);
@@ -92,6 +97,7 @@ class Projects2Controller extends Controller
   } 
   
   public function team_management_insert(Request $request){
+    //'cmd 76656gytgygygb' 
     $validator = Validator::make($request->all(),[
         'name' => 'required|unique:project',
         'key' => 'required',
@@ -514,14 +520,13 @@ class Projects2Controller extends Controller
 
   public function sprint_create_issue(Request $request)
   { 
-
     $project_id =  $request->project_id;  
     $sprint_id =  $request->sprint_id;
     $project_data = Project::where('id',$project_id)->first();
     $drop_down_data = Project::orderBy('id', 'DESC')->get();
     $single_project = 'single_project';   
     $sprintIssue= Sprint_Issue::where(['project_id'=> $project_id,'sprint_id'=>$sprint_id])->orderBy('id', 'DESC')->get();
-    
+  
     return view('projects::sprint_create_issue', compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue'));
     
     
@@ -854,6 +859,7 @@ class Projects2Controller extends Controller
       $single_project = 'single_project'; 
       $statusResult = DB::table('board_heading')->get();
 
+
       $getSprint = AllSprint::where('project_id',$project_id)->first();
 
       if(!empty($getSprint)){
@@ -893,6 +899,16 @@ class Projects2Controller extends Controller
 
    
       return view('projects::board',compact('single_project','project_data','drop_down_data','project_id','statusResult','taskResult','data_user')); 
+      //$taskResult = Sprint_Issue::get(); 
+
+      $taskResult = DB::table('sprint_issue')
+      ->Join('all_sprints', 'all_sprints.id', '=', 'sprint_issue.sprint_id')
+      ->select(['sprint_issue.*','all_sprints.sprint_start_status'])
+      ->where('sprint_issue.project_id',$project_id)
+      ->orderBy('sprint_issue.id', 'desc') 
+      ->get();
+       
+      return view('projects::board',compact('single_project','project_data','drop_down_data','project_id','statusResult','taskResult')); 
 
  
     }
@@ -900,7 +916,8 @@ class Projects2Controller extends Controller
       
     public function boardMove(Request $request)
     {
-
+     
+       
       $header_id = $request->header_id; 
       $issue_id = $request->issue_id;
 

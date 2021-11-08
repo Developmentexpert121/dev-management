@@ -359,7 +359,7 @@ class UserController extends Controller
 
         
         
-        }
+        } 
         return response()->json(['status' => 'true', 'message' => 'Profile Image added successfully!']);
     }else{
 
