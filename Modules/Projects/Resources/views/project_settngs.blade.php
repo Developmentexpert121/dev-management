@@ -5,12 +5,52 @@
       <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body mx-auto ">
+<<<<<<< HEAD
+=======
+            <?php 
+                // echo '<pre>';
+                // print_r($project_data);
+                // die('test');
+
+
+            ?>
+>>>>>>> 8c0573abee867242d94474b16e14c5663139a2a8
             <form class="forms-sample" id="project_details" action="{{ route('save.detail',$project_id) }}" method='post' enctype="multipart/form-data">
 
                 <input type="hidden" name="_token" value="{{csrf_token() }}">
                 <input type='hidden' name='project_id' value='{{$project_id}}'/>
                 <!-- <input type='hidden' name='project_type' value='1'/> -->
 
+<<<<<<< HEAD
+=======
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Avatar</label>
+                  <div class="row profile_box">
+                    <div class="col-md-4 mb-2">
+                     <?php if (!empty ($project_data->image)){ ?>
+
+                         <img class="setting_image" id="image_preview_container" alt="{{$project_data->name}}" src="{{url('user/images/', $project_data->image)}}"  alt="preview image" style="max-height: 48px;">
+                       <?php }else{ ?> 
+                        <img id="image_preview_container"  src="{{url('user/images/default.png')}}"  alt="preview image" style="max-height: 48px;">
+
+                       <?php } ?> 
+                       
+                    </div>
+                  <!-- <div class="col-md-8">
+                    <div class="form-group">
+                        <input type="file" name="image" placeholder="Choose image" id="image">
+                        <span class="text-danger">{{ $errors->first('title') }}</span>
+
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </div>
+                
+                </div> -->
+
+            </div> 
+                <img class="setting_image" src="" ><br>
+                <input type="file" name="image" id="image">
+                </div>
+>>>>>>> 8c0573abee867242d94474b16e14c5663139a2a8
                 <div class="form-group">
                   <label for="exampleInputUsername1">Name</label>
                   <input type="text" class="form-control" id="name" name='name' placeholder="Project Name" value="{{$project_data->name}}">
@@ -18,7 +58,7 @@
 
                 <div class="form-group">
                   <label for="exampleInputEmail1">Key</label>
-                  <input type="text" class="form-control" id="key" name='key' placeholder="key" value="{{$project_data->key}}" readonly>
+                  <input type="text" class="form-control" id="key" name='key' placeholder="key" value="{{$project_data->key}}" >
                 </div>
 
                 <div class="form-group">
@@ -78,7 +118,7 @@
                 </div>
 
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary me-2" >Submit</button>
+                  <button type="submit" class="btn btn-primary me-2" id="form_submit" >Submit</button>
                 </div>
             </form>
           </div>
@@ -111,7 +151,11 @@
            
     let reader = new FileReader();
 
+<<<<<<< HEAD
     reader.onload = (e) => {  
+=======
+    reader.onload = (e) => { 
+>>>>>>> 8c0573abee867242d94474b16e14c5663139a2a8
 
       $('#image_preview_container').attr('src', e.target.result); 
     }
@@ -128,7 +172,11 @@
   
      $.ajax({
         type:'POST',
+<<<<<<< HEAD
         url: "{{ url('photo-save') }}",
+=======
+        url: "{{ route('save.detail') }}",
+>>>>>>> 8c0573abee867242d94474b16e14c5663139a2a8
         data: formData,
         cache:false,
         contentType: false,
@@ -136,6 +184,10 @@
         success: (data) => {
            // this.reset();
            alert('Image has been uploaded successfully');
+<<<<<<< HEAD
+=======
+            location.reload();
+>>>>>>> 8c0573abee867242d94474b16e14c5663139a2a8
         },
         error: function(data){
            console.log(data);
@@ -143,4 +195,8 @@
        });
    });
 });
+<<<<<<< HEAD
 </script>
+=======
+</script>
+>>>>>>> 8c0573abee867242d94474b16e14c5663139a2a8

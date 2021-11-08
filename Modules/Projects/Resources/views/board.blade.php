@@ -86,7 +86,7 @@ ul {
 </style>
    
 
-        <div class="task-board">
+  <div class="task-board">
           
            @foreach ($statusResult as $statusRow)
        
@@ -117,13 +117,16 @@ ul {
                             data-task-id="<?php echo $taskRow->id ?>"><?php echo $taskRow->issue_name; ?></li>
                             @endif
                             
-                  @endforeach
+                  @endforeach 
                   @endif 
                
                   </ul>
                 </div>
             @endforeach
         </div>
+       
+              
+           
     <script>
  $( function() {
   

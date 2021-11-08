@@ -53,6 +53,74 @@
       </div>
     </div>
   </section>
+
+
+  <div class="container">
+
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">BackLog</button>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">BackLog</h4>
+        </div>
+        <div class="modal-body">
+        
+         
+        <form class="row align-items-center" action='{{url("admin/projects/team/sprint/blackLogIssueCreate")}}' method='post'>
+                <input type="hidden" name="_token" id="csrf" value="<?php echo csrf_token(); ?>">
+               
+                <input type='hidden' id ="project_id" name='project_id' value='{{$project_id}}'/>
+                <input type='hidden' id ="sprint_id"  name='sprint_id' value='{{$sprint_id}}'/>
+ 
+                 <div class="row">
+
+                     <div class="col-6"> 
+                     <div class="form-outline">
+                     <label>Name</label>
+                       <input type="text" id="blacklog" name="blacklogIssueCreate" class="form-control" placeholder="Enter a sprint here" />
+                     </div> 
+                       
+                      @if($errors->has('blacklogIssueCreate'))
+                      <div class="error">{{ $errors->first('blacklogIssueCreate') }}</div>
+                      @endif
+                      <br>
+                     </div>
+                  </div>      
+              
+                <div class="row">
+                  <div class="col-2">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                  </div>
+                </div>
+                <!-- <div class="col-2">
+                  <button type="submit" class="btn btn-warning">Get tasks</button>
+                </div> -->
+              </form>
+
+
+        </div>
+     
+      </div>
+      
+    </div>
+  </div>  
+
+  
+</div>
+
+  
+
+
+
+
   <div class="row" style="width: 100%;">
 
 

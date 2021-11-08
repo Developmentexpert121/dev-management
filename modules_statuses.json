@@ -2,5 +2,7 @@
     "Projects": true,
     "User": true,
     "Migration": true,
-    "CreateIssues": true
+    "CreateIssues": true,
+    "BoardHeading": true,
+    "Module": true
 }

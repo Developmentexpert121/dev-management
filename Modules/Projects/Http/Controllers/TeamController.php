@@ -55,6 +55,11 @@ class TeamController extends Controller
            'sprint'=>'required',          
        ]);
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 8c0573abee867242d94474b16e14c5663139a2a8
        if ($validator->fails()){
           return Redirect::back()->withErrors($validator)->withInput();
        }
@@ -81,6 +86,7 @@ class TeamController extends Controller
       $drop_down_data = project::orderBy('id', 'DESC')->get();
       $url = "/admin/project/team/backlog/$project_id";
       return redirect($url);
+
    }
 
    public function sprint_view(Request $request){
@@ -107,6 +113,7 @@ class TeamController extends Controller
    }
   
   public function project_photo_save(Request $request)
+<<<<<<< HEAD
   {
       $title = $_POST["description"];
   
@@ -144,4 +151,51 @@ class TeamController extends Controller
   
      }
       }
+=======
+{
+    $name = $_POST["name"];
+    $key = $_POST["key"];
+    $description = $_POST["description"];
+
+     $project_id = $request->project_id;
+
+         $userexist = Project::select('*')->where('id', $project_id)->first();
+          if($userexist == null){
+
+          
+        if ($files = $request->file('image')) {
+            
+             $fileName = time().'.'.$request->image->getClientOriginalExtension();
+                $files->move('user/images/',$fileName);
+            
+            $image = new Project;
+            $image->image = $fileName;
+            $image->save();      
+        }
+        return response()->json(['status' => 'true', 'message' => 'Profile Image added successfully!']);
+      }else{  
+
+        // echo '<pre>';
+        // print_r($userexist);        
+        //   die('stop');
+        if ($files = $request->file('image')) {
+                
+                $fileName = time().'.'.$request->image->getClientOriginalExtension();
+                $files->move('user/images/',$fileName);
+              }
+
+            $results = Project::where('id',$project_id)->update([
+            'image' =>  $fileName,
+            'name' => $name,
+            'key' => $key,
+            'Description' => $description,
+
+          ]);
+            return response()->json(['status' => 'true', 'message' => 'Profile Image updated successfully!']);
+
+   }
+    }
+   
+
+>>>>>>> 8c0573abee867242d94474b16e14c5663139a2a8
 }
