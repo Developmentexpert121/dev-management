@@ -30,12 +30,19 @@
   
  
   <!-- End plugin css for this page -->
-  <!-- inject:css -->
+  <!-- inject:css -->  
   <link rel="stylesheet" href="{{ asset('css/vertical-layout-light/style.css') }}">
   <!-- endinject -->
   <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
 
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+
+
+  <link href="https://parsleyjs.org/src/parsley.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.3.4/parsley.min.js"></script>  
+
 
 </head>
 <body> 

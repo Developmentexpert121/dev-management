@@ -14,30 +14,35 @@ use Modules\Projects\Entities\AllSprint;
 use Modules\Projects\Entities\Sprint_start;
 use Modules\Projects\Entities\task;
 use Modules\Projects\Entities\Issue;
-use Modules\Projects\Entities\category; 
+use Modules\Projects\Entities\category;  
 use Session;
 use Modules\User\Entities\User;
 use Modules\Projects\Entities\Sprint_Issue;
 class Projects2Controller extends Controller
 {
 
-  public function index() {
+  public function index()
+  {
     return view('projects::index');    
   }
 
-  public function scrum_template(){
+  public function scrum_template()
+  {
     return view('projects::admin.scrum_template');
   }
 
-  public function team_management(){
+  public function team_management()
+  {
     return view('projects::admin.team_management');  
   }
 
-  public function company_management(){
+  public function company_management()
+  {
     return view('projects::admin.company_management');  
   } 
 
-  public function slug(Request $request){  
+  public function slug(Request $request)
+  {  
     $divider = '-';
     $text = $request->name ;
     //$num = str_pad(mt_rand(1,99999999),8,'0',STR_PAD_LEFT);
@@ -91,6 +96,7 @@ class Projects2Controller extends Controller
   } 
   
   public function team_management_insert(Request $request){
+    //'cmd 76656gytgygygb' 
     $validator = Validator::make($request->all(),[
         'name' => 'required|unique:project',
         'key' => 'required',
@@ -246,6 +252,12 @@ class Projects2Controller extends Controller
     return view('projects::issues', compact('single_project','project_data','drop_down_data','project_id', 'issues'));
   
   }
+  public function settings_access(Request $request){
+    $project_id = $request->id;
+    $single_project = 'single_project';
+
+    return view('projects::access', compact('single_project','project_id'));
+  }
 
   public function saveIssue(Request $request){
 
@@ -330,36 +342,97 @@ class Projects2Controller extends Controller
 
   public function backlog(Request $request)
   {
+     
+    if ($request->isMethod('get'))
+    {
+       
+        $project_data = Project::where('id',$request->id)->first();
+        $drop_down_data = Project::orderBy('id', 'DESC')->get();
+        $project_id = $request->id;
+        $single_project = 'single_project'; 
+        $sprints = AllSprint::where(['project_id'=>$request->id])->get();
+        $sprintIssue= Sprint_Issue::where(['project_id'=> $project_id,'status'=>1])
+        ->orderBy('id', 'DESC')->get(); 
+    
+        return view('projects::backlog', compact('single_project','project_data','drop_down_data','project_id', 'sprints','sprintIssue'));
+        
+    }
+
+  } 
+
+  public function editBlackLog(Request $request)
+  {
+
     
   
+    if ($request->isMethod('post'))
+    {
+         
+        $validator = Validator::make($request->all(),[
+            'blacklogIssue' => 'required'
+          ]); 
+      
+        
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+          
+        $blackName = $request->blacklogIssue;
 
-    $project_data = Project::where('id',$request->id)->first();
-    $drop_down_data = Project::orderBy('id', 'DESC')->get();
-    $project_id = $request->id;
-    $single_project = 'single_project'; 
-    $sprints = AllSprint::where(['project_id'=>$request->id])->get();
-    $sprintIssue= Sprint_Issue::where(['project_id'=> $project_id,'status'=>1])
-    ->orderBy('id', 'DESC')->get();
- 
-    return view('projects::backlog', compact('single_project','project_data','drop_down_data','project_id', 'sprints','sprintIssue'));
-  
+          Sprint_Issue::where('id',$request->id)
+         ->update(array('issue_name' =>$blackName)); 
+         return Redirect::back();    
+        
+    }
+
   }
 
-  public function blackLogMove(Request $request){
-     echo'<pre>';
-     print_r($request);
-     die();
+
+  public function deleteBlackLog(Request $request)
+  {
+     
+    
+
+    if ($request->isMethod('post'))
+    {
+     
+       $backlogId= $request->id;
+       $sprint_Issue = Sprint_Issue::find($backlogId);
+       $sprint_Issue->delete();
+       return Redirect::back();  
+       
+    }
+
+
+  }
+
+
+  public function blackLogMove(Request $request)
+  {
+  
+    if ($request->isMethod('post'))
+    {
+       $project_id = $request->project_id;
+       $sprint_id = $request->sprint_id;
+       $sprint = $request->sprint; 
+       $sprintEditStatus = Sprint_Issue::where('id',$sprint_id)
+       ->update(array('sprint_id' => $sprint,'status'=>0,'issue_status'=>0)); 
+       return Redirect::back();    
+
+    } 
+
   }
 
   public  function category(Request $request)
   {  
-    $data =category::all();  
-    $project_data = Project::where('id',$request->id)->first();
-    $drop_down_data = Project::orderBy('id', 'DESC')->get();
-    $project_id = $request->id;  
-    $single_project = 'single_project';    
-    $category = category::orderBy('id', 'DESC')->get();
-    return view('projects::category', compact('single_project','project_data','drop_down_data','project_id', 'category'));
+     $data =category::all();  
+     $project_data = Project::where('id',$request->id)->first();
+     $drop_down_data = Project::orderBy('id', 'DESC')->get();
+     $project_id = $request->id;  
+     $single_project = 'single_project';    
+     $category = category::orderBy('id', 'DESC')->get();
+     return view('projects::category', compact('single_project','project_data','drop_down_data','project_id', 'category'));
     
   }
 
@@ -499,14 +572,13 @@ class Projects2Controller extends Controller
 
   public function sprint_create_issue(Request $request)
   { 
-
     $project_id =  $request->project_id;  
     $sprint_id =  $request->sprint_id;
     $project_data = Project::where('id',$project_id)->first();
     $drop_down_data = Project::orderBy('id', 'DESC')->get();
     $single_project = 'single_project';   
     $sprintIssue= Sprint_Issue::where(['project_id'=> $project_id,'sprint_id'=>$sprint_id])->orderBy('id', 'DESC')->get();
-    
+  
     return view('projects::sprint_create_issue', compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue'));
     
     
@@ -811,17 +883,11 @@ class Projects2Controller extends Controller
       $project_data = Project::where('id',$request->id)->first();
       $drop_down_data = Project::orderBy('id', 'DESC')->get();
       $project_id = $request->id;
-  
       $single_project = 'single_project';   
       $sprints = AllSprint::where('project_id',$request->id)->get();
-      
       $logs = AllSprint::where('project_id',$request->id)->get();
       $nums = AllSprint::where('project_id',$request->id)->count();
-    
-      $last = $sprints->first();  
-  
-    
-  
+      $last = $sprints->first();   
       return view('projects::sprints', compact('single_project','project_data','drop_down_data','project_id','nums', 'sprints','last','logs'));
        
     }  
@@ -882,7 +948,8 @@ class Projects2Controller extends Controller
       
     public function boardMove(Request $request)
     {
-
+     
+       
       $header_id = $request->header_id; 
       $issue_id = $request->issue_id;
 
@@ -892,8 +959,8 @@ class Projects2Controller extends Controller
        ]);  
        
        return $res;   
-
-    }
+       
+     }  
 
 
 
