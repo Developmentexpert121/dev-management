@@ -55,11 +55,8 @@ class TeamController extends Controller
            'sprint'=>'required',          
        ]);
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 8c0573abee867242d94474b16e14c5663139a2a8
        if ($validator->fails()){
           return Redirect::back()->withErrors($validator)->withInput();
        }
@@ -113,45 +110,6 @@ class TeamController extends Controller
    }
   
   public function project_photo_save(Request $request)
-<<<<<<< HEAD
-  {
-      $title = $_POST["description"];
-  
-       $project_id = $request->project_id;
-  
-           $userexist = Project::select('*')->where('id', $project_id)->first();
-            if($userexist == null){
-            
-          if ($files = $request->file('image')) {
-              
-              $fileName =  "image-".time().'.'.$request->image->getClientOriginalExtension();
-              $request->image->storeAs('image', $fileName);
-              
-              $image = new Project;
-              $image->image = $fileName;
-              $image->save();      
-          }
-          return response()->json(['status' => 'true', 'message' => 'Profile Image added successfully!']);
-        }else{  
-          // echo '<pre>';
-          // print_r($userexist);        
-          //   die('stop');
-          if ($files = $request->file('image')) {
-                  
-                  $fileName = time().'.'.$request->image->getClientOriginalExtension();
-                  $request->image->storeAs('image', $fileName);
-                }
-  
-              $results = Project::where('id',$project_id)->update([
-              'image' =>  $fileName,
-              'Description' => $title,
-  
-            ]);
-              return response()->json(['status' => 'true', 'message' => 'Profile Image updated successfully!']);
-  
-     }
-      }
-=======
 {
     $name = $_POST["name"];
     $key = $_POST["key"];
@@ -165,8 +123,8 @@ class TeamController extends Controller
           
         if ($files = $request->file('image')) {
             
-             $fileName = time().'.'.$request->image->getClientOriginalExtension();
-                $files->move('user/images/',$fileName);
+            $fileName =  "image-".time().'.'.$request->image->getClientOriginalExtension();
+            $request->image->storeAs('image', $fileName);
             
             $image = new Project;
             $image->image = $fileName;
@@ -197,5 +155,4 @@ class TeamController extends Controller
     }
    
 
->>>>>>> 8c0573abee867242d94474b16e14c5663139a2a8
 }

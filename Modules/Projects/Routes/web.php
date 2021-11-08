@@ -14,25 +14,28 @@ use Http\Controllers\Projects2Controller;
 Route::prefix('projects')->group(function() 
 {
 
-    Route::get('/', 'Projects2Controller@index');
+    Route::get('/', 'Projects2Controller@index'); 
 	Route::post('team/project/settings_save', 'Projects2Controller@settings_save');
 	Route::post('team/project/add_task', 'Projects2Controller@taskSave');
 	Route::post('team/project/issueadd', 'Projects2Controller@saveIssue');
 	Route::post('team/project/add_sprint', 'Projects2Controller@saveSprint');
-
 
 	Route::post('sprint/create_issue/action','Projects2Controller@action_issue');
     Route::get('team/sprint/delete/issue_create/{id}','Projects2Controller@delete_issue');
     Route::post('team/create/issue/update','Projects2Controller@update_issue'); 
     Route::get('team/issue/delete/{id}','Projects2Controller@issue_delete');
     Route::post('team/create/issue/update','Projects2Controller@issue_update'); 
-    Route::post('team/sprint/blackLogMove','Projects2Controller@blackLogMove');    
-    
-    
+
+	Route::post('team/sprint/blackLogMove','Projects2Controller@blackLogMove');    
+      
+
+	Route::post('team/edit/blackLogIssue/{id}','Projects2Controller@editBlackLog'); 
+	Route::post('team/delete/blackLogIssue/{id}','Projects2Controller@deleteBlackLog'); 
+	 
 	// Route::get('team/{id}/roadmap', 'Projects2Controller@roadmap');
 
 	
-});
+}); 
 
 Route::prefix('admin')->group(function(){ 
 
@@ -73,7 +76,7 @@ Route::prefix('admin')->group(function(){
     Route::get('project/team/{id}/issues','Projects2Controller@project_issues')->middleware('CheckRole');
     Route::get('project/team/{id}/access','Projects2Controller@settings_access')->middleware('CheckRole');
 
- 
+  
 	Route::get('add/category','Projects2Controller@category')->middleware('CheckRole');
 	Route::post('save/category','Projects2Controller@savecategory')->middleware('CheckRole');
 	Route::get('edit/category/{id}','Projects2Controller@editCategory')->middleware('CheckRole');
@@ -98,15 +101,14 @@ Route::prefix('admin')->group(function(){
 
     Route::get('project/team/{project_id}/board','Projects2Controller@board'); 
 
-	Route::get('project/team/{project_id}/boardmove','Projects2Controller@boardMove');   
+	Route::get('project/team/{project_id}/boardmove','Projects2Controller@boardMove');  
 	
- 
-	//  
+
+	
+  
+	//   
 
 	  
 });
 Route::post('photo-save','TeamController@project_photo_save')->middleware('CheckRole')->name('save.detail');
-<<<<<<< HEAD
-=======
 
->>>>>>> 8c0573abee867242d94474b16e14c5663139a2a8

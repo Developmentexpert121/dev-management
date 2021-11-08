@@ -17,7 +17,7 @@
                     <p>Email</p>
                   </div>
                   <div class="col-md-4">
-                    <p>Role</p>
+                    <p>Email</p>
                   </div>
                   </div>
                

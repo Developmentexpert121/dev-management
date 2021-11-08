@@ -164,9 +164,10 @@
                     </button>
                     <?php }
                     else
-                    {   
-                   
-                      if($data->sprint_start_status==1 ){
+                    {      
+
+                      if($data->sprint_start_status==1 )
+                      {
 
                         ?> 
                          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#completed_sprint{{$data->id}}">
@@ -221,176 +222,167 @@
                  </tr> 
 
 
-        <!-- Modal -->
-<div class="modal fade" id="completed_sprint{{$data->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document"> 
-    <div class="modal-content"> 
-      <div class="modal-header"> 
-        <h5 class="modal-title" id="completed_sprint">Complete <b>{{$data->sprint_name}}</b></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span> 
-        </button>
-      </div>
-      <div class="modal-body"> 
-                   
-      <form class="row align-items-center" action='{{url("admin/projects/team/sprint/complete")}}' method='post'> 
-               
-                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> 
-                <input type='hidden' name='project_id' value='{{$project_id}}'/> 
-                <input type='hidden' name='sprint_id' value='{{$data->id}}'/>   
-              <?php 
+                    <!-- Modal -->
+            <div class="modal fade" id="completed_sprint{{$data->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document"> 
+                <div class="modal-content"> 
+                  <div class="modal-header"> 
+                    <h5 class="modal-title" id="completed_sprint">Complete <b>{{$data->sprint_name}}</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span> 
+                    </button>
+                  </div>
+                  <div class="modal-body"> 
+                              
+                  <form class="row align-items-center" action='{{url("admin/projects/team/sprint/complete")}}' method='post'> 
+                          
+                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> 
+                            <input type='hidden' name='project_id' value='{{$project_id}}'/> 
+                            <input type='hidden' name='sprint_id' value='{{$data->id}}'/>   
+                          <?php 
+                          
+                            if($i-1==$nums)
+                            {
+                              $next_id = $logs[$key]->id;   
+                            }
+                            else
+                            {
+                              $next_id = $logs[$key+1]->id;    
+                            }
+
+                          ?>
+                          <p>This sprint contains: </p> 
+                          
+                          <input type="hidden" name="next_id" value="{{$next_id}}"/> 
+                              
+                            <div class="row">
+                              <div class="col-2">
+                                <button type="submit" class="btn btn-primary">Complete Sprint</button>
+                              </div>
+                            </div>
+
+                            <!-- <div class="col-2">
+                              <button type="submit" class="btn btn-warning">Get tasks</button>
+                            </div> -->
+                  </form> 
+
+                    
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close1</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal{{$data->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Start Sprint </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body"> 
+
+                  <form class="row align-items-center" action='{{url("admin/projects/team/sprint/start")}}' method='post' data-parsley-validate="parsley"> 
+                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                            <input type='hidden' name='project_id' value='{{$project_id}}'/>
+                            <input type='hidden' name='sprint_id' value='{{$data->id}}'/>  
+            
+                            <div class="row">
+                                <div class="col-6">
+                                  <div class="form-outline">
+                                    <label>Name</label>
+                                    <input type="text" id="form1" name="sprint_name" class="form-control" placeholder="Enter a sprint here" value="{{$data->sprint_name}}" required="true"/>
+                                  </div>
+                                  
+                                  @if($errors->has('sprint_name')) 
+                                  <div class="error">{{ $errors->first('sprint_name') }}</div>
+                                  @endif
+
+
+                                  <br>
+                                </div>
+
+                                <div class="col-6">
+                                  <div class="form-outline">
+                                    <label>Start Date</label>
+                                    <input type="date" id="form1" value="{{old('start_date')}}" name="sprint_start_date" class="form-control startDate" required="true"/>
+                                  </div>
+                                  @if($errors->has('sprint_start_date'))
+                                  <div class="error ">{{ $errors->first('sprint_start_date') }}</div>
+                                  @endif
+                                  <br>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                              <div class="col-6">
+                                <div class="form-outline">
+                                  <label>Duration</label>
+                                  <select name="sprint_duration" class="form-control" required="true">
+                                    <option value="">Select</option>
+                                    <option value="1" <?php if(old('sprint_duration') == '1'){ echo 'selected'; } ?>>1 week</option>
+                                    <option value="2" <?php if(old('sprint_duration') == '2'){ echo 'selected'; } ?>>2 week</option>
+                                    <option value="3" <?php if(old('sprint_duration') == '3'){ echo 'selected'; } ?>>3 week</option>
+                                    <!-- <option value="4">Custom</option> -->
+                                  </select>
+                                </div>
+                                @if($errors->has('sprint_duration'))
+                                  <div class="error">{{ $errors->first('sprint_duration') }}</div>
+                                  @endif
+                                <br>
+                              </div>
+                              <div class="col-6">
+                                  <div class="form-outline">
+                                    <label>End Date</label>
+                                    <input type="date" id="form1" value="{{old('sprint_end_date')}}"  name="sprint_end_date" class="form-control endDate" required="true"/>
+                                  </div>
+                                  @if($errors->has('sprint_end_date'))
+                                  <div class="error">{{ $errors->first('sprint_end_date') }}</div>
+                                  @endif
+                                  <br>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="form-outline">
+                                  <textarea class="form-control"  name="start_sprint_goal" rows="4" cols="50" placeholder="Sprint Goal" required="true">{{$data->sprint_goal}}</textarea>
+                                </div> 
+                                @if($errors->has('start_sprint_goal'))
+                                  <div class="error">{{ $errors->first('start_sprint_goal') }}</div>
+                                  @endif
+                                <br>
+                              </div> 
+                            </div> 
+
+                            <div class="row"> 
+                              <div class="col-2"> 
+                                <button type="submit" class="btn btn-primary">Start Sprint</button>
+                              </div>
+                            </div> 
+
+                            <!-- <div class="col-2">
+                              <button type="submit" class="btn btn-warning">Get tasks</button>
+                            </div> -->
+                  </form> 
+
+                    
+                  </div>
               
-                if($i-1==$nums)
-                {
-                  $next_id = $logs[$key]->id;   
-                }
-                else
-                {
-                  $next_id = $logs[$key+1]->id;    
-                }
-
-              ?>
-               <p>This sprint contains: </p> 
-               
-               <input type="hidden" name="next_id" value="{{$next_id}}"/> 
-                   
-                <div class="row">
-                  <div class="col-2">
-                    <button type="submit" class="btn btn-primary">Complete Sprint</button>
-                  </div>
                 </div>
-
-                <!-- <div class="col-2">
-                  <button type="submit" class="btn btn-warning">Get tasks</button>
-                </div> -->
-       </form> 
-
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+              </div>
+            </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal{{$data->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Start Sprint</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body"> 
-
-      <form class="row align-items-center" action='{{url("admin/projects/team/sprint/start")}}' method='post'> 
-                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                <input type='hidden' name='project_id' value='{{$project_id}}'/>
-                <input type='hidden' name='sprint_id' value='{{$data->id}}'/>  
- 
-                 <div class="row">
-                    <div class="col-6">
-                      <div class="form-outline">
-                        <label>Name</label>
-                        <input type="text" id="form1" name="sprint_name" class="form-control" placeholder="Enter a sprint here" value="{{$data->sprint_name}}"/>
-                      </div>
-                      
-                      @if($errors->has('sprint_name')) 
-                      <div class="error">{{ $errors->first('sprint_name') }}</div>
-                      @endif
-
-
-                      <br>
-                    </div>
-
-                    <div class="col-6">
-                      <div class="form-outline">
-                        <label>Start Date</label>
-                        <input type="date" id="form1" value="{{old('start_date')}}" name="sprint_start_date" class="form-control startDate"/>
-                      </div>
-                      @if($errors->has('sprint_start_date'))
-                      <div class="error ">{{ $errors->first('sprint_start_date') }}</div>
-                      @endif
-                      <br>
-                    </div>
-
-                </div>
-
-                <div class="row">
-                  <div class="col-6">
-                    <div class="form-outline">
-                      <label>Duration</label>
-                      <select name="sprint_duration" class="form-control">
-                        <option value="">Select</option>
-                        <option value="1" <?php if(old('sprint_duration') == '1'){ echo 'selected'; } ?>>1 week</option>
-                        <option value="2" <?php if(old('sprint_duration') == '2'){ echo 'selected'; } ?>>2 week</option>
-                        <option value="3" <?php if(old('sprint_duration') == '3'){ echo 'selected'; } ?>>3 week</option>
-                        <!-- <option value="4">Custom</option> -->
-                      </select>
-                    </div>
-                    @if($errors->has('sprint_duration'))
-                      <div class="error">{{ $errors->first('sprint_duration') }}</div>
-                      @endif
-                    <br>
-                  </div>
-                  <div class="col-6">
-                      <div class="form-outline">
-                        <label>End Date</label>
-                        <input type="date" id="form1" value="{{old('sprint_end_date')}}"  name="sprint_end_date" class="form-control endDate"/>
-                      </div>
-                      @if($errors->has('sprint_end_date'))
-                      <div class="error">{{ $errors->first('sprint_end_date') }}</div>
-                      @endif
-                      <br>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-12">
-                    <div class="form-outline">
-                      <textarea class="form-control"  name="start_sprint_goal" rows="4" cols="50" placeholder="Sprint Goal">{{$data->sprint_goal}}</textarea>
-                    </div> 
-                    @if($errors->has('start_sprint_goal'))
-                      <div class="error">{{ $errors->first('start_sprint_goal') }}</div>
-                      @endif
-                    <br>
-                  </div> 
-                </div>
-
-                <div class="row"> 
-                  <div class="col-2"> 
-                    <button type="submit" class="btn btn-primary">Start Sprint</button>
-                  </div>
-                </div>
-
-                <!-- <div class="col-2">
-                  <button type="submit" class="btn btn-warning">Get tasks</button>
-                </div> -->
-       </form> 
-
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 
             <?php } ?>
         </tbody>
@@ -410,6 +402,8 @@
     <?php } ?>
   </div>
 </div>
+
+
 <style type="text/css">
   .btn { width: 100%; }
   section { height: auto!important; }
