@@ -12,6 +12,7 @@ use Modules\Projects\Entities\AllSprint;
 use Modules\Projects\Entities\Task;
 use Modules\Projects\Entities\Project;
 use Modules\Projects\Entities\category;
+use Modules\User\Entities\Usersdata;
 use App\Models\User;
 /* Load Auth  */
 use Auth;
@@ -19,11 +20,14 @@ use Auth;
 class TeamController extends Controller
 {
     public function load_page(Request $request){
+      $data_user = Auth::user();
       $project_data = Project::where('id',$request->id)->first();
+      $tasks = Auth::user()->id;
+      $profiledata = usersdata::where('user_id' , $tasks)->first();
       $drop_down_data = Project::orderBy('id', 'DESC')->get();
       $project_id = $request->id;
       $single_project = 'single_project';
-      return view("projects::single", compact('drop_down_data','project_data', 'project_id','single_project'));
+      return view("projects::single", compact('drop_down_data','project_data', 'project_id','single_project','data_user','profiledata'));
     }
 
    public function backlog_view(Request $request){ 
@@ -95,12 +99,13 @@ class TeamController extends Controller
 
    public function project_settngs(Request $request){
 
+      $data_user = Auth::user();
       $categorys = category::get();
       $project_data = Project::where('id',$request->id)->first();
       $drop_down_data = Project::orderBy('id', 'DESC')->get();
       $project_id = $request->id;
       $single_project = 'single_project';
-      return view("projects::project_settngs", compact('drop_down_data','project_data', 'project_id','single_project','categorys'));
+      return view("projects::project_settngs", compact('drop_down_data','project_data', 'project_id','single_project','categorys','data_user'));
     
      }
      public function project_details(Request $request)

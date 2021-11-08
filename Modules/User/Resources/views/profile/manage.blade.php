@@ -21,9 +21,9 @@
             <div class="col-md-4 mb-2">
                      <?php if (!empty ($profiledata->image)){ ?>
 
-                         <img id="image_preview_container"   src="http://localhost/dev-management/storage/app/image/{{$profiledata->image}}"  alt="preview image" style="max-height: 150px;">
+                         <img id="image_preview_container"   src="{{ asset('user/images/' . $profiledata->image)}}"  alt="preview image" style="max-height: 150px;">
                      <?php }else{ ?> 
-                        <img id="image_preview_container"  src="http://localhost/dev-management/storage/app/image/default/image-1634637893.png"  alt="preview image" style="max-height: 150px;">
+                        <img id="image_preview_container"  src="{{ asset('user/images/default.png')}}"  alt="preview image" style="max-height: 150px;">
 
                      <?php } ?> 
                        
