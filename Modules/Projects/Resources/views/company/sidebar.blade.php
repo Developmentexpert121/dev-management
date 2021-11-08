@@ -12,7 +12,12 @@
               <span class="menu-title">Active Sprints</span>
             </a>
           </li>
+          <li class="nav-item active">
+           <a class="nav-link" href='{{url("admin/project/company/$project_id/sprints")}}'>
+        <i class="fa fa-print"></i>&nbsp;
+        <span class="menu-title">Sprints</span>
+      </a>
 
-         
+         </li>
         </ul>
       </nav>

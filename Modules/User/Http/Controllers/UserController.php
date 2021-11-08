@@ -78,24 +78,32 @@ class UserController extends Controller
 
     public function dashbaord(Request $request)
     {  
-        return view('user::admin.dashboard');        
+        $user_auth = Auth::user();
+        $tasks = Auth::user()->id;
+        $profiledata = usersdata::where('user_id' , $tasks)->first();
+        return view('user::admin.dashboard',compact('user_auth','profiledata'));        
     }
 
     public function addUser(Request $request){
-        return view('user::admin.user');   
+        $user_auth = Auth::user();
+        return view('user::admin.user',compact('user_auth'));   
     }
 
     public function userlist(Request $request){
+         $user_auth = Auth::user();
+         $tasks = Auth::user()->id;
+         $profiledata = usersdata::where('user_id' , $tasks)->first();
         $user_list = User::where('user_role','!=',5)
         ->get();
-       return view('user::admin.userlist')->with(compact('user_list')); 
+       return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
     }
 
     public function user_edit(Request $request){ 
+        $user_auth = Auth::user();
         $user_data = User::where('id',$request->id)
         ->first();
        $url_link ='http://localhost/management/storage/app/public/images';
-       return view('user::admin.edit_user')->with(compact('user_data','url_link'));
+       return view('user::admin.edit_user')->with(compact('user_data','user_auth','url_link'));
     }
 
     public function edit_user(Request $request){
@@ -155,8 +163,8 @@ class UserController extends Controller
         
         if($request->hasFile('image')) {
            $image = $request->file('image');
-           $image_name = time().'.'.$request->image->getClientOriginalExtension();
-           $image->move('user/images/',$fileName);
+           $image_name = rand() . '.' . $image->getClientOriginalExtension();
+           Storage::disk('public')->putFileAs('images', $request->file('image'), $image_name);
         }
 
         if($validator->fails()){
@@ -186,10 +194,11 @@ class UserController extends Controller
         }
     }
 
-    public function view(Request $request){   
+    public function view(Request $request){ 
+        $user_auth = Auth::user();  
         $user_data = User::where('id',$request->id)->first();
         $url_link = env("APP_URL").'/management/storage/app/public/images';
-        return view('user::admin.view')->with(compact('user_data','url_link')); 
+        return view('user::admin.view')->with(compact('user_data','url_link','user_auth')); 
     }
 
     public function delete(Request $request){
@@ -356,8 +365,8 @@ class UserController extends Controller
 
         if ($files = $request->file('image')) {
             
-            $fileName =  "image-".time().'.'.$request->image->getClientOriginalExtension();
-            $request->image->storeAs('image', $fileName);
+            $fileName = time().'.'.$request->image->getClientOriginalExtension();
+                $files->move('user/images/',$fileName);
         }
 
         $results = usersdata::where('user_id',$user_id)->update([

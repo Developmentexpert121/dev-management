@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row add_project">
     <div class="col-md-2">
-      <img src="http://127.0.0.1:8001/storage/scrum3.svg">
+      <img src="{{asset('storage/create_project/scrum1.svg')}}">
     </div>
     <div class="col-md-10 mr_top">
       <a href=''>
@@ -12,7 +12,7 @@
   </div>
   <div class="row add_project">
     <div class="col-md-2">
-      <img src="http://127.0.0.1:8001/storage/scrum1.svg">
+      <img src="{{asset('storage/create_project/scrum2.svg')}}">
     </div>
     <div class="col-md-10 mr_top">
       <a href='{{url("admin/project/scrum/template")}}'> 
@@ -22,7 +22,7 @@
   </div>
   <div class="row add_project">
     <div class="col-md-2">
-      <img src="http://127.0.0.1:8001/storage/scrum2.svg">
+      <img src="{{asset('storage/create_project/scrum3.svg')}}">
     </div>
     <div class="col-md-10 mr_top">
       <a href=''>

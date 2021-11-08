@@ -12,11 +12,10 @@
                 <div class="card-body">
                   <h4 class="card-title">View All Users </h4>
                   <div  class="form-group ">
-
-          
-                  <img src="<?php echo $url_link.'/'.$user_data->image ?>" width="100" height="100" />
-            
-
+                  <?php if(!empty($user_data->image)){ ?> 
+                  <img src="{{ asset('/storage/images/' . $user_data->image) }}" width="100" height="100" > <?php }else{ ?> 
+                    <img src="{{asset('storage/images/No-Image.png')}}" width="100" height="100" >
+                    <?php } ?> 
                   </div>
 
      

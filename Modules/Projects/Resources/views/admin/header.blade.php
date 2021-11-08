@@ -40,7 +40,7 @@
 </head>
 <body> 
 
- 
+ <?php $data_user = Auth::user(); ?>
 <div class="container-scroller">      
       
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
@@ -191,12 +191,20 @@
           </li>
           <li class="nav-item dropdown d-none d-lg-block user-dropdown">
             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-              <img class="img-xs rounded-circle" src="{{ asset('images/faces/face8.jpg') }}" alt="Profile image"> </a>
+              <?php if(!empty($profiledata->image)){  ?>
+              <img class="img-xs rounded-circle" src="{{ asset('user/images/' . $profiledata->image)}}" alt="Profile image">
+              <?php }else{ ?>
+                <img class="img-xs rounded-circle" src="{{asset('user/images/default.png')}}" alt="Profile image">
+              <?php } ?></a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
-                <img class="img-md rounded-circle" src="{{ asset('images/faces/face8.jpg') }}" alt="Profile image">
-                <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p> 
+                <?php if(!empty($profiledata->image)){  ?>
+              <img class="img-xs rounded-circle" src="{{ asset('user/images/' . $profiledata->image)}}" alt="Profile image">
+              <?php }else{ ?>
+                <img class="img-xs rounded-circle" src="{{asset('user/images/default.png')}}" alt="Profile image">
+              <?php } ?></a>
+                <p class="mb-1 mt-3 font-weight-semibold">{{$data_user->name}}</p>
+                <p class="fw-light text-muted mb-0">{{$data_user->email}}</p> 
               </div>
               <a class="dropdown-item" href="{{ URL('admin/user/profile') }}" ><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>

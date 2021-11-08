@@ -60,37 +60,29 @@
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-top"> 
 
-        <ul class="navbar-nav">
+       <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            
-            <h3 class="welcome-sub-text">
-              <?php 
-              if(!$data->name=='')
-              {
-                 echo $data->name;  
-              }
-            
-             ?>
-            </h3>
+            <h1 class="welcome-text">Company Management<span class="text-black fw-bold"></span></h1>
+            <h3 class="welcome-sub-text">Your performance summary this week </h3>
           </li>
         </ul>
         
         <ul class="navbar-nav ms-auto">
          
-          <li class="nav-item dropdown d-none d-lg-block">
+          <!-- <li class="nav-item dropdown d-none d-lg-block">
           <label for="Project">All Project:</label>
             <select name="project" id="project">
               <?php 
-               foreach($dropDownData as $val){
+               //foreach($dropDownData as $val){
               ?>
-             <option value="<?php  echo $val->id ?>"><?php  echo $val->name ?></option>
-             
+              <option value="<?php  //echo //$val->id ?>"><?php  //echo //$val->name ?></option>
+              -->
             <?php 
-            }
+           // }
              ?>
-           </select>
+           <!-- </select> -->
 
-            </li>
+            <!-- </li> -->
           <li class="nav-item d-none d-lg-block">
             <div id="datepicker-popup" class="input-group date datepicker navbar-date-picker">
               <span class="input-group-addon input-group-prepend border-right">

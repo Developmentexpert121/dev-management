@@ -35,7 +35,10 @@
                      <div  class="form-group ">
 
                      <label for="files" class="btn col-md-3"> 
-                     <img src="<?php echo $url_link.'/'.$user_data->image ?>" width="100" height="100" />
+                     <?php if(!empty($user_data->image)){ ?> 
+                  <img src="{{ asset('/storage/images/' . $user_data->image) }}" width="100" height="100" > <?php }else{ ?> 
+                    <img src="{{asset('storage/images/No-Image.png')}}" width="100" height="100" >
+                    <?php } ?> 
                      <input id="files" style="visibility:hidden;" type="file" name='edit_image'></label>
                     
                       </div>

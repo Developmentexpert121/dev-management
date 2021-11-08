@@ -17,16 +17,15 @@
                 <input type="hidden" name="_token" value="{{csrf_token() }}">
                 <input type='hidden' name='project_id' value='{{$project_id}}'/>
                 <!-- <input type='hidden' name='project_type' value='1'/> -->
-
                 <div class="form-group">
                   <label for="exampleInputEmail1">Avatar</label>
                   <div class="row profile_box">
                     <div class="col-md-4 mb-2">
                      <?php if (!empty ($project_data->image)){ ?>
 
-                         <img class="setting_image" id="image_preview_container" alt="{{$project_data->name}}" src="{{url('user/images/', $project_data->image)}}"  alt="preview image" style="max-height: 48px;">
+                         <img class="setting_image" id="image_preview_container" alt="{{$project_data->name}}" src="{{ asset('user/images/' . $project_data->image) }}"  alt="preview image" style="max-height: 128px;">
                        <?php }else{ ?> 
-                        <img id="image_preview_container"  src="{{url('user/images/default.png')}}"  alt="preview image" style="max-height: 48px;">
+                        <img id="image_preview_container"  src="{{asset('user/images/default.png')}}"  alt="preview image" style="max-height: 128px;">
 
                        <?php } ?> 
                        
@@ -45,6 +44,7 @@
                 <img class="setting_image" src="" ><br>
                 <input type="file" name="image" id="image">
                 </div>
+
                 <div class="form-group">
                   <label for="exampleInputUsername1">Name</label>
                   <input type="text" class="form-control" id="name" name='name' placeholder="Project Name" value="{{$project_data->name}}">

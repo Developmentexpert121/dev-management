@@ -18,6 +18,7 @@ use Modules\Projects\Entities\category;
 use Session;
 use Modules\User\Entities\User;
 use Modules\Projects\Entities\Sprint_Issue;
+use Modules\User\Entities\Usersdata;
 class Projects2Controller extends Controller
 {
 
@@ -152,11 +153,11 @@ class Projects2Controller extends Controller
     $single_project = 'single_project';
     $sprints = AllSprint::where('project_id',$request->id)->get();
     $types = Issue::get();
-    
+    $data_user = Auth::user();
     $task = Auth::user()->name;
     $users = User::get(); 
     $tasks = DB::table('task')->select('*')->join('all_sprints', 'all_sprints.id', '=', 'task.sprint_id')->where('task.project_id', $project_id)->get();
-    return view('projects::roadmap', compact('single_project','project_data','drop_down_data','project_id', 'tasks','sprints', 'types','task','users'));
+    return view('projects::roadmap', compact('single_project','project_data','drop_down_data','project_id', 'tasks','sprints', 'types','task','users','data_user'));
   
   }
 
@@ -233,41 +234,30 @@ class Projects2Controller extends Controller
 
   }      
 
-  public function sprints(Request $request)
-  {
-    
-    $project_data = Project::where('id',$request->id)->first();
-    $drop_down_data = Project::orderBy('id', 'DESC')->get();
-    $project_id = $request->id;
-
-    $single_project = 'single_project';   
-    $sprints = AllSprint::where('project_id',$request->id)->get();
-    $logs = AllSprint::where('project_id',$request->id)->get();
-    $nums = AllSprint::where('project_id',$request->id)->count();
-    $last = $sprints->first();  
-
-   
-
-    return view('projects::sprints', compact('single_project','project_data','drop_down_data','project_id','nums', 'sprints','last','logs'));
-     
-  }   
+ 
    
   public function project_issues(Request $request)
   {  
-    
+    $data_user = Auth::user();
     $project_data = Project::where('id',$request->id)->first();
     $drop_down_data = Project::orderBy('id', 'DESC')->get(); 
     $project_id = $request->id;
     $single_project = 'single_project';
     $issues = Issue::orderBy('id', 'ASC')->get();  
-    return view('projects::issues', compact('single_project','project_data','drop_down_data','project_id', 'issues'));
+    return view('projects::issues', compact('single_project','project_data','drop_down_data','project_id', 'issues','data_user'));
   
   }
   public function settings_access(Request $request){
+
+    $data_user = Auth::user();
+    $user_access = Auth::user();
+    // echo '<pre>';
+    // print_r($user_access);
+    // die();
     $project_id = $request->id;
     $single_project = 'single_project';
 
-    return view('projects::access', compact('single_project','project_id'));
+    return view('projects::access', compact('single_project','project_id','user_access','data_user'));
   }
 
   public function saveIssue(Request $request){
@@ -351,24 +341,39 @@ class Projects2Controller extends Controller
 
   }
 
-  public function backlog(Request $request){
+  public function backlog(Request $request)
+  {
+    
+  
+    $data_user = Auth::user();
     $project_data = Project::where('id',$request->id)->first();
     $drop_down_data = Project::orderBy('id', 'DESC')->get();
     $project_id = $request->id;
-    $single_project = 'single_project';
-    $sprints = AllSprint::where('project_id',$request->id)->get();
-    return view('projects::backlog', compact('single_project','project_data','drop_down_data','project_id', 'sprints'));
+    $single_project = 'single_project'; 
+    $sprints = AllSprint::where(['project_id'=>$request->id])->get();
+    $sprintIssue= Sprint_Issue::where(['project_id'=> $project_id,'status'=>1])
+    ->orderBy('id', 'DESC')->get();
+ 
+    return view('projects::backlog', compact('single_project','project_data','drop_down_data','project_id', 'sprints','sprintIssue','data_user'));
+  
+  }
+
+  public function blackLogMove(Request $request){
+     echo'<pre>';
+     print_r($request);
+     die();
   }
 
   public  function category(Request $request)
   {  
-    $data =category::all();  
+    $data =category::all(); 
+    $user_auth = Auth::user(); 
     $project_data = Project::where('id',$request->id)->first();
     $drop_down_data = Project::orderBy('id', 'DESC')->get();
     $project_id = $request->id;  
     $single_project = 'single_project';    
     $category = category::orderBy('id', 'DESC')->get();
-    return view('projects::category', compact('single_project','project_data','drop_down_data','project_id', 'category'));
+    return view('projects::category', compact('single_project','project_data','drop_down_data','project_id', 'category','user_auth'));
     
   }
 
@@ -399,8 +404,9 @@ class Projects2Controller extends Controller
   public function editCategory(Request $request)
   {
     $id=$request->id;
+    $user_auth = Auth::user(); 
     $category_edit_val= category::where('id',$id)->first();
-    return view('projects::editCategory', compact('id','category_edit_val'));
+    return view('projects::editCategory', compact('id','category_edit_val','user_auth'));
 
   }  
   
@@ -443,13 +449,13 @@ class Projects2Controller extends Controller
   public function edit_sprint(Request $request)
   {
 
-      
+        $user_auth = Auth::user(); 
         $id = $request->edit_id; 
         $allSprint_dit_val= AllSprint::where('id',$id)->first();
         $single_project = 'single_project';  
         $project_id = $request->project_id;
        
-        return view('projects::admin.editSprint', compact('id','allSprint_dit_val','single_project','project_id'));
+        return view('projects::admin.editSprint', compact('id','allSprint_dit_val','single_project','project_id','user_auth'));
       
   }
 
@@ -519,7 +525,36 @@ class Projects2Controller extends Controller
     return view('projects::sprint_create_issue', compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue'));
     
     
-  } 
+  }
+  
+  public function blackLogIssueCreate(Request $request)
+  {
+  
+
+    $validator = Validator::make($request->all(),[
+      'blacklogIssueCreate' => 'required'
+    ]);   
+   
+    if ($validator->fails())
+    {
+      return Redirect::back()->withErrors($validator)->withInput();
+    }
+
+    $userId = Auth::id();
+   
+    $sprintIssue= new Sprint_Issue();
+    $sprintIssue->issue_name= $request->blacklogIssueCreate;
+    $sprintIssue->project_id= $request->project_id;
+    $sprintIssue->status= 1;
+    $sprintIssue->created_by= $userId;
+    $sprintIssue->save();
+
+
+    return Redirect::back()->with('message','black Log Issue Add Successfully');
+    
+    
+
+  }
 
    public function add_issue_create(Request $request)
    {
@@ -785,31 +820,84 @@ class Projects2Controller extends Controller
 
     }
 
+    public function sprints(Request $request)
+    {
+      $data_user = Auth::user(); 
+      $project_data = Project::where('id',$request->id)->first();
+      $tasks = Auth::user()->id;
+      $profiledata = usersdata::where('user_id' , $tasks)->first();
+      $drop_down_data = Project::orderBy('id', 'DESC')->get();
+      $project_id = $request->id;
+  
+      $single_project = 'single_project';   
+      $sprints = AllSprint::where('project_id',$request->id)->get();
+      
+      $logs = AllSprint::where('project_id',$request->id)->get();
+      $nums = AllSprint::where('project_id',$request->id)->count();
+    
+      $last = $sprints->first();  
+  
+    
+  
+      return view('projects::sprints', compact('single_project','project_data','drop_down_data','project_id','nums', 'sprints','last','logs','data_user','profiledata'));
+       
+    }  
+
     
     public function board(Request $request)
     {
-       
+
+      $data_user = Auth::user();
       $project_data = Project::where('id',$request->id)->first(); 
       $drop_down_data = Project::orderBy('id', 'DESC')->get(); 
       $project_id = $request->project_id;  
       $single_project = 'single_project'; 
       $statusResult = DB::table('board_heading')->get();
 
-      //$taskResult = Sprint_Issue::get(); 
+      $getSprint = AllSprint::where('project_id',$project_id)->first();
 
-      $taskResult = DB::table('sprint_issue')
-      ->Join('all_sprints', 'all_sprints.id', '=', 'sprint_issue.sprint_id')
-      ->select(['sprint_issue.*','all_sprints.sprint_start_status'])
-      ->where('sprint_issue.project_id',$project_id)
-      ->orderBy('sprint_issue.id', 'desc') 
-      ->get();
+      if(!empty($getSprint)){
 
-      return view('projects::board',compact('single_project','project_data','drop_down_data','project_id','statusResult','taskResult')); 
+      if(!empty($getSprint &&  $getSprint['sprint_start_status']==0 || $getSprint['sprint_start_status']==1))
+      {
+       
+        $sprint_id = $getSprint['id'];
+      
+       
+        $taskResult = DB::table('sprint_issue')
+        ->Join('all_sprints', 'all_sprints.id', '=', 'sprint_issue.sprint_id')
+        ->select(['sprint_issue.*','all_sprints.sprint_start_status'])
+        ->where(['sprint_issue.project_id'=>$project_id,'sprint_issue.sprint_id'=>$sprint_id])
+        ->orderBy('sprint_issue.id', 'desc') 
+        ->get();
+
+
+      }
+      else
+      {
+
+        $taskResult = DB::table('sprint_issue')
+        ->Join('all_sprints', 'all_sprints.id', '=', 'sprint_issue.sprint_id')
+        ->select(['sprint_issue.*','all_sprints.sprint_start_status'])
+        ->where(['all_sprints.sprint_start_status'=>'5'])
+        ->orderBy('sprint_issue.id', 'desc') 
+        ->get();
+       
+      } 
+
+     }
+     else
+     {
+      $taskResult='';
+     }
+
+   
+      return view('projects::board',compact('single_project','project_data','drop_down_data','project_id','statusResult','taskResult','data_user')); 
 
  
     }
 
- 
+      
     public function boardMove(Request $request)
     {
 
@@ -820,8 +908,8 @@ class Projects2Controller extends Controller
       ->update([  
         "issue_status" => $header_id-1
        ]);  
-    
-       return $res;  
+       
+       return $res;   
 
     }
 

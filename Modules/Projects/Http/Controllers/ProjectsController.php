@@ -5,6 +5,7 @@ namespace Modules\Projects\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\User\Entities\Usersdata;
 use Validator;
 use Redirect;
 use DB;
@@ -160,6 +161,8 @@ class ProjectsController extends Controller
     
     public function information()
     { 
+        $tasks = Auth::user()->id;
+        $profiledata = usersdata::where('user_id' , $tasks)->first();
         $project_list =  DB::table('project')
        ->select('project.*','users.name as username')
        ->join('users','users.id','=','project.createby')
@@ -167,7 +170,7 @@ class ProjectsController extends Controller
        ->get();
        
        
-        return view('projects::admin.datatable')->with('project_list',$project_list);  
+        return view('projects::admin.datatable',compact('profiledata'))->with('project_list',$project_list);  
 
     }
 
