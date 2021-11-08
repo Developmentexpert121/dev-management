@@ -84,6 +84,7 @@ ul {
 
 
 </style>
+   
 
   <div class="task-board">
           
@@ -102,16 +103,16 @@ ul {
           
                   @foreach ($taskResult as $taskRow)
                        
-                      @if($taskRow->issue_status== 0 && $statusRow->id == 1 ) 
+                      @if($taskRow->issue_status== 0 && $statusRow->id == 1 && ! $taskRow->sprint_start_status) 
                       
                             <li class="text-row ui-sortable-handle" 
                             data-task-id="<?php echo $taskRow->id ?>"><?php echo $taskRow->issue_name; ?></li>
                            
-                            @elseif($taskRow->issue_status==1 && $statusRow->id == 2 )
+                            @elseif($taskRow->issue_status==1 && $statusRow->id == 2 && ! $taskRow->sprint_start_status)
                              <li class="text-row ui-sortable-handle" 
                             data-task-id="<?php echo $taskRow->id ?>"><?php echo $taskRow->issue_name; ?></li>
 
-                            @elseif($taskRow->issue_status==2 && $statusRow->id == 3 )
+                            @elseif($taskRow->issue_status==2 && $statusRow->id == 3  && ! $taskRow->sprint_start_status)
                              <li class="text-row ui-sortable-handle" 
                             data-task-id="<?php echo $taskRow->id ?>"><?php echo $taskRow->issue_name; ?></li>
                             @endif
