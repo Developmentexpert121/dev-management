@@ -146,12 +146,12 @@
                     <td>{{date('d-m-Y', strtotime($data->end_date))}}</td> 
 
                     <td>
-                      <a href="<?php echo url('/project/sprint/company/create_issue/'.$project_id.'/'.$data->id) ?>">Create Issue</a>
+                      <a href="<?php echo url('/projects/sprint/company/create_issue/'.$project_id.'/'.$data->id) ?>">Create Issue</a>
                     </td>
 
                     <td> 
                        
-                    <a href="<?php echo url('admin/project/edit_sprint/'.$project_id.'/'.$data->id) ?>"><i class="fa fa-pencil" title="Edit"></i></a>
+                    <a href="<?php echo url('projects/company/edit_sprint/'.$project_id.'/'.$data->id) ?>"><i class="fa fa-pencil" title="Edit"></i></a>
                     <a href="<?php echo url('admin/project/team/delete_sprint/'.$project_id.'/'.$data->id) ?>" onclick="return confirm('Are you sure you want delete?')"><i class="fa fa-trash-o fa-lg"></i></a>
 
                     </td>  
