@@ -29,6 +29,7 @@
       <link rel="stylesheet" href="{{ asset('vendors/css/vendor.bundle.base.css') }}">
       <link rel="stylesheet" href="{{ asset('js/select.dataTables.min.css') }}">
       <link rel="stylesheet" href="{{ asset('css/vertical-layout-light/style.css') }}">
+      <link rel="stylesheet" href="{{ asset('css/main.css') }}">
       <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
