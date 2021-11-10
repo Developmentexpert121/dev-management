@@ -1,1 +1,176 @@
-css
+.login_form {
+	background-color: #f7f6fe;
+	padding: 60px 0;
+}
+.login-content {
+	text-align: center;
+}
+.login-content h2 {
+    font-size: 45px;
+    color: #4b43ff;
+    font-weight: 700;
+}
+.login-content p {
+    opacity: .8;
+    margin-top: 20px;
+    line-height: 1.7;
+}
+.login-content img {
+	width: 100%;
+}
+.form-head {
+    text-align: center;
+    float: left;
+    width: 100%;
+    padding: 0px 0 50px 0;
+}
+.form-head h4 {
+    font-size: 30px;
+    font-weight: 600;
+    color: #42425e;
+}
+.form-head ul {
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+}
+.form-head ul li {
+    display: inline-block;
+    margin-right: 20px;
+    background-color: #ecf2f8;
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+.form-head ul li img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+}
+.login-card-body {
+    background-color: #f7f6fe;
+    box-shadow: 1px 1px 11px #999;
+    padding: 60px 60px !important;
+    border-radius: 5px;
+}
+.col-md-6.text-right.forget-password {
+    padding: 0;
+}
+.forget-password a {
+    color: #5d7dff !important;
+    font-weight: 600;
+    font-size: 14px;
+    padding-top: 0;
+}
+.card.login-card {
+    width: 80%;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+.login-submit-btn button{
+	background-color: #5d7dff;
+	width: 100%;
+}
+
+/*user page*/
+.user-content, .user-card {
+    width: 100%;
+    float: left;
+}
+
+.user-content p {
+	font-size: 15px;
+}
+.user-content p:nth-of-type(1) {
+    color: #42516d;
+    font-weight: 700;
+}
+.user-content p:nth-of-type(2){
+	    color: #000000;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+.user-content p:nth-of-type(3){
+	color: #5d7dff;
+	    font-weight: 500;
+}
+.user-content p:nth-of-type(4){
+	font-size: 17px;
+    color: #000000;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.user-content p:nth-of-type(4){
+    font-size: 14px;
+    color: #000000;
+}
+.form-slide input, .form-slide select#cars {
+    background-color: #ecf2f8;
+} {
+    background-color: #ecf2f8 !important;
+    border: none;
+    border-radius: 4px;
+}
+.user-main-bg {
+	background-color: #fff;
+}
+.user-card h4.card-title {
+    font-size: 25px;
+    font-weight: 700;
+}
+.form-slide label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #77828f;
+}
+.user-card .card-body {
+    padding-left: 0;
+}
+.header-navbar {
+    background-color: #f7f6fe;
+}
+.header-navbar .text-center.navbar-brand-wrapper.d-flex.align-items-center.justify-content-start, .header-navbar .navbar-menu-wrapper.d-flex.align-items-top {
+    background-color: #f7f6fe;
+}
+/*ul.nav {
+    background-color: #5d7dff;
+    padding: 0 10px;
+}*/
+.sidebar .nav .nav-item.active > .nav-link {
+    background: transparent;
+ }
+ .sidebar .nav .nav-item.active > .nav-link .menu-title {
+    font-size: 13px;
+    color: #fff;
+}
+.sidebar .nav.sub-menu {
+    background: transparent;
+}
+
+.sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link, .sidebar .nav:not(.sub-menu) > .nav-item:hover[aria-expanded="true"] {
+    background: #7c97fd;
+    color: #fff;
+}
+nav#sidebar {
+    background-color: #4b6ffd;
+}
+.sidebar .nav .nav-item.nav-category {
+    color: #fff;
+    font-size: 16px;
+ }
+ i.menu-arrow1.fas.fa-chevron-down {
+    float: right;
+    width: 100%;
+    text-align: right;
+}
+
+.side-submenu li a.nav-link {
+    color: #fff !important;
+}
+.side-submenu li:hover {
+	background-color: #7c97fd!important;;
+}
