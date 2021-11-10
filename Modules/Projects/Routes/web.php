@@ -19,13 +19,17 @@ Route::prefix('projects')->group(function()
 	Route::post('team/project/add_task', 'Projects2Controller@taskSave');
 	Route::post('team/project/issueadd', 'Projects2Controller@saveIssue');
 	Route::post('team/project/add_sprint', 'Projects2Controller@saveSprint');
-	
 	Route::post('sprint/create_issue/action','Projects2Controller@action_issue');
     Route::get('team/sprint/delete/issue_create/{id}','Projects2Controller@delete_issue');
     Route::post('team/create/issue/update','Projects2Controller@update_issue'); 
     Route::get('team/issue/delete/{id}','Projects2Controller@issue_delete');
     Route::post('team/create/issue/update','Projects2Controller@issue_update'); 
-    Route::post('team/sprint/blackLogMove','Projects2Controller@blackLogMove');    
+    Route::post('team/sprint/blackLogMove','Projects2Controller@blackLogMove'); 
+	Route::post('team/edit/blackLog/{id}','Projects2Controller@editBlackLog'); 
+	Route::post('team/delete/blackLog/{id}','Projects2Controller@deleteBlackLog');  
+	Route::post('team/create_issue','Projects2Controller@create_issue');    
+
+	
     
     
 	// Route::get('team/{id}/roadmap', 'Projects2Controller@roadmap');

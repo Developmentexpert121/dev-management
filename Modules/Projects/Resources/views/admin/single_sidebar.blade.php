@@ -34,7 +34,7 @@
 
       <a class="nav-link" href='{{url("admin/project/team/$project_id/roadmap")}}'>
         <i class="fa fa-map"></i>&nbsp;
-        <span class="menu-title">Roadmap</span>
+        <span class="menu-title">Create Issue</span>
       </a>
 
       <a class="nav-link" href='{{url("admin/project/team/$project_id/backlog")}}'>
@@ -47,6 +47,7 @@
         <span class="menu-title">Board</span>   
       </a> 
 
+     
 
     </li>
     <!-- <li class="nav-item nav-category">Project</li>
