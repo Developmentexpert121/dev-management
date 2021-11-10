@@ -67,7 +67,7 @@
                         <div class="modal-body">
 
                         
-                    <form class="row align-items-center" action='{{url("projects/team/sprint/blackLogMove")}}' method='post'>
+                    <form class="row align-items-center" action='{{url("projects/company/sprint/blackLogMove")}}' method='post'>
                     <input type="hidden" name="_token" id="csrf" value="<?php echo csrf_token(); ?>">
                
                     <input type='hidden' id ="project_id" name='project_id' value='{{$project_id}}'/>

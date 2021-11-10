@@ -1,4 +1,4 @@
-@include('projects::company.header')
+@include('projects::admin.header')
 <div class="main-panel">    
   <div class="content-wrapper">
     <div class="row">
@@ -7,12 +7,12 @@
           <div class="card-body mx-auto ">
             <?php 
                 // echo '<pre>';
-                // print_r($profiledata);
+                // print_r($project_data);
                 // die('test');
 
 
             ?>
-            <form class="forms-sample" id="project_details" action="{{ route('company.detail',$project_id) }}" method='post' enctype="multipart/form-data">
+            <form class="forms-sample" id="project_details" action="{{ route('project.save',$project_id) }}" method='post' enctype="multipart/form-data">
 
                 <input type="hidden" name="_token" value="{{csrf_token() }}">
                 <input type='hidden' name='project_id' value='{{$project_id}}'/>
@@ -42,7 +42,7 @@
 
             </div> 
                 <img class="setting_image" src="" ><br>
-                <input type="file" name="image" id="image" Required="required">
+                <input type="file" name="image" id="image">
                 </div>
 
                 <div class="form-group">
@@ -55,34 +55,15 @@
                   <input type="text" class="form-control" id="key" name='key' placeholder="key" value="{{$project_data->key}}" >
                 </div>
 
-                <div class="form-group">
-                <label for="exampleInputEmail1">Project Category</label>
-                  <select class="form-control" name="category">
-                @foreach($categorys as $category)
-                    <option value="{{$category->name}}">{{$category->name}}</option>
-                   @endforeach
-                  </select>
-                </div>
+                
 
                 <div class="col-12">
                   <div class="form-outline">
                     <label>Description</label>
-                    <textarea  id="description" name="description" class="form-control" placeholder="Enter a task here"></textarea>
+                    <textarea  id="description" name="description" class="form-control" placeholder="Enter a task here" >{{$project_data->Description}}</textarea>
                   </div>
                 </div>
-                <div class="form-group">
-                <label for="exampleInputEmail1">Project Lead</label>
-                  <select class="form-control" name="project_lead">
-                    <option value="">Select</option>
-                  </select>
-                </div>
 
-                <div class="form-group">
-                <label for="exampleInputEmail1">Default Assignee</label>
-                  <select class="form-control" name="project_assignee">
-                    <option value="">Select</option>
-                  </select>
-                </div>
 
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary me-2" id="form_submit" >Submit</button>
@@ -94,7 +75,7 @@
     </div>
   </div>
 </div>
-@include('projects::company.footer')
+@include('projects::team.footer')
 <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
 <script>
   ClassicEditor.create( document.querySelector( '#description' ) )
@@ -135,7 +116,7 @@
   
      $.ajax({
         type:'POST',
-        url: "{{ route('company.detail') }}",
+        url: "{{ route('project.save') }}",
         data: formData,
         cache:false,
         contentType: false,

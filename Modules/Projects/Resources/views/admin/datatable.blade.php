@@ -22,6 +22,7 @@
                                     <th>Created by</th>
                                     <th>Template</th>
                                     <th>Project Type</th>
+                                    <th>Action</th>
                                    
                                 </tr>
                             </thead>
@@ -52,6 +53,11 @@
                                         <td><?php echo ucfirst($data->username) ; ?></td> 
                                         <td><?php echo $templatename ; ?></td>
                                         <td><?php echo $project_type ;?></td>
+                                        <td><a href='{{url("admin/project/view/{$data->id}")}}'><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                            <a href='{{url("admin/project/{$data->id}/settings")}}'><i class="fa fa-edit" style="font-size:18px;color:green"></i></a>
+                                            <a Onclick="return ConfirmDelete();" href='{{url("admin/project/delete/{$data->id}")}}'><i class="fa fa-trash-o fa-lg" style="font-size:21px;color:red"></i>
+                                        </td>
+                                            
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -63,6 +69,7 @@
                                     <th>Created by</th>
                                     <th>Template</th>
                                     <th>Project Type</th>
+                                    <th>Action</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -77,3 +84,14 @@
     a , a:hover { text-decoration: none; }
 </style>
 @include('projects::admin.footer')
+
+<script>
+    function ConfirmDelete()
+    {
+      var x = confirm("Are you sure you want to delete?");
+      if (x)
+          return true;
+      else
+        return false;
+    }
+</script>

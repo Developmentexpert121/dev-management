@@ -6,6 +6,9 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\User\Entities\Usersdata;
+use Modules\User\Entities\User;
+use Modules\Projects\Entities\Project;
+use Modules\Projects\Entities\category;
 use Validator;
 use Redirect;
 use DB;
@@ -173,6 +176,84 @@ class ProjectsController extends Controller
         return view('projects::admin.datatable',compact('profiledata'))->with('project_list',$project_list);  
 
     }
+    public function view(Request $request){ 
+        $project_data = Project::where('id',$request->id)->first();
+        // echo '<pre>';
+        // print_r($project_data);
+        // die();
+        $user_auth = Auth::user();  
+        $user_data = User::where('id',$request->id)->first();
+        $url_link = env("APP_URL").'/management/storage/app/public/images';
+        return view('projects::admin.view')->with(compact('user_data','url_link','user_auth','project_data')); 
+    }
+
+    public function project_settngs(Request $request){
+
+        $data_user = Auth::user();
+        $categorys = category::get();
+        $project_data = Project::where('id',$request->id)->first();
+        $drop_down_data = Project::orderBy('id', 'DESC')->get();
+        $project_id = $request->id;
+        //$single_project = 'single_project';
+        return view("projects::admin.project_settngs", compact('drop_down_data','project_data', 'project_id','categorys','data_user'));
+      
+       }
+    public function project_photo_save(Request $request)
+    {
+        $name = $_POST["name"];
+        $key = $_POST["key"];
+        $description = $_POST["description"];
+
+     $project_id = $request->project_id;
+
+         $userexist = Project::select('*')->where('id', $project_id)->first();
+          if($userexist == null){
+
+          
+        if ($files = $request->file('image')) {
+            
+            $fileName =  "image-".time().'.'.$request->image->getClientOriginalExtension();
+            $request->image->storeAs('image', $fileName);
+            
+            $image = new Project;
+            $image->image = $fileName;
+            $image->save();      
+        }
+        return response()->json(['status' => 'true', 'message' => 'Profile Image added successfully!']);
+      }else{  
+
+        // echo '<pre>';
+        // print_r($userexist);        
+        //   die('stop');
+        if ($files = $request->file('image')) {
+                
+                $fileName = time().'.'.$request->image->getClientOriginalExtension();
+                $files->move('user/images/',$fileName);
+              }
+
+            $results = Project::where('id',$project_id)->update([
+            'image' =>  $fileName,
+            'name' => $name,
+            'key' => $key,
+            'Description' => $description,
+
+          ]);
+            return response()->json(['status' => 'true', 'message' => 'Profile Image updated successfully!']);
+
+   }
+    }
+   
+
+    public function delete(Request $request){
+        if($request->id)
+        {
+            $deleteval = Project::find($request->id)->delete();
+            if($deleteval)
+            {
+                return redirect('admin/project/information')->with('message', 'Delete Successfully');  
+            } 
+        }
+    } 
 
  
 }

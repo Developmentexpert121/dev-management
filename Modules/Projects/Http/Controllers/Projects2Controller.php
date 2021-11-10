@@ -365,9 +365,16 @@ class Projects2Controller extends Controller
   }
 
   public function blackLogMove(Request $request){
-     echo'<pre>';
-     print_r($request);
-     die();
+    if ($request->isMethod('post'))
+    {
+       $project_id = $request->project_id;
+       $sprint_id = $request->sprint_id;
+       $sprint = $request->sprint; 
+       $sprintEditStatus = Sprint_Issue::where('id',$sprint_id)
+       ->update(array('sprint_id' => $sprint,'status'=>0,'issue_status'=>0)); 
+       return Redirect::back();    
+
+    }
   }
 
   public  function category(Request $request)
