@@ -46,7 +46,11 @@
 
 </head>
 <body> 
-
+<?php
+use Modules\User\Entities\Usersdata;
+$user_auth = Auth::user(); 
+      $tasks = Auth::user()->id;
+      $profiledata = usersdata::where('user_id' , $tasks)->first();?>
 
 <div class="container-scroller">      
       
@@ -180,12 +184,12 @@
           </li>
           <li class="nav-item dropdown d-none d-lg-block user-dropdown">
             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-              <img class="img-xs rounded-circle" src="{{ asset('images/faces/face8.jpg') }}" alt="Profile image"> </a>
+              <img class="img-xs rounded-circle" src="{{ asset('user/images/' . $profiledata->image)}}" alt="Profile image"> </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
-                <img class="img-md rounded-circle" src="{{ asset('images/faces/face8.jpg') }}" alt="Profile image">
-                <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p> 
+                <img class="img-md rounded-circle" src="{{ asset('user/images/' . $profiledata->image)}}" alt="Profile image">
+                <p class="mb-1 mt-3 font-weight-semibold">{{$user_auth->name}}</p>
+                <p class="fw-light text-muted mb-0">{{$user_auth->email}}</p> 
               </div>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
@@ -213,3 +217,9 @@
     <div class="container-fluid page-body-wrapper">
     @include('projects::company.sidebar')
     
+   <style>
+     img.img-md.rounded-circle {
+    width: 50px;
+    height: 50px;
+}
+     </style>

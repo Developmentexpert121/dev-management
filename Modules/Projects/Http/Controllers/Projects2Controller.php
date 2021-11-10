@@ -445,9 +445,11 @@ class Projects2Controller extends Controller
   
   }
 
+
   public function blackLogMove(Request $request)
   {
      
+
     if ($request->isMethod('post'))
     {
        $project_id = $request->project_id;
@@ -459,6 +461,7 @@ class Projects2Controller extends Controller
 
     } 
    
+
   }
 
   public  function category(Request $request)

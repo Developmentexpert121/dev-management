@@ -20,11 +20,16 @@ Route::prefix('admin')->group(function() {
     Route::get('dashbaord','UserController@dashbaord')->middleware('CheckRole'); 
     Route::get('user','UserController@addUser')->middleware('CheckRole'); 
     Route::get('userlist', 'UserController@userlist')->middleware('CheckRole'); 
+    Route::get('teamleader', 'UserController@teamleader')->middleware('CheckRole');
+    Route::get('employeelist', 'UserController@employeelist')->middleware('CheckRole');
+    Route::get('managerlist', 'UserController@managerlist')->middleware('CheckRole');
+    Route::get('hrlist','UserController@hrlist')->middleware('CheckRole'); 
     Route::get('user/view/{id}','UserController@view')->middleware('CheckRole');  
     Route::post('edit/users/data','UserController@edit_user')->middleware('CheckRole');  
     Route::get('user/edit/{id}','UserController@user_edit')->middleware('CheckRole'); 
     Route::post('newuser','UserController@index')->middleware('CheckRole');
-    Route::get('user/delete/{id}','UserController@delete')->middleware('CheckRole');  
+    Route::get('user/delete/{id}','UserController@delete')->middleware('CheckRole');
+      
     
     Route::get('/user/profile','UserController@profile')->middleware('CheckRole');
     Route::get('/user/manage-profile/profile-and-visibility','UserController@manageprofile')->middleware('CheckRole');

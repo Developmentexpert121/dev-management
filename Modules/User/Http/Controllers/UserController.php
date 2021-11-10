@@ -422,6 +422,44 @@ class UserController extends Controller
     return view('user::profile.email',compact('userdata'));
     }
 
+    public function teamleader(Request $request){
+        $user_auth = Auth::user();
+        $tasks = Auth::user()->id;
+        $profiledata = usersdata::where('user_id' , $tasks)->first();
+    $user_list = User::where('user_role','=',1)
+    ->get();
+    return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+    }
+
+    public function employeelist(Request $request){
+        $user_auth = Auth::user();
+        $tasks = Auth::user()->id;
+        $profiledata = usersdata::where('user_id' , $tasks)->first();
+       $user_list = User::where('user_role','=',2)
+       ->get();
+      return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+   }
+   public function managerlist(Request $request){
+    $user_auth = Auth::user();
+    $tasks = Auth::user()->id;
+    $profiledata = usersdata::where('user_id' , $tasks)->first();
+   $user_list = User::where('user_role','=',3)
+   ->get();
+  return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+}
+    public function hrlist(Request $request){
+        $user_auth = Auth::user();
+        $tasks = Auth::user()->id;
+        $profiledata = usersdata::where('user_id' , $tasks)->first();
+    $user_list = User::where('user_role','=',4)
+    ->get();
+    return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+    }
+    
+
+
+
+   
 
  //======================== END ==============================
 

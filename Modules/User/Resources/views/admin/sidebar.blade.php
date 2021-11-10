@@ -18,6 +18,11 @@
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href='{{url("admin/user")}}'>New User</a></li>
                 <li class="nav-item"> <a class="nav-link" href='{{url("admin/userlist")}}''>User List</a></li>
+                <li class="nav-item"> <a class="nav-link" href='{{url("admin/teamleader")}}''>Team Leader</a></li>
+                <li class="nav-item"> <a class="nav-link" href='{{url("admin/employeelist")}}''>Employee List</a></li>
+                <li class="nav-item"> <a class="nav-link" href='{{url("admin/managerlist")}}''>Manager List</a></li>
+                <li class="nav-item"> <a class="nav-link" href='{{url("admin/hrlist")}}''>HR List</a></li>
+                
               </ul>
             </div>
           </li>
@@ -28,7 +33,7 @@
            <li class="nav-item active">
             <a class="nav-link" href='{{url("admin/project/information")}}'>
               <i class="mdi mdi-grid-large menu-icon" ></i>
-              <span class="menu-title">Software development</span>
+              <span class="menu-title">Project List</span>
             </a>
           </li>   
        

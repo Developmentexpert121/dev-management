@@ -9,6 +9,7 @@ use Modules\Projects\Entities\Project;
 use Modules\Projects\Entities\AllSprint;
 use Modules\Projects\Entities\Sprint_Issue;
 use Modules\Projects\Entities\category;
+use Modules\User\Entities\Usersdata;
 
 use Session;
 use Validator;
@@ -313,24 +314,33 @@ class CompanyController extends Controller
     }
   
     public function blackLogMove(Request $request){
-       echo'<pre>';
-       print_r($request);
-       die();
+      
+      if ($request->isMethod('post'))
+      {
+         $project_id = $request->project_id;
+         $sprint_id = $request->sprint_id;
+         $sprint = $request->sprint; 
+         $sprintEditStatus = Sprint_Issue::where('id',$sprint_id)
+         ->update(array('sprint_id' => $sprint,'status'=>0,'issue_status'=>0)); 
+         return Redirect::back();    
+  
+      }
     }
 
     public function project_settngs(Request $request){
 
+      $tasks = Auth::user()->id;
+      $profiledata = usersdata::where('user_id' , $tasks)->first();
       $data_user = Auth::user();
       $categorys = category::get();
       $project_data = Project::where('id',$request->id)->first();
       $drop_down_data = Project::orderBy('id', 'DESC')->get();
       $project_id = $request->id;
       $single_project = 'single_project';
-      return view("projects::company.project_settngs", compact('drop_down_data','project_data', 'project_id','single_project','categorys','data_user'));
+      return view("projects::company.project_settngs", compact('drop_down_data','project_data', 'project_id','single_project','categorys','data_user','profiledata'));
     
      }
      public function project_company_detail_save(Request $request){
-     die('ruk oye');
       $name = $_POST["name"];
       $key = $_POST["key"];
       $description = $_POST["description"];
@@ -345,7 +355,6 @@ class CompanyController extends Controller
               
               $fileName =  "image-".time().'.'.$request->image->getClientOriginalExtension();
               $request->image->storeAs('image', $fileName);
-              
               $image = new Project;
               $image->image = $fileName;
               $image->save();      
