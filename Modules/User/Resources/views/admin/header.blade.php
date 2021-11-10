@@ -41,6 +41,8 @@
 
 
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
 
 </head>
 <body> 
@@ -48,14 +50,14 @@
  
 <div class="container-scroller">      
       
-<nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+<nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row header-navbar">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
         <div class="me-3">
-          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
-            <span class="icon-menu"></span>
-          </button>
+            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
+              <span class="icon-menu"></span>
+            </button>
         </div>
-        <div>
+      <div>
        
         </div>
       </div>
@@ -200,14 +202,15 @@
               <img class="img-xs rounded-circle" src="{{ asset('user/images/' . $profiledata->image)}}" alt="Profile image">
               <?php }else{ ?>
                 <img class="img-xs rounded-circle" src="{{asset('user/images/default.png')}}" alt="Profile image">
-              <?php } ?></a>
+              <?php } ?>
+            </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
                 <?php if(!empty($profiledata->image)){  ?>
               <img class="img-xs rounded-circle" src="{{ asset('user/images/' . $profiledata->image)}}" alt="Profile image">
               <?php }else{ ?>
                 <img class="img-xs rounded-circle" src="{{asset('user/images/default.png')}}" alt="Profile image">
-              <?php } ?></a>
+              <?php } ?>
                 <p class="mb-1 mt-3 font-weight-semibold">{{$user_auth->name}}</p>
                 <p class="fw-light text-muted mb-0">{{$user_auth->email}}</p> 
               </div>

@@ -1,10 +1,18 @@
 @include('user::admin.header')
       
     <div class="main-panel">    
-        <div class="content-wrapper">
+        <div class="content-wrapper user-main-bg">
           <div class="row">
-            <div class="col-md-6 grid-margin stretch-card">
-              <div class="card">
+            <div class="col-md-6">
+              <div class="user-content">
+                <p>Admin / team-1600000000000</p>
+                <p>Manage product access for all the users in your organization.</p>
+                <p>learn more access settings</p>
+                <p>There’s a team behind every sucess</p>
+                <p>Add your team and start creating great things together</p>
+              </div>
+
+              <div class="user-card">
                 <div class="card-body">
                   <h4 class="card-title">Users</h4>
                   <p class="card-description">
@@ -17,28 +25,28 @@
                             
                       {{ csrf_field()}}
                       
-                    <div class="form-group">
+                    <div class="form-group form-slide">
                       <label for="exampleInputUsername1">Username</label>
                       <input type="text" class="form-control" value="{{old('name')}}" id="name" name='name' placeholder="Username">
                       @if($errors->has('name'))
                       <div class="error">{{ $errors->first('name') }}</div>    
                       @endif
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-slide">
                       <label for="exampleInputEmail1">Email address</label>
                       <input type="email" class="form-control" id="email" value="{{old('email')}}" name='email' placeholder="Email">
                       @if($errors->has('email'))
                       <div class="error">{{ $errors->first('email') }}</div>
                       @endif
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-slide">
                       <label for="exampleInputPassword1">Password</label>
                       <input type="password" class="form-control" value="{{old('password')}}" id="password"  name='password' placeholder="Password">
                       @if($errors->has('password'))
                       <div class="error">{{ $errors->first('password') }}</div>
                       @endif
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-slide">
                       <label for="exampleInputConfirmPassword1">Confirm Password</label>
                       <input type="password" class="form-control"  value="{{old('password_confirmation')}}"  id="password_confirmation" name='password_confirmation'  placeholder="Password">
                       @if($errors->has('password_confirmation'))
@@ -47,7 +55,7 @@
                     </div>
                     
                       
-                    <div class="form-group">
+                    <div class="form-group form-slide">
                       <label for="exampleInputConfirmPassword1">User Role</label>
 
                         <select name="user_role" id="cars" class="form-control" >
@@ -75,10 +83,15 @@
                   </form>
  
                 </div>
-              </div>
-              </div>     
+               </div>
             </div>
-          </div>       
+            <div class="col-md-6 d-flex align-items-center">
+              <div class="user-form">
+                <img src="../../../images/auth/user-banner.png" class="w-100">
+              </div>
+            </div>     
+          </div>
+        </div>       
         
           @include('user::admin.footer') 
 </div>
