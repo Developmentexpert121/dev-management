@@ -9,29 +9,154 @@
         <div class="col-md-12">
           <div class="card rounded-3">
             <div class="card-body p-4">
-              <a href=""><span class="project-button"> Projects</a> / <a href="">Team</a>
-              <h3 class="button my-3 pb-3">Roadmap</h3>
-          
+              <h4 class="text-center my-3 pb-3">Create Issue</h4>
+              <form class=" align-items-center" action='{{url("projects/team/create_issue")}}' method='post' enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                <input type='hidden' name='project_id' value='{{$project_id}}'/>
+                <div class="row">
+                  <div class="col-4">
+
+                    <div class="form-outline">
+                      <label>Project</label>
+                      <select id="form1" name="project" class="form-control" readonly >
+                        <option value="{{$project_id}}" selected>{{$project_data['name']}}</option>
+                      </select>
+                      @if($errors->has('project'))
+                      <div class="error">{{$errors->first('project') }}</div>
+                      @endif
+                    </div>
+
+                  </div>
+
+                  <div class="col-4">
+
+                    <div class="form-outline"> 
+                      <label>Issue Type</label>  
+                        <select name="issue_type" class="form-control"> 
+
+                          <option value="">Please Select Issue Type</option> 
+                          @foreach($types as $type) 
+                            <option value="{{$type->id}}">{{$type->issue_type}}</option>
+                          @endforeach
+                       </select>
+                       @if($errors->has('issue_type'))
+                         <div class="error">{{ $errors->first('issue_type') }}</div>
+                         @endif  
+                    </div>
+                    
+                  </div>
+
+                  <div class="col-4">
+
+                    <div class="form-outline">
+                      <label>Summary</label>
+                      <input type="text" id="summary" name="summary" class="form-control" placeholder="Enter a task here" />
+                      @if($errors->has('summary'))
+                      <div class="error">{{ $errors->first('summary') }}</div>
+                      @endif
+                    </div>
+
+                  </div>
+
+
+
+                 <div class="col-6">
+                    <div class="form-outline">
+                      <label>Assignee</label><br>
+                      <select name="assignee" id="assignee" class="form-control">
+
+                      <option value="">Please Select Team Leader</option>
+                      @foreach($users as $user)
+                      <option value="{{$user->id}}">{{$user->name}}</option>
+                      @endforeach
+                      </select>
+                    </div>
+                </div>
+
+
+              <div class="col-4">
+              <div class="form-outline">
+
+                      <label>Priority</label><br> 
+
+                      <select name="priority" id="priority" class="form-control">
+                         @if($errors->has('priority'))
+                      <div class="error">{{ $errors->first('priority') }}</div>
+                      @endif
+                        <option value="Highest">Highest</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                        <option value="Lowest">Lowest</option>
+                      </select>
+
+                </div>
+                </div> 
+
+  
+
+               <div class="col-6">
+
+                    <label>Sprint</label>
+                    <select name="sprint" class="form-control">
+                    <option value="">Please Select Sprint</option>
+                       @if($errors->has('sprint'))
+                      <div class="error">{{ $errors->first('sprint') }}</div>
+                      @endif
+                      @foreach($sprints as $sprint)
+                        @if($sprint->id)
+                        <option value="{{$sprint->id}}">{{$sprint->sprint_name}}</option>
+                        @endif
+
+                      @endforeach
+                    </select>
+
+                </div>    
+
+
+                </div>
+                <br> 
+         
+                <div class="col-12">
+
+                  <div class="form-outline">
+                    <label>Description</label>
+                    <textarea  id="description" name="description" class="form-control" placeholder="Enter Issue Description"></textarea>
+                  </div>
+
+                </div>
+
+                <div class="row">
+
+                  <div class="col-2">
+                    <button type="submit" class="btn btn-primary">Create Issue</button>
+                  </div>
+
+                </div> 
+
+              </form> 
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-</div>
 
-<style type="text/css">
-  .form-outline { margin: 7px; }
-  .btn { width: 100%; }
-  section { height: auto!important; }
-  #projects_table_wrapper{ margin-left: 15px; margin-top: 15px; }
-  .table-striped tbody tr:nth-of-type(odd){ background-color: unset !important; }
-  .table-striped > tbody > tr:nth-of-type(odd){ --bs-table-accent-bg: unset !important; }
-  .form-control:disabled, .asColorPicker-input:disabled, .dataTables_wrapper select:disabled, .select2-container--default .select2-selection--single:disabled, .select2-container--default .select2-selection--single .select2-search__field:disabled, .typeahead:disabled, .tt-query:disabled, .tt-hint:disabled, .form-control:read-only, .asColorPicker-input:read-only, .dataTables_wrapper select:read-only, .select2-container--default .select2-selection--single:read-only, .select2-container--default .select2-selection--single .select2-search__field:read-only, .typeahead:read-only, .tt-query:read-only, .tt-hint:read-only {
-    background-color: #fff !important;
-    opacity: 1; }
-    input#attachment {
-    height: 37px;
-}
-</style>
+</div>
+   
+
+
+
+<script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+<script>
+  ClassicEditor.create( document.querySelector( '#description' ) )
+  .then( editor => {
+        console.log( editor );
+  } )
+  .catch( error => {
+        console.error( error );
+  } );
+</script>
+
+
 @include('projects::admin.footer')

@@ -161,10 +161,88 @@ class Projects2Controller extends Controller
     $types = Issue::get();
     $data_user = Auth::user();
     $task = Auth::user()->name;
-    $users = User::get(); 
-    $tasks = DB::table('task')->select('*')->join('all_sprints', 'all_sprints.id', '=', 'task.sprint_id')->where('task.project_id', $project_id)->get();
-    return view('projects::roadmap', compact('single_project','project_data','drop_down_data','project_id', 'tasks','sprints', 'types','task','users','data_user'));
+    $users = User::where('user_role',1)->get(); 
+    
+    return view('projects::roadmap', compact('single_project','project_data','drop_down_data','project_id','sprints', 'types','task','users','data_user'));
   
+  }
+
+  public function create_issue(Request $request)
+  {
+    if ($request->isMethod('post'))
+    {
+
+       $project_id = $request->project_id;
+       $issue_type = $request->issue_type;
+       $summary = $request->summary; 
+       $assignee = $request->assignee;
+       $priority = $request->priority;
+       $sprint = $request->sprint; 
+       $description = $request->description;
+
+       $validator = Validator::make($request->all(),[ 
+        'project_id' => 'required',
+        'issue_type' => 'required',    
+        'summary' => 'required',     
+        'assignee' => 'required',    
+        'priority'=> 'required' 
+  
+      ]); 
+       
+     if ($validator->fails())
+     {
+        // Validation  Error Here 
+
+         return Redirect::back()->withErrors($validator)->withInput();
+
+     }
+     else
+     {
+       
+        // insert code 
+
+          if(empty($sprint))
+          {
+            
+              $sprint=NULL;
+              $status=1;    // this status 1  for backlog
+              
+          }
+          else
+          {
+              $sprint=$sprint; 
+              $status=0;   // this status 1  for  No backlog
+            
+          } 
+
+          $sprintIssue= new Sprint_Issue();
+          $sprintIssue->project_id= $project_id; 
+          $sprintIssue->sprint_id= $sprint;
+          $sprintIssue->issue_name= $summary;
+          $sprintIssue->description= $description; 
+          $sprintIssue->created_by= $assignee; 
+          $sprintIssue->assign_to= $assignee;  
+          $sprintIssue->priority= $priority; 
+          $sprintIssue->status= $status;
+          $sprintIssue->save();
+
+
+          if($status==1)
+          {
+            return Redirect('admin/project/team/'.$project_id.'/backlog');  
+          }
+          else
+          {
+            return Redirect('admin/project/sprint/create_issue/'.$project_id.'/'.$sprint);
+          }
+
+      
+
+     }
+       
+
+    }
+
   }
 
 
@@ -350,24 +428,37 @@ class Projects2Controller extends Controller
   public function backlog(Request $request)
   {
     
-  
-    $data_user = Auth::user();
-    $project_data = Project::where('id',$request->id)->first();
-    $drop_down_data = Project::orderBy('id', 'DESC')->get();
-    $project_id = $request->id;
-    $single_project = 'single_project'; 
-    $sprints = AllSprint::where(['project_id'=>$request->id])->get();
-    $sprintIssue= Sprint_Issue::where(['project_id'=> $project_id,'status'=>1])
-    ->orderBy('id', 'DESC')->get();
- 
-    return view('projects::backlog', compact('single_project','project_data','drop_down_data','project_id', 'sprints','sprintIssue','data_user'));
+    if ($request->isMethod('get'))
+      {
+
+        $data_user = Auth::user();
+        $project_data = Project::where('id',$request->id)->first();
+        $drop_down_data = Project::orderBy('id', 'DESC')->get();
+        $project_id = $request->id;
+        $single_project = 'single_project'; 
+        $sprints = AllSprint::where(['project_id'=>$request->id])->get();
+        $sprintIssue= Sprint_Issue::where(['project_id'=> $project_id,'status'=>1])
+        ->orderBy('id', 'DESC')->get();
+        return view('projects::backlog', compact('single_project','project_data','drop_down_data','project_id', 'sprints','sprintIssue','data_user'));
+      
+      }
   
   }
 
-  public function blackLogMove(Request $request){
-     echo'<pre>';
-     print_r($request);
-     die();
+  public function blackLogMove(Request $request)
+  {
+     
+    if ($request->isMethod('post'))
+    {
+       $project_id = $request->project_id;
+       $sprint_id = $request->sprint_id;
+       $sprint = $request->sprint; 
+       $sprintEditStatus = Sprint_Issue::where('id',$sprint_id)
+       ->update(array('sprint_id' => $sprint,'status'=>0,'issue_status'=>0)); 
+       return Redirect::back();    
+
+    } 
+   
   }
 
   public  function category(Request $request)
@@ -930,10 +1021,52 @@ class Projects2Controller extends Controller
 
     }
 
-
-
-
+     
+    public function editBlackLog(Request $request)
+    {
   
+      
+      if ($request->isMethod('post'))
+      {
+           
+          $validator = Validator::make($request->all(),[
+              'blacklogIssue' => 'required'
+            ]); 
+        
+          
+          if ($validator->fails())
+          {
+              return Redirect::back()->withErrors($validator)->withInput();
+          }
+            
+          $blackName = $request->blacklogIssue;
+  
+            Sprint_Issue::where('id',$request->id)
+           ->update(array('issue_name' =>$blackName)); 
+           return Redirect::back();    
+          
+      }
+  
+    }
+
+    public function deleteBlackLog(Request $request)
+    {
+       
+      
+  
+      if ($request->isMethod('post'))
+      {
+       
+         $backlogId= $request->id;
+         $sprint_Issue = Sprint_Issue::find($backlogId);
+         $sprint_Issue->delete();
+         return Redirect::back();  
+         
+      }
+  
+  
+    }
+
 
    
 
