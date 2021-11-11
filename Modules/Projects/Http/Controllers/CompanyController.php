@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Projects\Entities\Project;
 use Modules\Projects\Entities\AllSprint;
+use Modules\Projects\Entities\Issue;
+use Modules\User\Entities\User;
 use Modules\Projects\Entities\Sprint_Issue;
 use Modules\Projects\Entities\category;
 use Modules\User\Entities\Usersdata;
@@ -381,6 +383,141 @@ class CompanyController extends Controller
               return response()->json(['status' => 'true', 'message' => 'Profile Image updated successfully!']);
 
    }
+    }
+    public function roadmap(Request $request){
+
+      $project_data = Project::where('id',$request->id)->first(); 
+      $drop_down_data = Project::orderBy('id', 'DESC')->get();
+      $project_id = $request->id; 
+      $sprints = AllSprint::where('project_id',$request->id)->get();
+      $types = Issue::get();
+      $data_user = Auth::user();
+      $task = Auth::user()->name;
+      $users = User::where('user_role',1)->get(); 
+      
+      return view('projects::company.roadmap', compact('project_data','drop_down_data','project_id','sprints', 'types','task','users','data_user'));
+    
+    }
+    public function create_issue(Request $request)
+  {
+    if ($request->isMethod('post'))
+    {
+
+       $project_id = $request->project_id;
+       $issue_type = $request->issue_type;
+       $summary = $request->summary; 
+       $assignee = $request->assignee;
+       $priority = $request->priority;
+       $sprint = $request->sprint; 
+       $description = $request->description;
+
+       $validator = Validator::make($request->all(),[ 
+        'project_id' => 'required',
+        'issue_type' => 'required',    
+        'summary' => 'required',     
+        'assignee' => 'required',    
+        'priority'=> 'required' 
+  
+      ]); 
+       
+     if ($validator->fails())
+     {
+        // Validation  Error Here 
+
+         return Redirect::back()->withErrors($validator)->withInput();
+
+     }
+     else
+     {
+       
+        // insert code 
+
+          if(empty($sprint))
+          {
+            
+              $sprint=NULL;
+              $status=1;    // this status 1  for backlog
+              
+          }
+          else
+          {
+              $sprint=$sprint; 
+              $status=0;   // this status 1  for  No backlog
+            
+          } 
+
+          $sprintIssue= new Sprint_Issue();
+          $sprintIssue->project_id= $project_id; 
+          $sprintIssue->sprint_id= $sprint;
+          $sprintIssue->issue_name= $summary;
+          $sprintIssue->description= $description; 
+          $sprintIssue->created_by= $assignee; 
+          $sprintIssue->assign_to= $assignee;  
+          $sprintIssue->priority= $priority; 
+          $sprintIssue->status= $status;
+          $sprintIssue->save();
+
+
+          if($status==1)
+          {
+            return Redirect('projects/company/'.$project_id.'/backlog');  
+          }
+          else
+          {
+            return Redirect('projects/sprint/company/create_issue/'.$project_id.'/'.$sprint);
+          }
+
+      
+
+     }
+       
+
+    }
+
+  }
+  public function editBlackLog(Request $request)
+    {
+  
+      
+      if ($request->isMethod('post'))
+      {
+           
+          $validator = Validator::make($request->all(),[
+              'blacklogIssue' => 'required'
+            ]); 
+        
+          
+          if ($validator->fails())
+          {
+              return Redirect::back()->withErrors($validator)->withInput();
+          }
+            
+          $blackName = $request->blacklogIssue;
+  
+            Sprint_Issue::where('id',$request->id)
+           ->update(array('issue_name' =>$blackName)); 
+           return Redirect::back();    
+          
+      }
+  
+    }
+
+    public function deleteBlackLog(Request $request)
+    {
+       
+      
+  
+      if ($request->isMethod('post'))
+      {
+       
+         $backlogId= $request->id;
+         $sprint_Issue = Sprint_Issue::find($backlogId);
+         $sprint_Issue->delete();
+         return Redirect::back();  
+         
+      }
+  
+  
     }
 
 }
