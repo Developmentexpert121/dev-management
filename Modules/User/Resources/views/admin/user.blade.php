@@ -57,13 +57,17 @@
                       
                     <div class="form-group form-slide">
                       <label for="exampleInputConfirmPassword1">User Role</label>
-
+  
                         <select name="user_role" id="cars" class="form-control" >
                         <option value="">Please Select User Role</option>
-                          <option value="1" <?php if(old('user_role') == '1'){ echo 'selected'; } ?>>Team Leader</option>
-                          <option value="2" <?php if(old('user_role') == '2'){ echo 'selected'; } ?>>Employee</option>
-                          <option value="3" <?php if(old('user_role') == '3'){ echo 'selected'; } ?>>Manager</option>
-                          <option value="4" <?php if(old('user_role') == '4'){ echo 'selected'; } ?> >Hr</option>
+                          <?php 
+                           foreach($role as $userRole){
+                             ?>
+                            <option value="{{$userRole->status}}" <?php if(old('user_role') == $userRole->status){ echo 'selected'; } ?>>{{$userRole->name}}</option>
+                            <?php
+                           }
+                          ?>
+                         
                         </select>
                         @if($errors->has('user_role'))
                       <div class="error">{{ $errors->first('user_role') }}</div>

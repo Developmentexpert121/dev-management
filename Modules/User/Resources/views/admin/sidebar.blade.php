@@ -47,6 +47,16 @@
             <span class="menu-title">Project Category</span>  
           </a>
          </li>  
+
+
+         <li class="nav-item nav-category">Role</li> 
+         
+         <li class="nav-item active">
+          <a class="nav-link" href='{{url("admin/role")}}'>
+            <i class="mdi mdi-grid-large menu-icon" ></i>
+            <span class="menu-title">All Role</span>  
+          </a>
+         </li>  
            
         </ul>
       </nav>  

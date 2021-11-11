@@ -445,11 +445,9 @@ class Projects2Controller extends Controller
   
   }
 
-
   public function blackLogMove(Request $request)
   {
      
-
     if ($request->isMethod('post'))
     {
        $project_id = $request->project_id;
@@ -461,19 +459,19 @@ class Projects2Controller extends Controller
 
     } 
    
-
   }
 
-  public  function category(Request $request)
+  public  function role(Request $request)
   {  
     $data =category::all(); 
+    $role = DB::table('role')->where('status',0)->get();
     $user_auth = Auth::user(); 
     $project_data = Project::where('id',$request->id)->first();
     $drop_down_data = Project::orderBy('id', 'DESC')->get();
     $project_id = $request->id;  
     $single_project = 'single_project';    
     $category = category::orderBy('id', 'DESC')->get();
-    return view('projects::category', compact('single_project','project_data','drop_down_data','project_id', 'category','user_auth'));
+    return view('projects::admin.category', compact('single_project','project_data','drop_down_data','project_id', 'category','user_auth','role'));
     
   }
 
