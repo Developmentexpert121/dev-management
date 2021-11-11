@@ -53,6 +53,10 @@
               
                   <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#moveSprint{{$data->id}}">Move To Sprint</button>
 
+                  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#edit{{$data->id}}">Edit</button>
+
+                  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#delete{{$data->id}}">Delete</button>
+
                   <!-- Modal -->
                   <div class="modal fade" id="moveSprint{{$data->id}}" role="dialog">
                     <div class="modal-dialog"> 
@@ -110,6 +114,115 @@
                       
               </div>
             </div> 
+            <!-- Modal Move issue End  --> 
+
+
+
+
+            <!--  Edit Model Start-->
+           
+                <!-- Modal --> 
+                <div class="modal fade" id="edit{{$data->id}}" role="dialog">
+
+                    <div class="modal-dialog"> 
+                    
+                      <!-- Modal content-->
+                      <div class="modal-content">
+
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                              
+                              <h4 class="modal-title"> Edit BackLog</h4>
+                            </div>
+
+                            <div class="modal-body">
+
+                        <form class="row align-items-center" action='{{url("projects/company/edit/backLog/{$data->id}")}}' method="post" data-parsley-validate="parsley">
+                          <input type="hidden" name="_token" id="csrf" value="<?php echo csrf_token(); ?>">
+        
+                         <div class="row"> 
+
+                            <div class="col-6">   
+                            <div class="form-outline">
+                            <label>Name</label>
+                              <input type="text" id="blacklog" name="blacklogIssue" value="{{$data->issue_name}}" class="form-control" placeholder="Enter a sprint here" required="true">
+                            </div> 
+                              <br>
+                            </div>
+                         </div>      
+                      
+                         <div class="row">  
+                           <div class="col-2">
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                           </div>
+                         </div>
+
+                      
+                       </form>  
+                    
+                            </div>
+                       
+                       </div>
+                      
+                   </div>
+              </div> 
+        
+
+             <!--  Edit Model End-->
+
+
+
+
+              <!-- Modal --> 
+              <div class="modal fade" id="delete{{$data->id}}" role="dialog">
+
+                  <div class="modal-dialog"> 
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            
+                            <h4 class="modal-title">Confirmation Message</h4>
+                          </div>
+
+                          <div class="modal-body">
+    
+
+                      <form class="row align-items-center" action='{{url("projects/company/delete/backLog/{$data->id}")}}' method="post" data-parsley-validate="parsley">
+                      <input type="hidden" name="_token" id="csrf" value="<?php echo csrf_token(); ?>">
+                      
+                      <div class="row">  
+
+                         <div class="col-6">   
+                           <div class="form-outline">
+                              <label><b>Are You Sure You Want Delete This Backlog</b></label>
+                           </div>  
+                           <br>  
+                         </div>
+                           
+                      </div>      
+                      
+                      <div class="row">
+                        <div class="col-2">
+                          
+                        <button type="submit" class="btn btn-primary">Yes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+
+                        </div> 
+                      </div>
+
+                    
+                     </form>   
+
+                      </div>
+                    
+                    </div>
+                    
+                  </div>
+            </div> 
+
               </td> 
               </tr> 
 
@@ -129,3 +242,8 @@
 </div>
 
 @include('projects::admin.footer')
+<style>
+  .container {
+    margin: 19px 0px 0 23px;
+}
+  </style>

@@ -145,8 +145,7 @@
 
                             <div class="modal-body">
 
-
-                        <form class="row align-items-center" action="http://127.0.0.1:8000/projects/team/edit/blackLog/{{$data->id}}" method="post" data-parsley-validate="parsley">
+                        <form class="row align-items-center" action='{{url("projects/team/edit/blackLog/{$data->id}")}}' method="post" data-parsley-validate="parsley">
                           <input type="hidden" name="_token" id="csrf" value="<?php echo csrf_token(); ?>">
         
                          <div class="row"> 
@@ -252,3 +251,8 @@
 </div>
 
 @include('projects::admin.footer')
+<style>
+  .container {
+    margin: 19px 0px 0 23px;
+}
+  </style>

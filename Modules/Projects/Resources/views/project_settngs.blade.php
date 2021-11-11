@@ -67,7 +67,7 @@
                 <div class="col-12">
                   <div class="form-outline">
                     <label>Description</label>
-                    <textarea  id="description" name="description" class="form-control" placeholder="Enter a task here"></textarea>
+                    <textarea  id="description" name="description" class="form-control" placeholder="Enter a task here">{{$project_data->Description}}</textarea>
                   </div>
                 </div>
                 <div class="form-group">

@@ -51,7 +51,7 @@
 <div class="container-scroller">      
       
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row header-navbar">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start side-menu-icon">
         <div class="me-3">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
               <span class="icon-menu"></span>
@@ -61,17 +61,17 @@
        
         </div>
       </div>
-      <div class="navbar-menu-wrapper d-flex align-items-top"> 
+      <div class="navbar-menu-wrapper d-flex align-items-top menu-bar-side"> 
 
-        <ul class="navbar-nav">
+       <!--  <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
             <h1 class="welcome-text">Company Management<span class="text-black fw-bold"></span></h1>
             <h3 class="welcome-sub-text">Your performance summary this week </h3>
           </li>
-        </ul>
+        </ul> -->
         
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item dropdown d-none d-lg-block">
+          <!-- <li class="nav-item dropdown d-none d-lg-block">
             <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="messageDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false"> Select Category </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
               <a class="dropdown-item py-3">
@@ -117,7 +117,7 @@
               <i class="icon-search"></i>
               <input type="search" class="form-control" placeholder="Search Here" title="Search here">
             </form>
-          </li>
+          </li> 
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
               <i class="icon-mail icon-lg"></i>
@@ -195,7 +195,7 @@
                 </div>
               </a>
             </div>
-          </li>
+          </li>-->
           <li class="nav-item dropdown d-none d-lg-block user-dropdown">
             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
              <?php if(!empty($profiledata->image)){  ?>
@@ -204,7 +204,7 @@
                 <img class="img-xs rounded-circle" src="{{asset('user/images/default.png')}}" alt="Profile image">
               <?php } ?>
             </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown profile-drop" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
                 <?php if(!empty($profiledata->image)){  ?>
               <img class="img-xs rounded-circle" src="{{ asset('user/images/' . $profiledata->image)}}" alt="Profile image">
@@ -237,6 +237,6 @@
     </nav>
 
 
-    <div class="container-fluid page-body-wrapper">
+    <div class="container-fluid page-body-wrapper full-body">
     @include('user::admin.sidebar')
     

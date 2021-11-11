@@ -1,15 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
+
+<section class="create-form">
+    
+
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+    <div class="row ">
+      <div class="col-md-6">
+        <div class="create-content">
+            <h2>WELCOME<span> TO </span>Dev Management Tool</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.cilisis. </p>
+            <img src="../../../images/auth/create-banner.png">
+        </div>
+       </div>  
+        <div class="col-md-6">
+            <div class="card create-card">
+                <!-- <div class="card-header">{{ __('Register') }}</div> -->
+
 
                 <div class="card-body"> 
                     <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+
                         @csrf
+                        <div class="create-head">
+                            <h4>Create Account</h4>
+                        </div>
 
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
@@ -118,4 +134,5 @@
         </div>
     </div>
 </div>
+</section>
 @endsection

@@ -42,7 +42,7 @@
 
             </div> 
                 <img class="setting_image" src="" ><br>
-                <input type="file" name="image" id="image">
+                <input type="file" name="image" id="image" required>  
                 </div>
 
                 <div class="form-group">

@@ -200,6 +200,7 @@ class ProjectsController extends Controller
        }
     public function project_photo_save(Request $request)
     {
+        
         $name = $_POST["name"];
         $key = $_POST["key"];
         $description = $_POST["description"];
