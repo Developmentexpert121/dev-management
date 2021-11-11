@@ -14,6 +14,13 @@
       </a>
          </li>
          <li class="nav-item active">
+           <a class="nav-link" href='{{url("projects/company/$project_id/createissue")}}'>
+        <i class="fa fa-map"></i>&nbsp;
+        <span class="menu-title">Create Issue</span>
+      </a>
+
+         </li>
+         <li class="nav-item active">
             <a class="nav-link" href='{{url("/projects/company/$project_id/board")}}'>
               <i class="mdi mdi-grid-large"></i>
               <span class="menu-title">Active Sprints</span>

@@ -46,10 +46,16 @@ Route::prefix('projects')->group(function()
 	Route::get('company/{project_id}/board','CompanyController@board'); 
 	Route::get('company/{project_id}/boardmove','CompanyController@boardMove');
 	Route::get('company/{id}/backlog','CompanyController@backlog')->middleware('CheckRole');
+	Route::post('company/edit/backLog/{id}','CompanyController@editBlackLog'); 
+	Route::post('company/delete/backLog/{id}','CompanyController@deleteBlackLog');
 	Route::post('company/sprint/blackLogMove','CompanyController@blackLogMove');
 	Route::get('company/{id}/settings','CompanyController@project_settngs')->middleware('CheckRole')->name('company.detail');
 	Route::post('company/details','CompanyController@project_company_detail_save')->middleware('CheckRole')->name('company.detail');
+	Route::get('company/{id}/createissue','CompanyController@roadmap')->middleware('CheckRole');
+	Route::post('company/create_issue','CompanyController@create_issue');
+	
 }); 
+	
 
 Route::prefix('admin')->group(function(){ 
 
@@ -63,7 +69,7 @@ Route::prefix('admin')->group(function(){
 	Route::get('project/information','ProjectsController@information')->middleware('CheckRole');
 	Route::get('project/view/{id}','ProjectsController@view')->middleware('CheckRole');
 	Route::get('project/{id}/settings','ProjectsController@project_settngs')->middleware('CheckRole');
-	Route::post('project-save','ProjectsController@project_photo_save')->middleware('CheckRole')->name('project.save');
+	Route::post('project-save','ProjectsController@project_photo_save')->name('project.save');
 	Route::get('project/delete/{id}','ProjectsController@delete')->middleware('CheckRole'); 
 	// Route::get('project/company/{id}','CompanyController@index')->middleware('CheckRole');
 	// Route::get('project/company/{id}/sprints','CompanyController@sprints')->middleware('CheckRole'); 
@@ -90,7 +96,7 @@ Route::prefix('admin')->group(function(){
 	// Route::get('dashbaord', [DashbaordController::class, 'index'])->middleware('CheckRole');
 	Route::get('project/team/{id}','TeamController@load_page')->middleware('CheckRole');
 	Route::get('project/team/{id}/settings','TeamController@project_settngs')->middleware('CheckRole');
-	Route::get('project/team/{id}/roadmap','Projects2Controller@roadmap')->middleware('CheckRole');
+	Route::get('project/team/{id}/createissue','Projects2Controller@roadmap')->middleware('CheckRole');
 	Route::get('project/team/{id}/sprints','Projects2Controller@sprints')->middleware('CheckRole');
 	Route::get('project/team/{id}/backlog','Projects2Controller@backlog')->middleware('CheckRole');
     Route::get('project/team/{id}/issues','Projects2Controller@project_issues')->middleware('CheckRole');

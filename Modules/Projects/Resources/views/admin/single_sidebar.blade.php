@@ -32,7 +32,7 @@
         <span class="menu-title">Sprints</span>
       </a>
 
-      <a class="nav-link" href='{{url("admin/project/team/$project_id/roadmap")}}'>
+      <a class="nav-link" href='{{url("admin/project/team/$project_id/createissue")}}'>
         <i class="fa fa-map"></i>&nbsp;
         <span class="menu-title">Create Issue</span>
       </a>
