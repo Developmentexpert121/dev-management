@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Auth;
 use Modules\User\Entities\User;
 use Modules\User\Entities\Usersdata;
+use Modules\User\Entities\Role;
 
 class UserController extends Controller
 {
@@ -84,26 +85,37 @@ class UserController extends Controller
         return view('user::admin.dashboard',compact('user_auth','profiledata'));        
     }
 
-    public function addUser(Request $request){
-        $user_auth = Auth::user();
-        return view('user::admin.user',compact('user_auth'));   
+    public function addUser(Request $request)
+    {
+
+        if ($request->isMethod('get'))
+        {
+
+            $user_auth = Auth::user();
+            $role=Role::where('status',0)->get();
+            return view('user::admin.user',compact('user_auth','role'));  
+
+        }  
+
     }
 
-    public function userlist(Request $request){
+    public function userlist(Request $request)
+    {
          $user_auth = Auth::user();
          $tasks = Auth::user()->id;
          $profiledata = usersdata::where('user_id' , $tasks)->first();
         $user_list = User::where('user_role','!=',5)
         ->get();
-       return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+        return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
     }
 
-    public function user_edit(Request $request){ 
+    public function user_edit(Request $request)
+    { 
         $user_auth = Auth::user();
         $user_data = User::where('id',$request->id)
         ->first();
-       $url_link ='http://localhost/management/storage/app/public/images';
-       return view('user::admin.edit_user')->with(compact('user_data','user_auth','url_link'));
+        $url_link ='http://localhost/management/storage/app/public/images';
+        return view('user::admin.edit_user')->with(compact('user_data','user_auth','url_link'));
     }
 
     public function edit_user(Request $request){
@@ -122,7 +134,9 @@ class UserController extends Controller
            $image_name = rand() . '.' . $image->getClientOriginalExtension();
            Storage::disk('public')->putFileAs('images', $request->file('edit_image'), $image_name);
            $image_array=array('image'=>$image_name);
-       }else{
+       }
+       else
+       { 
            $image_array=array(); 
        }
 
@@ -143,7 +157,9 @@ class UserController extends Controller
         if($data)
         {  
            return redirect('admin/userlist')->with('message', 'Update Successfully');    
-        }else{  
+        }
+        else
+        {  
            return redirect('admin/userlist');    
         }
 
@@ -161,13 +177,15 @@ class UserController extends Controller
            'image' => 'required|image|mimes:jpeg,png,jpg,bmp,gif,svg|max:2048',
         ]);
         
-        if($request->hasFile('image')) {
+        if($request->hasFile('image')) 
+        {
            $image = $request->file('image');
            $image_name = rand() . '.' . $image->getClientOriginalExtension();
            Storage::disk('public')->putFileAs('images', $request->file('image'), $image_name);
         }
 
-        if($validator->fails()){
+        if($validator->fails())
+        {
            return redirect('admin/user')
            ->withErrors($validator)
            ->withInput();  
@@ -189,19 +207,22 @@ class UserController extends Controller
 
         $data_val = User::insert($data);
 
-        if($data_val){ 
+        if($data_val)
+        { 
           return redirect('admin/user')->with('message', 'Thanks for registering!');    
         }
     }
 
-    public function view(Request $request){ 
+    public function view(Request $request)
+    { 
         $user_auth = Auth::user();  
         $user_data = User::where('id',$request->id)->first();
         $url_link = env("APP_URL").'/management/storage/app/public/images';
         return view('user::admin.view')->with(compact('user_data','url_link','user_auth')); 
     }
 
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
         if($request->id)
         {
             $deleteval = User::find($request->id)->delete();
@@ -217,11 +238,11 @@ class UserController extends Controller
 
     public function profile()
     { 
-    $task = Auth::user();
-    $tasks = Auth::user()->id;
-    $profiledata = usersdata::where('user_id' , $tasks)->first();
+        $task = Auth::user();
+        $tasks = Auth::user()->id;
+        $profiledata = usersdata::where('user_id' , $tasks)->first();
 
-    return view('user::profile.profile',compact('task','profiledata'));
+        return view('user::profile.profile',compact('task','profiledata'));
     }
 
 
@@ -363,10 +384,11 @@ class UserController extends Controller
         return response()->json(['status' => 'true', 'message' => 'Profile Image added successfully!']);
     }else{
 
-        if ($files = $request->file('image')) {
+        if ($files = $request->file('image')) 
+        {
             
             $fileName = time().'.'.$request->image->getClientOriginalExtension();
-                $files->move('user/images/',$fileName);
+            $files->move('user/images/',$fileName); 
         }
 
         $results = usersdata::where('user_id',$user_id)->update([
@@ -391,7 +413,8 @@ class UserController extends Controller
     public function security()
     {
 
-    return view('user::profile.Security');
+     return view('user::profile.Security');
+
     }
 
     public function changePassword(Request $request)
