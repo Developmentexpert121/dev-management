@@ -56,7 +56,31 @@
             <i class="mdi mdi-grid-large menu-icon" ></i>
             <span class="menu-title">All Role</span>  
           </a>
-         </li>  
+
+         </li>     
+
+      
+
+
+      <li class="nav-item nav-category"><i class="fas fa-user"></i> Admin Details</li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basicDetails" aria-expanded="false" aria-controls="ui-basic">
+              <i class="menu-icon mdi mdi-floor-plan"></i>
+              <span class="menu-title">Admin Details</span>
+              <i class="menu-arrow1 fas fa-chevron-down"></i>
+            </a>
+            <div class="collapse" id="ui-basicDetails">
+              <ul class="nav flex-column sub-menu side-submenu">
+                <li class="nav-item"> 
+                  <a class="nav-link" href='{{url("admin/user")}}'>New User</a>
+                </li>
+                <li class="nav-item"> <a class="nav-link" href='{{url("ceo/details")}}''>User List</a></li>   
+              </ul>
+            </div>
+        </li>
+
+
+
            
         </ul>
       </nav>  

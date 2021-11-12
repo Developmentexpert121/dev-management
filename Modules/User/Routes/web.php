@@ -29,14 +29,12 @@ Route::prefix('admin')->group(function() {
     Route::get('user/edit/{id}','UserController@user_edit')->middleware('CheckRole'); 
     Route::post('newuser','UserController@index')->middleware('CheckRole');
     Route::get('user/delete/{id}','UserController@delete')->middleware('CheckRole');
-      
-    
     Route::get('/user/profile','UserController@profile')->middleware('CheckRole');
     Route::get('/user/manage-profile/profile-and-visibility','UserController@manageprofile')->middleware('CheckRole');
     Route::get('/user/change-password','UserController@security')->middleware('CheckRole')->name('change.password');
     Route::post('/user/change-password','UserController@changePassword')->middleware('CheckRole')->name('change.password');
     Route::get('/user/profile-email','UserController@profileEmail')->middleware('CheckRole');
-    
+    Route::post('assign/project','UserController@assign_project'); 
 
 });
     Route::post('/user/user_job_title','UserController@user_job_title');
@@ -84,7 +82,7 @@ Route::prefix('admin')->group(function() {
            //*******************************end Manager Route*************************************************//
 
 
-                   
+           
            
         // ***************************** hr Route ****************************************************//
         Route::group(['middleware' => ['auth:web','CheckRole'], 'prefix' => 'hr'],function() 
@@ -94,3 +92,17 @@ Route::prefix('admin')->group(function() {
 
         //*******************************end hr Route*************************************************//
 
+
+        Route::prefix('ceo')->group(function(){
+
+            Route::get('dashbaord','UserController@dashbaord'); 
+            Route::get('details', 'UserController@admin_info');  
+
+        });
+
+        Route::prefix('cto')->group(function() {
+
+            Route::get('dashbaord','UserController@dashbaord');  
+
+
+        });

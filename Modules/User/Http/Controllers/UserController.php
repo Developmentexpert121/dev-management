@@ -18,10 +18,12 @@ class UserController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
+
    // public function index()
    // {
-   //     return view('user::index');
+   //     return view('user::index');  
    // } 
+
     /**
      * Show the form for creating a new resource.
      * @return Renderable
@@ -81,6 +83,7 @@ class UserController extends Controller
     {  
         $user_auth = Auth::user();
         $tasks = Auth::user()->id;
+         
         $profiledata = usersdata::where('user_id' , $tasks)->first();
         return view('user::admin.dashboard',compact('user_auth','profiledata'));        
     }
@@ -107,6 +110,18 @@ class UserController extends Controller
         $user_list = User::where('user_role','!=',5)
         ->get();
         return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+    }
+
+
+    public function admin_info(Request $request)
+    {
+         $user_auth = Auth::user();
+         $tasks = Auth::user()->id;
+         $profiledata = usersdata::where('user_id' , $tasks)->first();
+         $user_list = User::where('user_role','=',5)
+         ->get();
+
+         return view('user::ceo.adminlist')->with(compact('user_list','user_auth','profiledata')); 
     }
 
     public function user_edit(Request $request)
@@ -215,10 +230,27 @@ class UserController extends Controller
 
     public function view(Request $request)
     { 
+
         $user_auth = Auth::user();  
         $user_data = User::where('id',$request->id)->first();
-        $url_link = env("APP_URL").'/management/storage/app/public/images';
-        return view('user::admin.view')->with(compact('user_data','url_link','user_auth')); 
+        $url_link = env("APP_URL").'/management/storage/app/public/images';  
+
+        $project_list =  DB::table('project')
+       ->select('*')
+       ->orderBy('name', 'ASC')
+       ->get();
+
+        return view('user::admin.view')->with(compact('user_data','url_link','user_auth','project_list')); 
+
+
+    }
+
+    public function assign_project(Request $request)
+    {
+        echo'<pre>';
+        print_r($request); 
+        die();   
+
     }
 
     public function delete(Request $request)

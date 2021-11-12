@@ -25,6 +25,8 @@ class CheckRole
         }
         else
         {
+           
+
             if(Auth::user()->isAdmin())
             {
                 return $next($request); 
@@ -45,11 +47,27 @@ class CheckRole
             {
                 return $next($request); 
             }
+            elseif (Auth::user()->ceo())
+            {
+                return $next($request); 
+            }
+            elseif (Auth::user()->cto())
+            {
+                return $next($request); 
+            }
+            elseif (Auth::user()->business_analyst())
+            {
+                return $next($request); 
+            } 
+            elseif (Auth::user()->business_head())
+            {
+                return $next($request); 
+            } 
             else
             { 
                 return redirect('login');  
             }
-         
+            
            
         }  
         

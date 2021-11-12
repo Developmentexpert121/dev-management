@@ -15,8 +15,10 @@ class DashbaordController extends Controller
     {
       
         $role=check_user();
+
         if(!empty($role))
         { 
+              
             if($role['user_role']==1)
             {
                 return redirect('team_leader/dashbaord'); 
@@ -36,7 +38,24 @@ class DashbaordController extends Controller
             elseif($role['user_role']==5)
             {
                 return redirect('admin/dashbaord');
-            }   
+            }
+            elseif($role['user_role']==6)
+            {
+                return redirect('ceo/dashbaord');   
+            } 
+            elseif($role['user_role']==7)
+            {
+                return redirect('cto/dashbaord');   
+            }  
+            elseif($role['user_role']==8)
+            {   
+                return redirect('admin/dashbaord');   
+            } 
+            elseif($role['user_role']==9)
+            {
+                return redirect('admin/dashbaord');   
+            } 
+
         }
         else
         {   
