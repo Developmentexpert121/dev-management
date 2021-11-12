@@ -5,25 +5,23 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Team Leader Penal</title>
- 
-<!--  Data Table -->
+  <title>Team Leader</title>
+  
+<!--  Data Table --> 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" defer></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
 
-<!-- End Data Table -->
- 
-
-
-   
   <!-- plugins:css -->
   <link rel="stylesheet" href=" {{ asset('vendors/feather/feather.css') }} ">
-  <link rel="stylesheet" href="{{ asset('vendors/mdi/css/materialdesignicons.min.css') }}">
+  <!--<link rel="stylesheet" href="{{ asset('vendors/mdi/css/materialdesignicons.min.css') }}">-->
   <link rel="stylesheet" href="{{ asset('vendors/ti-icons/css/themify-icons.css') }}">
   <link rel="stylesheet" href="{{ asset('vendors/typicons/typicons.css') }}">
   <link rel="stylesheet" href="{{ asset('vendors/simple-line-icons/css/simple-line-icons.css') }}">
@@ -31,18 +29,32 @@
   <!-- endinject -->
   <!-- Plugin css for this page -->
   
-  <link rel="stylesheet" href="{{ asset('js/select.dataTables.min.css') }}">
+ 
   <!-- End plugin css for this page -->
-  <!-- inject:css -->
+  <!-- inject:css -->  
   <link rel="stylesheet" href="{{ asset('css/vertical-layout-light/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+
   <!-- endinject -->
   <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
 
-
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+
+
+  <link href="https://parsleyjs.org/src/parsley.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.3.4/parsley.min.js"></script>  
+
 
 </head>
 <body> 
+<?php
+use Modules\User\Entities\Usersdata;
+$user_auth = Auth::user(); 
+      $tasks = Auth::user()->id;
+      $profiledata = usersdata::where('user_id' , $tasks)->first();
+      ?>
 
 
 <div class="container-scroller">      
@@ -62,7 +74,7 @@
 
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">Company Management<span class="text-black fw-bold"></span></h1>
+            <h1 class="welcome-text">Team Leader<span class="text-black fw-bold"></span></h1>
             <h3 class="welcome-sub-text">Your performance summary this week </h3>
           </li>
         </ul>
@@ -195,14 +207,22 @@
           </li>
           <li class="nav-item dropdown d-none d-lg-block user-dropdown">
             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-              <img class="img-xs rounded-circle" src="{{ asset('images/faces/face8.jpg') }}" alt="Profile image"> </a>
+            <?php if(!empty($profiledata->image)){  ?>
+              <img class="img-xs rounded-circle" src="{{ asset('user/images/' . $profiledata->image)}}" alt="Profile image">
+              <?php }else{ ?>
+                <img class="img-xs rounded-circle" src="{{asset('user/images/default.png')}}" alt="Profile image">
+              <?php } ?></a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
-                <img class="img-md rounded-circle" src="{{ asset('images/faces/face8.jpg') }}" alt="Profile image">
-                <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p> 
+              <?php if(!empty($profiledata->image)){  ?>
+              <img class="img-xs rounded-circle" src="{{ asset('user/images/' . $profiledata->image)}}" alt="Profile image">
+              <?php }else{ ?>
+                <img class="img-xs rounded-circle" src="{{asset('user/images/default.png')}}" alt="Profile image">
+              <?php } ?>
+                <p class="mb-1 mt-3 font-weight-semibold">{{$user_auth->name}}</p>
+                <p class="fw-light text-muted mb-0">{{$user_auth->email}}</p> 
               </div>
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
+              <a class="dropdown-item" href='{{url("admin/user/profile")}}' ><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>

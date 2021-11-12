@@ -14,7 +14,7 @@
       </a>
          </li>
          <li class="nav-item active">
-           <a class="nav-link" href='{{url("projects/company/$project_id/createissue")}}'>
+           <a class="nav-link" href='{{url("/projects/company/$project_id/createissue")}}'>
         <i class="fa fa-map"></i>&nbsp;
         <span class="menu-title">Create Issue</span>
       </a>
