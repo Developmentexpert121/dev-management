@@ -128,6 +128,59 @@ class User extends Authenticatable
     }
 
 
+    public function ceo()
+    {
+        if($this->user_role == 6)
+        { 
+            return true; 
+        } 
+        else 
+        { 
+            return false; 
+        }
+
+    }
+
+    public function cto()
+    {
+        if($this->user_role == 7)
+        { 
+            return true; 
+        } 
+        else 
+        { 
+            return false; 
+        }
+
+    }
+
+    public function business_analyst()
+    {
+        if($this->user_role == 8)
+        { 
+            return true; 
+        } 
+        else 
+        { 
+            return false; 
+        }
+
+    }
+
+    public function business_head()
+    {
+        if($this->user_role == 9)
+        { 
+            return true; 
+        } 
+        else 
+        { 
+            return false; 
+        }
+
+    }
+
+
 
     
     
