@@ -63,7 +63,7 @@
                           <?php 
                            foreach($role as $userRole){
                              ?>
-                            <option value="{{$userRole->status}}" <?php if(old('user_role') == $userRole->status){ echo 'selected'; } ?>>{{$userRole->name}}</option>
+                            <option value="{{$userRole->id}}" <?php if(old('user_role') == $userRole->status){ echo 'selected'; } ?>>{{$userRole->name}}</option>
                             <?php
                            }
                           ?>

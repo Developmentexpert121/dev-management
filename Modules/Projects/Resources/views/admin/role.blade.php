@@ -1,73 +1,77 @@
 @include('user::admin.header')
 
+
+
 <div class="container">
-  <section class="" style="background-color: #eee;">
-    <div class="custom_div">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card rounded-3">
-            <div class="card-body p-4">
-              <h4 class="text-left my-3 pb-3">Add Role</h4> 
-         
-              <form class="row align-items-center" action='{{url("admin/add/role")}}' method='post'>
-                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-               
-                 <div class="row">
-                    <div class="col-12">
-                      <div class="form-outline category_name">
-                        <label>Name</label>
-                        <input type="text" id="form1" name="name" class="form-control w-75" placeholder="Enter a Category here" value="{{old('name')}}"/>
-                      </div>
-                      @if($errors->has('name'))
-                      <div class="error">{{ $errors->first('name') }}</div>
-                      @endif
-                      <br> 
-                    </div>
+  
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+        <div class="row" > 
+             <div class="col-lg-8 d-flex flex-column">
+                    <div class="row flex-grow">
+                        <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
+                           <div class="card card-rounded">
 
-                    <div class="col-12">
-                    <div class="form-outline">
+                              <div class="card-body">
 
-                    <label>Description</label>
-                      <textarea class="form-control w-75 mb-3"  name="description" rows="4" cols="50" placeholder="Enter a description here">{{old('description')}}</textarea>
-                    </div>
+                              
+                                    <form class="forms-sample" action='{{url("admin/create/role")}}' method='post'>
 
-                    @if($errors->has('description'))
-                      <div class="error">{{ $errors->first('description') }}</div>
-                      @endif
-                    </div>
-                </div>
+                                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
-          
-    
-                <div class="row">
-                  <div class="col-2">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                      
+                                              <div class="form-group">
+                                                <label for="exampleInputUsername1">Role Name</label>
+                                              <input type="text" class="form-control" id="name" name='name' placeholder="Please Enter Role Name"  value="{{old('name')}}">
+                                              @if($errors->has('name')) 
+                                                <div class="error">{{ $errors->first('name') }}</div>
+                                              @endif
+                  
+                                              </div>
+                                        
+                                    
+
+                                                <div class="form-group">
+
+                                                <label for="exampleInputEmail1">Slug</label> 
+                                                <input type="text" class="form-control" id="slug" name='slug' value="{{old('slug')}}" placeholder="Slug Name" readonly>
+                                                @if($errors->has('slug'))
+                                                <div class="error">{{ $errors->first('slug') }}</div>
+                                                @endif
+                                              </div>
+                                          
+                                                  
+                                                <button type="submit" class="btn btn-primary me-2" >Create Role</button>
+
+                                      </form>
+
+                              </div>
+
+                       </div>
                   </div>
-                </div>
-                <!-- <div class="col-2">
-                  <button type="submit" class="btn btn-warning">Get tasks</button>
-                </div> -->
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <div class="row" style="width: 100%;">
+               </div>
+             </div>  
+      </div> 
 
-  @if(Session::has('message'))
+
+@if(Session::has('message'))
 <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
-@endif
+@endif  
 
 
 
 
-    <?php if(!empty($role)){ ?>
+
+  <div class="row" style="width: 100%;">
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+   
+
+    <?php if(!empty($role)){ 
+      ?>
+
       <table id="projects_table" class="table table-striped table-bordered" style="width:100%">
           <thead>
           <tr>
-              <th>Sr.No1</th>
+              <th>Sr.No</th>
                 <th>Name</th>
                 <th>Slug</th>
                 <th>Action</th>
@@ -77,18 +81,75 @@
         <tbody>
             <?php
               $i=1;
+
+              $default = array("1","2","3","4", "5", "6","7","8","9");
+
+
               foreach($role as $data){
                 ?>
                 <tr> 
                     <td>{{$i++}}</td>
                     <td>{{$data->name}}</td>
                     <td>{{$data->slug}}</td>
-                    <td>
+                    <td>  
 
-                   
-                  
-                </td>
+                      <?php 
+                        
+                          if (in_array($data->id,$default))
+                          {
+                          echo "<b>Default</b>";
+                          }
+                          else
+                          {
+                       ?>
+
+                           <a href="#"> <i class="fa fa-trash-o fa-lg" style="font-size:21px;color:red"  data-toggle="modal" data-target="#delete{{$data->id}}"></i> </a>
+                          &nbsp; &nbsp;  
+
+                           <a href="#"> <i class="fa fa-edit" style="font-size:18px;color:green"></i> </a>
+
+                       <?php
+                          
+                          }
+
+
+                     ?>
+
+                    
+                     
+               
+              </td>
                 </tr>  
+
+
+                <!-- Modal delete -->
+                <div class="modal fade" id="delete{{$data->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content"> 
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Are You Sure You Want Delete This Role</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+
+                       <form class="forms-sample" action='{{url("admin/delete/role")}}' method='post'>
+
+                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                         <input type="hidden" name="role_id" value="{{$data->id}}"> 
+                         <button type="submit" class="btn btn-primary me-2" >Yes</button> 
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button> 
+
+                        </form> 
+                                              
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div>
+
+
             <?php } ?>
         </tbody>
         <tfoot>
@@ -103,6 +164,7 @@
       </table>
     <?php } ?>
   </div>
+
 </div>
 <style type="text/css">
   .btn { width: 100%; }
@@ -127,3 +189,48 @@
   $('.startDate').attr('min', maxDate);
   $('.endDate').attr('min', maxDate);
 </script>
+
+
+<script>
+
+	$(document).ready(function(){
+
+
+      
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+   
+    $("#name").change(function(){ 
+       var name = $(`#name`).val();
+      
+        $.ajax({
+           url:"{{ url('admin/project/scrum/slug') }}",
+           method:'POST',
+           data:{
+                 name:name
+                },
+           success:function(response)
+           {
+              if(response.success)
+              {
+                 $("#slug").val(response.message)
+
+              }
+              else
+              {
+                  alert("Error")
+              }
+           },
+           error:function(error){
+              console.log(error)
+           }
+        });
+	   });
+	
+			
+		})
+
+     </script>

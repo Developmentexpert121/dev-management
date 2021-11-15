@@ -102,8 +102,14 @@ Route::prefix('admin')->group(function(){
     Route::get('project/team/{id}/issues','Projects2Controller@project_issues')->middleware('CheckRole');
     Route::get('project/team/{id}/access','Projects2Controller@settings_access')->middleware('CheckRole');
 
-  
-	Route::get('role','AdminController@role')->middleware('CheckRole');
+   
+	Route::get('role','AdminController@role')->middleware('CheckRole');  
+	Route::post('create/role','AdminController@roleAdd')->middleware('CheckRole');   
+	Route::post('delete/role','AdminController@delete_role')->middleware('CheckRole');
+
+
+
+
 	Route::post('save/category','Projects2Controller@savecategory')->middleware('CheckRole');
 	Route::get('edit/category/{id}','Projects2Controller@editCategory')->middleware('CheckRole');
 	Route::post('editdata/category/{id}','Projects2Controller@editDataCat')->middleware('CheckRole');

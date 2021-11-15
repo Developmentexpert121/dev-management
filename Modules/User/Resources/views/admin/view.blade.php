@@ -55,6 +55,26 @@
                                    {
                                       echo  $role='Hr';
                                    } 
+                                   elseif($user_data->user_role==5)
+                                   {
+                                      echo  $role='Admin';
+                                   } 
+                                   elseif($user_data->user_role==6)
+                                   {
+                                      echo  $role='Ceo';
+                                   } 
+                                   elseif($user_data->user_role==7)
+                                   {
+                                      echo  $role='Cto';
+                                   }
+                                   elseif($user_data->user_role==8)
+                                   {
+                                      echo  $role='Business Analyst';
+                                   }
+                                   elseif($user_data->user_role==9)
+                                   {
+                                      echo  $role='business head';
+                                   }
                                 ?>
                             </div>
                         </div>
@@ -81,28 +101,50 @@
                     
                   </p>    
                   @if(Session::has('message'))
-                    <p class="alert alert-info">{{ Session::get('message') }}</p>
-                   @endif  
+                  <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+                  @endif
 
                   <form class="forms-sample" action='{{url("admin/assign/project")}}' method='post'>
                             
                       {{ csrf_field()}}
-                      
 
-
-                    <div class="form-group form-slide">
+                    <input type="hidden" name="id" value="<?php echo $user_data->id ?>" />
+                    <div class="form-group form-slide"> 
   
+                    <?php
+
+                      $project_assign_id= $user_data->project_assign;
+                      $project_assign_id_array = explode(',', $project_assign_id);
+                     // print_r($project_assign_id_array);
+
+                     $people = array("Peter", "Joe", "Glenn", "Cleveland");
+
+                    
+
+
                      
+                     ?>
                           <select class="js-example-basic-multiple" name="assign_project[]" multiple="multiple">
                           <option value="">Please Select Project</option>
                           <?php
+
                           if(!empty($project_list))
                           {  
-                          foreach($project_list as $data)
+                            foreach($project_list as $data)
                            {
-                            ?>
-                              <option value="{{$data->id}}">{{$data->name}}</option>
+                            if (in_array($data->id,$project_assign_id_array))
+                            {
+                              ?>
+                              <option value="{{$data->id}}" selected>{{$data->name}}</option>
                             <?php
+                            }
+                          else
+                            {
+                              ?>
+                               <option value="{{$data->id}}">{{$data->name}}</option>
+                             <?php
+                            }
+                          
                            }  
                           }
                           ?>
@@ -112,28 +154,56 @@
                       </div>
 
                      
-                    <button type="submit" class="btn btn-primary me-2">Assign</button>
+                    <button type="submit" class="btn btn-primary me-2">Assign To  Project</button>
 
-                  </form>
+                  </form> 
  
                 </div>
                </div>
-
-
             </div>
           </div>
 
-           <script>
+          <script>
 
-$(document).ready(function() {
-    $('.js-example-basic-multiple').select2();
-});
+            $(document).ready(function(){
+             $('.js-example-basic-multiple').select2();
+            });
 
-            </script>
+          </script> 
+            
+<style>
 
+.select2-container--default .select2-selection--multiple .select2-selection__choice:nth-child(5n+1) {
+     background: #f4f5f7 ! important;
+     font-size: 20px ! important; 
+    
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice:nth-child(5n+2) {
+   font-size: 20px ! important;
+   background: #f4f5f7 ! important;
+  
+}
+
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice:nth-child(5n+3) {
+     background: #f4f5f7 ! important;
+     font-size: 20px ! important;  
+  
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice:nth-child(5n+4) {
+     background: #f4f5f7 ! important;
+     font-size: 20px ! important; 
+    
+}
+
+
+
+</style>
           
+ @include('user::admin.footer') 
 
-          @include('user::admin.footer') 
 </div>
 </div>
            
