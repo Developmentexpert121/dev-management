@@ -11,6 +11,8 @@ use Auth;
 use Modules\User\Entities\User;
 use Modules\User\Entities\Usersdata;
 use Modules\User\Entities\Role;
+use Redirect;
+use Session;
 
 class UserController extends Controller
 {
@@ -90,7 +92,7 @@ class UserController extends Controller
 
     public function addUser(Request $request)
     {
-
+      
         if ($request->isMethod('get'))
         {
 
@@ -129,22 +131,26 @@ class UserController extends Controller
         $user_auth = Auth::user();
         $user_data = User::where('id',$request->id)
         ->first();
+
         $url_link ='http://localhost/management/storage/app/public/images';
         return view('user::admin.edit_user')->with(compact('user_data','user_auth','url_link'));
     }
 
     public function edit_user(Request $request){
+
        $validator = Validator::make($request->all(),[
            'name' => 'required',
            'edit_id' => 'required', 
            'user_role'=>'required', 
        ]);
 
-       if ($validator->fails()){
+       if ($validator->fails())
+       {
            return Redirect::back()->withErrors($validator)->withInput();
        }
 
-       if ($request->hasFile('edit_image')) {
+       if ($request->hasFile('edit_image')) 
+       {
            $image = $request->file('edit_image');
            $image_name = rand() . '.' . $image->getClientOriginalExtension();
            Storage::disk('public')->putFileAs('images', $request->file('edit_image'), $image_name);
@@ -240,6 +246,9 @@ class UserController extends Controller
        ->orderBy('name', 'ASC')
        ->get();
 
+      // $project_assign_id_array = explode(',', $project_assign_id);
+
+
         return view('user::admin.view')->with(compact('user_data','url_link','user_auth','project_list')); 
 
 
@@ -247,11 +256,42 @@ class UserController extends Controller
 
     public function assign_project(Request $request)
     {
-        echo'<pre>';
-        print_r($request); 
-        die();   
+      
+        $method = $request->method();
+
+        if ($request->isMethod('post'))
+        {
+
+            $id = $request->id;
+            $assign_project = $request->assign_project; 
+          
+            $validator = Validator::make($request->all(),[
+                'assign_project' => 'required' 
+             ]);
+             
+             if($validator->fails())
+             {
+                return Redirect::back()->withErrors($validator)->withInput(); 
+             }
+
+            $assign_project = implode(",",$assign_project);
+             
+             User::where('id', $id)
+            ->update([
+               'project_assign' => $assign_project
+              ]);
+
+              Session::flash('message', 'Assign Project Successfully'); 
+              Session::flash('alert-class', 'alert-success'); 
+
+              return Redirect::back();
+
+
+
+        }
 
     }
+
 
     public function delete(Request $request)
     {
@@ -502,14 +542,37 @@ class UserController extends Controller
    ->get();
   return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
 }
-    public function hrlist(Request $request){
+
+    public function hrlist(Request $request)
+    {
         $user_auth = Auth::user();
         $tasks = Auth::user()->id;
         $profiledata = usersdata::where('user_id' , $tasks)->first();
     $user_list = User::where('user_role','=',4)
     ->get();
     return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+   
     }
+
+    public  function role(Request $request)
+  {  
+ 
+    if ($request->isMethod('get'))
+    {
+     
+      $data =category::all(); 
+      $role = DB::table('role')->where('status',0)->get();
+      $user_auth = Auth::user(); 
+      $project_data = Project::where('id',$request->id)->first();
+      $drop_down_data = Project::orderBy('id', 'DESC')->get();
+      $project_id = $request->id;  
+      $single_project = 'single_project';    
+      $category = category::orderBy('id', 'DESC')->get();
+      return view('projects::admin.role', compact('single_project','project_data','drop_down_data','project_id', 'category','user_auth','role'));
+    
+    }
+
+  }
     
 
 

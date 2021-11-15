@@ -14,7 +14,7 @@
 
 // ***************************** Admin Route ****************************************************//
 
-Route::prefix('admin')->group(function() {
+Route::prefix('admin')->group(function() { 
 
     Route::get('/', 'UserController@index'); 
     Route::get('dashbaord','UserController@dashbaord')->middleware('CheckRole'); 
@@ -23,8 +23,8 @@ Route::prefix('admin')->group(function() {
     Route::get('teamleader', 'UserController@teamleader')->middleware('CheckRole');
     Route::get('employeelist', 'UserController@employeelist')->middleware('CheckRole');
     Route::get('managerlist', 'UserController@managerlist')->middleware('CheckRole');
-    Route::get('hrlist','UserController@hrlist')->middleware('CheckRole'); 
-    Route::get('user/view/{id}','UserController@view')->middleware('CheckRole');  
+    Route::get('hrlist','UserController@hrlist')->middleware('CheckRole');  
+    Route::get('user/view/{id}','UserController@view')->middleware('CheckRole');   
     Route::post('edit/users/data','UserController@edit_user')->middleware('CheckRole');  
     Route::get('user/edit/{id}','UserController@user_edit')->middleware('CheckRole'); 
     Route::post('newuser','UserController@index')->middleware('CheckRole');
@@ -34,14 +34,18 @@ Route::prefix('admin')->group(function() {
     Route::get('/user/change-password','UserController@security')->middleware('CheckRole')->name('change.password');
     Route::post('/user/change-password','UserController@changePassword')->middleware('CheckRole')->name('change.password');
     Route::get('/user/profile-email','UserController@profileEmail')->middleware('CheckRole');
-    Route::post('assign/project','UserController@assign_project'); 
+    Route::post('/assign/project','UserController@assign_project')->middleware('CheckRole');   
+ 
+    });   
 
-});
+
     Route::post('/user/user_job_title','UserController@user_job_title');
     Route::post('/user/your_department','UserController@your_department');
     Route::post('/user/your_organisation','UserController@your_organisation');
     Route::post('/user/your_location','UserController@your_location');
     Route::post('photo','UserController@save');
+
+
  
 // *****************************End Admin Route ****************************************************//
 
@@ -96,7 +100,7 @@ Route::prefix('admin')->group(function() {
         Route::prefix('ceo')->group(function(){
 
             Route::get('dashbaord','UserController@dashbaord'); 
-            Route::get('details', 'UserController@admin_info');  
+          //  Route::get('details', 'UserController@admin_info');  
 
         });
 
