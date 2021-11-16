@@ -83,12 +83,29 @@ class UserController extends Controller
 
     public function dashbaord(Request $request)
     {  
-        $user_auth = Auth::user();
-        $tasks = Auth::user()->id;
-         
-        $profiledata = usersdata::where('user_id' , $tasks)->first();
-        return view('user::admin.dashboard',compact('user_auth','profiledata'));        
-    }
+        if ($request->isMethod('get'))
+        {
+            
+            $user_auth = Auth::user();
+            $tasks = Auth::user()->id;
+            $profiledata = usersdata::where('user_id',$tasks)->first();
+            
+            if($user_auth->user_role==5)
+            {
+                return view('user::admin.dashboard',compact('user_auth','profiledata')); 
+            } 
+            elseif($user_auth->user_role==6)
+            {
+                return view('user::ceo.dashboard',compact('user_auth','profiledata'));  
+            } 
+            elseif($user_auth->user_role==7)
+            {
+                return view('user::cto.dashboard',compact('user_auth','profiledata'));  
+            } 
+       
+        }        
+     }
+
 
     public function addUser(Request $request)
     {
@@ -98,7 +115,20 @@ class UserController extends Controller
 
             $user_auth = Auth::user();
             $role=Role::where('status',0)->get();
-            return view('user::admin.user',compact('user_auth','role'));  
+            if($user_auth->user_role==5)
+            {
+                return view('user::admin.user',compact('user_auth','role')); 
+
+            }
+            elseif($user_auth->user_role==6)
+            {
+                return view('user::ceo.user',compact('user_auth','role')); 
+            }
+            elseif($user_auth->user_role==7)
+            {
+                return view('user::cto.user',compact('user_auth','role')); 
+            }
+                
 
         }  
 
@@ -106,14 +136,30 @@ class UserController extends Controller
 
     public function userlist(Request $request)
     {
+    
+        if ($request->isMethod('get'))
+         {
+            $user_auth = Auth::user();
+            $tasks = Auth::user()->id;
+            $profiledata = usersdata::where('user_id' , $tasks)->first();
+            $user_list = User::where('user_role','!=',5)
+            ->get();
 
-        $user_auth = Auth::user();
-        $tasks = Auth::user()->id;
-        $profiledata = usersdata::where('user_id' , $tasks)->first();
-        $user_list = User::where('user_role','!=',5)
-        ->get();
-        
-        return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+            if($user_auth->user_role==5)
+            {
+                return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+            }
+            elseif($user_auth->user_role==6)
+            {
+                return view('user::ceo.userlist')->with(compact('user_list','user_auth','profiledata')); 
+            }
+            elseif($user_auth->user_role==6)
+            {
+                return view('user::cto.userlist')->with(compact('user_list','user_auth','profiledata')); 
+            }
+
+        }
+   
     }
 
 
@@ -130,118 +176,202 @@ class UserController extends Controller
 
     public function user_edit(Request $request)
     { 
-        $user_auth = Auth::user();
-        $user_data = User::where('id',$request->id)
-        ->first();
+         if ($request->isMethod('get'))
+         {
+                $user_auth = Auth::user();
+                $user_data = User::where('id',$request->id)
+                ->first();
 
-        $url_link ='http://localhost/management/storage/app/public/images';
-        return view('user::admin.edit_user')->with(compact('user_data','user_auth','url_link'));
+                $url_link ='http://localhost/management/storage/app/public/images';
+
+
+                if($user_auth->user_role==5)
+                {
+                    return view('user::admin.edit_user')->with(compact('user_data','user_auth','url_link'));
+                }
+                elseif($user_auth->user_role==6)
+                {
+                    return view('user::ceo.edit_user')->with(compact('user_data','user_auth','url_link'));
+                }
+                elseif($user_auth->user_role==7)
+                {
+                    return view('user::cto.edit_user')->with(compact('user_data','user_auth','url_link'));
+                }
+
+        }
+    
     }
 
-    public function edit_user(Request $request){
-
-       $validator = Validator::make($request->all(),[
-           'name' => 'required',
-           'edit_id' => 'required', 
-           'user_role'=>'required', 
-       ]);
-
-       if ($validator->fails())
-       {
-           return Redirect::back()->withErrors($validator)->withInput();
-       }
-
-       if ($request->hasFile('edit_image')) 
-       {
-           $image = $request->file('edit_image');
-           $image_name = rand() . '.' . $image->getClientOriginalExtension();
-           Storage::disk('public')->putFileAs('images', $request->file('edit_image'), $image_name);
-           $image_array=array('image'=>$image_name);
-       }
-       else
-       { 
-           $image_array=array(); 
-       }
-
-       $user_id= $request->edit_id;
-       $name= $request->name;
-       $user_role= $request->user_role;
-       
-       if($user_id){
-
-        $update_filed = array(
-          'name'=>$name,
-          'user_role'=>$user_role,
-        );
-
-        $update_value = array_merge($update_filed,$image_array);
-        $data=  User::where('id',$user_id)->update($update_value);
-
-        if($data)
+    public function edit_user(Request $request)
+    {
+         
+        if ($request->isMethod('post'))
         {  
-           return redirect('admin/userlist')->with('message', 'Update Successfully');    
-        }
-        else
-        {  
-           return redirect('admin/userlist');    
-        }
+            $user_auth = Auth::user();
 
-      }
+            $validator = Validator::make($request->all(),[
+                'name' => 'required',
+                'edit_id' => 'required', 
+                'user_role'=>'required', 
+            ]);
+
+            if ($validator->fails())
+            {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+
+            if ($request->hasFile('edit_image')) 
+            {
+                $image = $request->file('edit_image');
+                $image_name = rand() . '.' . $image->getClientOriginalExtension();
+                Storage::disk('public')->putFileAs('images', $request->file('edit_image'), $image_name);
+                $image_array=array('image'=>$image_name);
+            }
+            else
+            { 
+                $image_array=array(); 
+            }
+
+            $user_id= $request->edit_id;
+            $name= $request->name;
+            $user_role= $request->user_role;
+            
+            if($user_id){
+
+                $update_filed = array(
+                'name'=>$name,
+                'user_role'=>$user_role,
+                );
+
+                $update_value = array_merge($update_filed,$image_array);
+                $data=  User::where('id',$user_id)->update($update_value);
+
+                if($data)
+                {  
+                    
+                    if($user_auth->user_role==5)
+                    {
+                      return redirect('admin/userlist')->with('message', 'Update Successfully');   
+                    }
+                    elseif($user_auth->user_role==6)
+                    {
+                        return redirect('ceo/userlist')->with('message', 'Update Successfully');
+                    } 
+                    elseif($user_auth->user_role==7)
+                    {
+                        return redirect('cto/userlist')->with('message', 'Update Successfully');
+                    } 
+                }
+                else
+                {  
+                   
+                    if($user_auth->user_role==5)
+                    {
+                        return redirect('admin/userlist');  
+                    }
+                    elseif($user_auth->user_role==6)
+                    {
+                        return redirect('ceo/userlist');  
+                    } 
+                    elseif($user_auth->user_role==7)
+                    {
+                        return redirect('cto/userlist');  
+                    }  
+                }
+
+            }
+
+       }
+
     }
 
     public function  index(Request $request){
 
-        $validator = Validator::make($request->all(),[
-           'name' => 'required',
-           'password' => 'min:6', 
-           'password_confirmation' => 'required_with:password|same:password|min:6',
-           'email' => 'required|email|unique:users',
-           'user_role'=>'required', 
-           'image' => 'image|mimes:jpeg,png,jpg,bmp,gif,svg|max:2048',
-        ]);  
-        
-        if($request->hasFile('image')) 
-        {
-         
-            $image_name = $this->getFileName($request->image);
-            $request->image->move(base_path('public/images'), $image_name);
-
-          // $image = $request->file('image'); 
-          // $image_name = rand() . '.' . $image->getClientOriginalExtension();
-          // Storage::disk('public')->putFileAs('images', $request->file('image'), $image_name);
-        }
-        else
-        {
-            $image_name=null; 
-        }
-
-        if($validator->fails())
-        {
-           return redirect('admin/user')
-           ->withErrors($validator)
-           ->withInput();  
-        }
-
-        $user_name = $request->name;
-        $email = $request->email;
-        $user_role = $request->user_role;
-        $password = $request->password;
-        $hashed = Hash::make($password);
-        
-        $data = array(
-                  'name'=> $user_name , 
-                  'email' => $email,
-                  'user_role'=> $user_role , 
-                  'password' => $hashed,
-                  'image'=>$image_name
-           );
-
-        $data_val = User::insert($data);
-
-        if($data_val)
+        if ($request->isMethod('post'))
         { 
-          return redirect('admin/user')->with('message', 'Thanks for registering!');    
-        }
+          
+                $user_auth = Auth::user();
+                $validator = Validator::make($request->all(),[
+                'name' => 'required',
+                'password' => 'min:6', 
+                'password_confirmation' => 'required_with:password|same:password|min:6',
+                'email' => 'required|email|unique:users',
+                'user_role'=>'required', 
+                'image' => 'image|mimes:jpeg,png,jpg,bmp,gif,svg|max:2048',
+                ]);  
+        
+                if($request->hasFile('image')) 
+                {
+                
+                    $image_name = $this->getFileName($request->image);
+                    $request->image->move(base_path('public/images'), $image_name);
+
+                // $image = $request->file('image'); 
+                // $image_name = rand() . '.' . $image->getClientOriginalExtension();
+                // Storage::disk('public')->putFileAs('images', $request->file('image'), $image_name);
+                }
+                else
+                {
+                    $image_name=null; 
+                }
+
+                if($validator->fails())
+                {
+
+                    
+                    if($user_auth->user_role==5)
+                    {
+                            return redirect('admin/user')
+                            ->withErrors($validator)
+                            ->withInput();  
+                    }
+                    elseif($user_auth->user_role==6){
+                        return redirect('ceo/user')
+                        ->withErrors($validator)
+                        ->withInput();  
+                    } 
+                    elseif($user_auth->user_role==6){
+                        return redirect('cto/user')
+                        ->withErrors($validator)
+                        ->withInput();  
+                    }        
+                }
+
+                $user_name = $request->name;
+                $email = $request->email;
+                $user_role = $request->user_role;
+                $password = $request->password;
+                $hashed = Hash::make($password);
+        
+                $data = array(
+                        'name'=> $user_name , 
+                        'email' => $email,
+                        'user_role'=> $user_role , 
+                        'password' => $hashed,
+                        'image'=>$image_name
+                );
+
+                $data_val = User::insert($data);
+
+                if($data_val)
+                { 
+                    if($user_auth->user_role==5)
+                    {
+                        return redirect('admin/user')->with('message', 'Thanks for registering!'); 
+                    }
+                    elseif($user_auth->user_role==6)
+                    {
+
+                    return redirect('ceo/user')->with('message', 'Thanks for registering!'); 
+
+                    }  
+                    elseif($user_auth->user_role==7)
+                    {
+                        return redirect('cto/user')->with('message', 'Thanks for registering!'); 
+                    }      
+                }
+
+         } 
     }
 
     public function view(Request $request)
@@ -257,10 +387,23 @@ class UserController extends Controller
        ->get();
 
       // $project_assign_id_array = explode(',', $project_assign_id);
+            
 
+        if($user_auth->user_role==5)
+        {
 
-        return view('user::admin.view')->with(compact('user_data','url_link','user_auth','project_list')); 
+            return view('user::admin.view')->with(compact('user_data','url_link','user_auth','project_list')); 
+        }
+        elseif($user_auth->user_role==6)
+        {
+            return view('user::ceo.view')->with(compact('user_data','url_link','user_auth','project_list')); 
 
+        }
+        elseif($user_auth->user_role==7)
+        {
+            return view('user::cto.view')->with(compact('user_data','url_link','user_auth','project_list')); 
+
+        }
 
     }
 
@@ -268,6 +411,8 @@ class UserController extends Controller
     {
       
         $method = $request->method();
+
+        //$user_auth = Auth::user();  
 
         if ($request->isMethod('post'))
         {
@@ -306,11 +451,21 @@ class UserController extends Controller
     public function delete(Request $request)
     {
         if($request->id)
-        {
+        { 
             $deleteval = User::find($request->id)->delete();
             if($deleteval)
-            {
-                return redirect('admin/userlist')->with('message', 'Delete Successfully');  
+            {  
+                $user_auth = Auth::user();  
+                if($user_auth->user_role==5)
+                {
+                  return redirect('admin/userlist')->with('message', 'Delete Successfully'); 
+                }
+                elseif($user_auth->user_role==6){
+                    return redirect('ceo/userlist')->with('message', 'Delete Successfully');   
+                }
+                elseif($user_auth->user_role==7){
+                    return redirect('cto/userlist')->with('message', 'Delete Successfully');   
+                }  
             } 
         }
     } 
@@ -530,63 +685,192 @@ class UserController extends Controller
     return view('user::profile.email',compact('userdata'));
     }
 
-    public function teamleader(Request $request){
-        $user_auth = Auth::user();
-        $tasks = Auth::user()->id;
-        $profiledata = usersdata::where('user_id' , $tasks)->first();
-    $user_list = User::where('user_role','=',1)
-    ->get();
-    return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+    public function teamleader(Request $request)
+    {
+
+        if ($request->isMethod('get'))
+        { 
+            $user_auth = Auth::user();
+            $tasks = Auth::user()->id;
+            $profiledata = usersdata::where('user_id' , $tasks)->first();
+            $user_list = User::where('user_role','=',1)
+            ->get();
+            if($user_auth->user_role==5)
+            {
+                return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+            }
+            elseif($user_auth->user_role==6)
+            {
+                return view('user::ceo.userlist')->with(compact('user_list','user_auth','profiledata')); 
+            }
+            elseif($user_auth->user_role==7)
+            {
+                return view('user::cto.userlist')->with(compact('user_list','user_auth','profiledata')); 
+            }
+         }   
     }
 
     public function employeelist(Request $request){
+        if ($request->isMethod('get'))
+        { 
+                $user_auth = Auth::user();
+                $tasks = Auth::user()->id;
+                $profiledata = usersdata::where('user_id' , $tasks)->first();
+                $user_list = User::where('user_role','=',2)
+                ->get();
+                if($user_auth->user_role==5)
+                {
+                  return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+                }
+                elseif($user_auth->user_role==6){
+                    return view('user::ceo.userlist')->with(compact('user_list','user_auth','profiledata')); 
+                }
+                elseif($user_auth->user_role==6){
+                    return view('user::cto.userlist')->with(compact('user_list','user_auth','profiledata')); 
+                }
+        }   
+    }
+   public function managerlist(Request $request)
+   {
+     
+    if ($request->isMethod('get'))
+    { 
         $user_auth = Auth::user();
         $tasks = Auth::user()->id;
         $profiledata = usersdata::where('user_id' , $tasks)->first();
-       $user_list = User::where('user_role','=',2)
-       ->get();
-      return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
-   }
-   public function managerlist(Request $request){
-    $user_auth = Auth::user();
-    $tasks = Auth::user()->id;
-    $profiledata = usersdata::where('user_id' , $tasks)->first();
-   $user_list = User::where('user_role','=',3)
-   ->get();
-  return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+        $user_list = User::where('user_role','=',3)
+        ->get();
+        if($user_auth->user_role==5)
+        {
+           return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+        }
+        elseif($user_auth->user_role==6){
+           return view('user::ceo.userlist')->with(compact('user_list','user_auth','profiledata'));  
+        }
+        elseif($user_auth->user_role==7){
+            return view('user::cto.userlist')->with(compact('user_list','user_auth','profiledata'));  
+         }
+    }
 }
 
     public function hrlist(Request $request)
     {
-        $user_auth = Auth::user();
-        $tasks = Auth::user()->id;
-        $profiledata = usersdata::where('user_id' , $tasks)->first();
-    $user_list = User::where('user_role','=',4)
-    ->get();
-    return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
-   
+        
+        if ($request->isMethod('get'))
+        { 
+
+            $user_auth = Auth::user();
+            $tasks = Auth::user()->id;
+            $profiledata = usersdata::where('user_id' , $tasks)->first();
+            $user_list = User::where('user_role','=',4)
+            ->get();
+            if($user_auth->user_role==5)
+            {
+               return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
+            }
+            elseif($user_auth->user_role==6)
+            {
+
+                return view('user::ceo.userlist')->with(compact('user_list','user_auth','profiledata')); 
+            }
+            elseif($user_auth->user_role==7)
+            {
+                return view('user::cto.userlist')->with(compact('user_list','user_auth','profiledata')); 
+            }
+        }
     }
 
     public  function role(Request $request)
-  {  
- 
-    if ($request->isMethod('get'))
-    {
-     
-      $data =category::all(); 
-      $role = DB::table('role')->where('status',0)->get();
-      $user_auth = Auth::user(); 
-      $project_data = Project::where('id',$request->id)->first();
-      $drop_down_data = Project::orderBy('id', 'DESC')->get();
-      $project_id = $request->id;  
-      $single_project = 'single_project';    
-      $category = category::orderBy('id', 'DESC')->get();
-      return view('projects::admin.role', compact('single_project','project_data','drop_down_data','project_id', 'category','user_auth','role'));
-    
+    {  
+  
+      if ($request->isMethod('get'))
+      {
+      
+  
+        $role = DB::table('role')->orderBy('id', 'DESC')->get();
+        $user_auth = Auth::user();   
+
+        if($user_auth->user_role==5)
+        {
+           return view('user::admin.role', compact('user_auth','role'));
+        }
+        elseif($user_auth->user_role==6)
+        {
+            return view('user::ceo.role', compact('user_auth','role'));
+        } 
+        elseif($user_auth->user_role==7)
+        {
+            return view('user::cto.role', compact('user_auth','role'));
+        }  
+      
+      } 
+
     }
 
-  }
-    
+
+    public function roleAdd(Request $request)
+    {
+       if ($request->isMethod('post'))
+       {
+          
+          $validator = Validator::make($request->all(),[
+            'name' => 'required|unique:role',
+            'slug' => 'required'
+          ]);
+
+          if ($validator->fails())
+          {
+            return Redirect::back()->withErrors($validator)->withInput();
+          }
+
+          $role = new Role;
+          $role->name = $request->name; 
+          $role->slug = $request->slug;
+          $role->status = 0 ;
+          $role->default = 1 ;
+
+          $role->save(); 
+           
+          Session::flash('message', 'Role Add Successfully !'); 
+          Session::flash('alert-class', 'alert-success'); 
+
+          return Redirect::back();
+
+       }
+
+
+    }
+
+
+
+    public function delete_role(Request $request)
+    {
+      if ($request->isMethod('post'))
+      {
+         $id = $request->role_id;
+
+         $validator = Validator::make($request->all(),[
+          'role_id' => 'required'
+        ]); 
+
+        if ($validator->fails())
+        {
+          return Redirect::back()->withErrors($validator)->withInput();
+        }
+ 
+        $res = Role::where('id',$id)->delete();  
+        
+        if($res==1)
+        {
+          Session::flash('message', 'Role Delete Successfully !'); 
+          Session::flash('alert-class', 'alert-danger'); 
+
+          return Redirect::back();
+        }
+
+      }
+       
+    }
 
 
 

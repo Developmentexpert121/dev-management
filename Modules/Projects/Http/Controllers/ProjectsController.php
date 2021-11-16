@@ -164,24 +164,39 @@ class ProjectsController extends Controller
     
     public function information()
     { 
-
-        $tasks = Auth::user()->id; 
-        $profiledata = usersdata::where('user_id' , $tasks)->first(); 
-        $project_list =  DB::table('project') 
-       ->select('project.*','users.name as username') 
-       ->join('users','users.id','=','project.createby') 
-       ->orderBy('project.id', 'DESC')
-       ->get();
-       
-        return view('projects::admin.datatable',compact('profiledata'))->with('project_list',$project_list);  
-
+          
+        if ($request->isMethod('get'))
+        {
+             
+            $tasks = Auth::user()->id; 
+            $user_auth = Auth::user(); 
+             
+            $profiledata = usersdata::where('user_id' , $tasks)->first(); 
+            $project_list =  DB::table('project') 
+            ->select('project.*','users.name as username') 
+            ->join('users','users.id','=','project.createby') 
+            ->orderBy('project.id', 'DESC')
+            ->get();
+            
+            if($user_auth->user_role==5)
+            {
+              return view('projects::admin.datatable1',compact('profiledata'))->with('project_list',$project_list);  
+            }
+            elseif($user_auth->user_role==6)
+            {
+                return view('projects::ceo.datatable2',compact('profiledata'))->with('project_list',$project_list);  
+            }
+            elseif($user_auth->user_role==7)
+            {
+                return view('projects::cto.datatable3',compact('profiledata'))->with('project_list',$project_list);  
+            }
+        }
     }
 
     public function view(Request $request){ 
+
         $project_data = Project::where('id',$request->id)->first();
-        // echo '<pre>';
-        // print_r($project_data);
-        // die();
+    
         $user_auth = Auth::user();  
         $user_data = User::where('id',$request->id)->first();
         $url_link = env("APP_URL").'/management/storage/app/public/images';
@@ -224,9 +239,7 @@ class ProjectsController extends Controller
         return response()->json(['status' => 'true', 'message' => 'Profile Image added successfully!']);
       }else{  
 
-        // echo '<pre>';
-        // print_r($userexist);        
-        //   die('stop');
+      
         if ($files = $request->file('image')) {
                 
                 $fileName = time().'.'.$request->image->getClientOriginalExtension();
