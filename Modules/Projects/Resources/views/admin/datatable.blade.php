@@ -26,9 +26,11 @@
                                    
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody> 
                                 <?php 
+
                                 $i=1;
+                                
                                 foreach($project_list as $data){
                                     if($data->template==1){
                                         $templatename='Kanban';
