@@ -30,8 +30,8 @@ class AdminController extends Controller
       if ($request->isMethod('get'))
       {
       
-        $data =category::all(); 
-        $role = DB::table('role')->where('default',1)->orderBy('id', 'DESC')->get();
+        $data =category::all();  
+        $role = DB::table('role')->orderBy('id', 'DESC')->get();
         $user_auth = Auth::user(); 
         $project_data = Project::where('id',$request->id)->first();
         $drop_down_data = Project::orderBy('id', 'DESC')->get();

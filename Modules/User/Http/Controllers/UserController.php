@@ -106,11 +106,13 @@ class UserController extends Controller
 
     public function userlist(Request $request)
     {
-         $user_auth = Auth::user();
-         $tasks = Auth::user()->id;
-         $profiledata = usersdata::where('user_id' , $tasks)->first();
+
+        $user_auth = Auth::user();
+        $tasks = Auth::user()->id;
+        $profiledata = usersdata::where('user_id' , $tasks)->first();
         $user_list = User::where('user_role','!=',5)
         ->get();
+        
         return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
     }
 
@@ -195,14 +197,22 @@ class UserController extends Controller
            'password_confirmation' => 'required_with:password|same:password|min:6',
            'email' => 'required|email|unique:users',
            'user_role'=>'required', 
-           'image' => 'required|image|mimes:jpeg,png,jpg,bmp,gif,svg|max:2048',
-        ]);
+           'image' => 'image|mimes:jpeg,png,jpg,bmp,gif,svg|max:2048',
+        ]);  
         
         if($request->hasFile('image')) 
         {
-           $image = $request->file('image');
-           $image_name = rand() . '.' . $image->getClientOriginalExtension();
-           Storage::disk('public')->putFileAs('images', $request->file('image'), $image_name);
+         
+            $image_name = $this->getFileName($request->image);
+            $request->image->move(base_path('public/images'), $image_name);
+
+          // $image = $request->file('image'); 
+          // $image_name = rand() . '.' . $image->getClientOriginalExtension();
+          // Storage::disk('public')->putFileAs('images', $request->file('image'), $image_name);
+        }
+        else
+        {
+            $image_name=null; 
         }
 
         if($validator->fails())
@@ -376,31 +386,34 @@ class UserController extends Controller
     }
     }
 
-    public function your_organisation(Request $request){
-
-    $your_organisation = $_POST["your_organisation"];
-    $user_id = Auth::user()->id;
-    $processexist = usersdata::select('*')->where('user_id', $user_id)->first();
-        if($processexist == null)
+    public function your_organisation(Request $request)
     {
-    $processes = usersdata::create([
-            'user_id'   => $user_id,
-            'job_title' => '',
-            'your_department' => '',
-            'your_organisation' => $your_organisation,
-            'your_location' => '',
-            'image' => '',
+
+        $your_organisation = $_POST["your_organisation"];
+        $user_id = Auth::user()->id;
+        $processexist = usersdata::select('*')->where('user_id', $user_id)->first();
+            if($processexist == null)
+        {
+        $processes = usersdata::create([
+                'user_id'   => $user_id,
+                'job_title' => '',
+                'your_department' => '',
+                'your_organisation' => $your_organisation,
+                'your_location' => '',
+                'image' => '',
+            ]);
+            return response()->json(['status' => 'true', 'message' => 'your organisation added successfully!']); 
+        }
+        else
+        { 
+            
+        $processes = usersdata::where('user_id', $user_id)->update([
+            'your_organisation' =>$your_organisation,
         ]);
-        return response()->json(['status' => 'true', 'message' => 'your organisation added successfully!']); 
-    }
-    else
-    {
-    $processes = usersdata::where('user_id', $user_id)->update([
-        'your_organisation' =>$your_organisation,
-    ]);
-    return response()->json(['status' => 'true', 'message' => 'your organisation updated successfully!']);
+        return response()->json(['status' => 'true', 'message' => 'your organisation updated successfully!']);
 
-    }
+        }
+    
     }
 
     public function your_location(Request $request){

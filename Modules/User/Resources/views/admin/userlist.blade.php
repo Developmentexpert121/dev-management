@@ -27,7 +27,7 @@
                   {
                     
                     if($data->user_role == 1){  $user_role='Team Leader'; }elseif($data->user_role == 2){ $user_role='Employee';  
-                    }elseif($data->user_role == 3){ $user_role='Manager'; }elseif($data->user_role == 4){ $user_role='Hr'; }else{ $data->$user_role = 'Employee'; }
+                    }elseif($data->user_role == 3){ $user_role='Manager'; }elseif($data->user_role == 4){ $user_role='Hr'; }elseif($data->user_role == 6){ $user_role='Ceo'; }else{ $data->$user_role = 'Employee'; }
                 ?>
                   <tr>
                     <td><?php echo $i++; ?></td>

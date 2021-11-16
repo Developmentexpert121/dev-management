@@ -164,18 +164,19 @@ class ProjectsController extends Controller
     
     public function information()
     { 
-        $tasks = Auth::user()->id;
-        $profiledata = usersdata::where('user_id' , $tasks)->first();
-        $project_list =  DB::table('project')
-       ->select('project.*','users.name as username')
-       ->join('users','users.id','=','project.createby')
+
+        $tasks = Auth::user()->id; 
+        $profiledata = usersdata::where('user_id' , $tasks)->first(); 
+        $project_list =  DB::table('project') 
+       ->select('project.*','users.name as username') 
+       ->join('users','users.id','=','project.createby') 
        ->orderBy('project.id', 'DESC')
        ->get();
-       
        
         return view('projects::admin.datatable',compact('profiledata'))->with('project_list',$project_list);  
 
     }
+
     public function view(Request $request){ 
         $project_data = Project::where('id',$request->id)->first();
         // echo '<pre>';
