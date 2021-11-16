@@ -103,7 +103,7 @@ Route::prefix('admin')->group(function(){
     Route::get('project/team/{id}/access','Projects2Controller@settings_access')->middleware('CheckRole');
 
    
-	Route::get('role','AdminController@role')->middleware('CheckRole');  
+	//Route::get('role','AdminController@role')->middleware('CheckRole');  
 	Route::post('create/role','AdminController@roleAdd')->middleware('CheckRole');   
 	Route::post('delete/role','AdminController@delete_role')->middleware('CheckRole');
 
@@ -135,11 +135,18 @@ Route::prefix('admin')->group(function(){
 	Route::get('project/team/{project_id}/boardmove','Projects2Controller@boardMove');  
 	
 
-	
-  
 	//  company 
 	Route::get('/project/company/{id}','CompanyController@index');
 	  
 });
 Route::post('photo-save','TeamController@project_photo_save')->middleware('CheckRole')->name('save.detail');
+
+
+
+Route::prefix('ceo')->group(function()
+{ 
+
+	Route::get('project/information','ProjectsController@information')->middleware('CheckRole');
+
+});
 
