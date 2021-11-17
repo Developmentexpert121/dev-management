@@ -11,23 +11,9 @@ use Modules\Projects\Entities\Project;
 class ProjectsController extends Controller
 {
 
-    public function index(){
-      return view('projects::index');    
-    }
-    
-    public function scrum_template(){
-      return view('projects::admin.scrum_template');   
-    }
-    
-    public function team_management(){
-      return view('projects::admin.team_management');  
-    }
-     
-    public function company_management(){
-      return view('projects::admin.company_management');  
-    }
+ 
 
-    public function slug(Request $request){
+    public function slug(Request $request){ 
       $divider = '-';
       $text = $request->name ;
       //$num = str_pad(mt_rand(1,99999999),8,'0',STR_PAD_LEFT);
@@ -51,73 +37,6 @@ class ProjectsController extends Controller
       );
     }
 
-    public function company_management_insert(Request $request){
-      $validator = Validator::make($request->all(),[
-          'name' => 'required|unique:project',
-          'key' => 'required',
-      ]);
-
-      if ($validator->fails()){
-        return Redirect::back()->withErrors($validator)->withInput();
-      }
-
-      $user_check = Auth::user();
-      $name = $request->name;
-      $key = $request->key;
-      $template = $request->template;
-      $project_type = $request->project_type;
-      $data = array(
-             'name'=> $name, 
-             'key' => $key,
-             'createby'=> $user_check['id'] , 
-             'template' => $template,
-             'project_type' => $project_type
-      );
-      $data_val = Project::insert($data);
-      $lastId = DB::getPdo()->lastInsertId();
-
-      if($data_val)
-      {  
-        return Redirect('admin/project/company/'.$lastId);    
-      }
-
-    }
-
-    public function team_management_insert(Request $request){
-      $validator = Validator::make($request->all(),[
-          'name' => 'required|unique:project',
-          'key' => 'required',
-      ]);
-
-      if ($validator->fails()){
-          return Redirect::back()->withErrors($validator)->withInput();
-      }
-
-      $user_check = Auth::user();
-      $name = $request->name;
-      $key = $request->key;
-      $template = $request->template;
-      $project_type = $request->project_type; 
-      $data = array(
-                 'name' => $name, 
-                 'key' => $key,
-                 'createby' => $user_check['id'] , 
-                 'template' => $template,
-                 'project_type' => $project_type
-          ); 
-      $data_val = Project::insert($data);
-      $lastId = DB::getPdo()->lastInsertId();
-
-      if($data_val)
-      {  
-        return Redirect('admin/project/team/'.$lastId);    
-      }
-
-    }
-
-    public function  information(){ 
-      $project_list =  DB::table('project')->select('project.*','users.name as username')->join('users','users.id','=','project.createby')->orderBy('project.id', 'DESC')->get();
-      return view('projects::admin.datatable')->with('project_list',$project_list);  
-    }
+   
     
 }

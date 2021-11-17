@@ -1,13 +1,11 @@
 
-
-@include('user::admin.header')
+@include('user::cto.header')
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
 <div class="main-panel">    
         
         <div class="row" > 
-                
 
              <div class="col-lg-8 d-flex flex-column">
                     <div class="row flex-grow">
@@ -24,7 +22,7 @@
                    @endif             
                      
 
-                  <form class="forms-sample" action='{{url("admin/project/scrum/company_management/insert")}}' method='post'>
+                  <form class="forms-sample" action='{{url("cto/project/scrum/company_management/insert")}}' method='post'>
 
                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 

@@ -10,10 +10,11 @@
 |
 */
 use Http\Controllers\Projects2Controller;
+//use Http\Controllers\ProjectsController;
 
 Route::prefix('projects')->group(function() 
 {
-
+      
     Route::get('/', 'Projects2Controller@index'); 
 	Route::post('team/project/settings_save', 'Projects2Controller@settings_save');
 	Route::post('team/project/add_task', 'Projects2Controller@taskSave');
@@ -57,16 +58,16 @@ Route::prefix('projects')->group(function()
 }); 
 	
 
-Route::prefix('admin')->group(function(){ 
-
-	Route::get('project/template', 'ProjectsController@index')->middleware('CheckRole');
-	Route::get('project/scrum/template', 'ProjectsController@scrum_template')->middleware('CheckRole');
-	Route::get('project/scrum/team_management', 'ProjectsController@team_management')->middleware('CheckRole');  
-	Route::get('project/scrum/company_management', 'ProjectsController@company_management')->middleware('CheckRole');  
+Route::prefix('admin')->group(function()
+{ 
+	Route::get('project/template', 'Projects2Controller@index')->middleware('CheckRole');
+	Route::get('project/scrum/template', 'Projects2Controller@scrum_template')->middleware('CheckRole');
+	Route::get('project/scrum/team_management', 'Projects2Controller@team_management')->middleware('CheckRole');  
+	Route::get('project/scrum/company_management', 'Projects2Controller@company_management')->middleware('CheckRole');  
 	Route::post('project/scrum/slug', 'ProjectsController@slug')->middleware('CheckRole');  
-	Route::post('project/scrum/company_management/insert','ProjectsController@company_management_insert')->middleware('CheckRole');
-	Route::post('project/scrum/team_management/insert','ProjectsController@team_management_insert')->middleware('CheckRole');
-	Route::get('project/information','ProjectsController@information')->middleware('CheckRole');
+	Route::post('project/scrum/company_management/insert','Projects2Controller@company_management_insert')->middleware('CheckRole');
+	Route::post('project/scrum/team_management/insert','Projects2Controller@team_management_insert')->middleware('CheckRole');
+	Route::get('project/information','Projects2Controller@information')->middleware('CheckRole');
 	Route::get('project/view/{id}','ProjectsController@view')->middleware('CheckRole');
 	Route::get('project/{id}/settings','ProjectsController@project_settngs')->middleware('CheckRole');
 	Route::post('project-save','ProjectsController@project_photo_save')->name('project.save');
@@ -139,14 +140,34 @@ Route::prefix('admin')->group(function(){
 	Route::get('/project/company/{id}','CompanyController@index');
 	  
 });
+
 Route::post('photo-save','TeamController@project_photo_save')->middleware('CheckRole')->name('save.detail');
 
 
 
 Route::prefix('ceo')->group(function()
 { 
+	Route::get('project/information','Projects2Controller@information')->middleware('CheckRole');
+	Route::get('project/template', 'Projects2Controller@index')->middleware('CheckRole');
+	Route::get('project/scrum/template', 'Projects2Controller@scrum_template')->middleware('CheckRole');
+	Route::get('project/scrum/team_management', 'Projects2Controller@team_management')->middleware('CheckRole'); 
+	Route::post('project/scrum/team_management/insert','Projects2Controller@team_management_insert')->middleware('CheckRole'); 
+	Route::get('project/scrum/company_management', 'Projects2Controller@company_management')->middleware('CheckRole'); 
+	Route::post('project/scrum/company_management/insert','Projects2Controller@company_management_insert')->middleware('CheckRole'); 
 
-	Route::get('project/information','ProjectsController@information')->middleware('CheckRole');
+});  
 
-});
 
+Route::prefix('cto')->group(function()
+{   
+	 Route::get('project/information','Projects2Controller@information')->middleware('CheckRole');
+	 Route::get('project/template', 'Projects2Controller@index')->middleware('CheckRole');
+	 Route::get('project/scrum/template', 'Projects2Controller@scrum_template')->middleware('CheckRole');
+	 Route::get('project/scrum/team_management', 'Projects2Controller@team_management')->middleware('CheckRole'); 
+	 Route::post('project/scrum/team_management/insert','Projects2Controller@team_management_insert')->middleware('CheckRole'); 
+	 Route::get('project/scrum/company_management', 'Projects2Controller@company_management')->middleware('CheckRole'); 
+	 Route::post('project/scrum/company_management/insert','Projects2Controller@company_management_insert')->middleware('CheckRole'); 
+});  
+
+
+ 

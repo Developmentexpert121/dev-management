@@ -50,6 +50,11 @@
 </head>
 <body> 
 
+<?php
+  
+  $user_auth = Auth::user();  
+
+?>
  
 <div class="container-scroller">      
       

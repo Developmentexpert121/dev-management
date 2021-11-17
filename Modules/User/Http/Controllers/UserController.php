@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Auth;
 use Modules\User\Entities\User;
 use Modules\User\Entities\Usersdata;
+use Modules\Projects\Entities\Project;
+use Modules\Projects\Entities\Issue;
 use Modules\User\Entities\Role;
 use Redirect;
 use Session;
@@ -83,6 +85,7 @@ class UserController extends Controller
 
     public function dashbaord(Request $request)
     {  
+        
         if ($request->isMethod('get'))
         {
             
@@ -136,31 +139,115 @@ class UserController extends Controller
 
     public function userlist(Request $request)
     {
-    
+        
         if ($request->isMethod('get'))
          {
+           
             $user_auth = Auth::user();
             $tasks = Auth::user()->id;
             $profiledata = usersdata::where('user_id' , $tasks)->first();
             $user_list = User::where('user_role','!=',5)
             ->get();
-
+            
             if($user_auth->user_role==5)
-            {
+            {   
                 return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
             }
             elseif($user_auth->user_role==6)
-            {
+            {  
                 return view('user::ceo.userlist')->with(compact('user_list','user_auth','profiledata')); 
             }
-            elseif($user_auth->user_role==6)
-            {
+            elseif($user_auth->user_role==7)
+            {     
                 return view('user::cto.userlist')->with(compact('user_list','user_auth','profiledata')); 
             }
+
 
         }
    
     }
+
+    public function project_issues(Request $request)
+    {  
+      
+           
+        if ($request->isMethod('get'))
+         {
+            $data_user = Auth::user();
+            $project_data = Project::where('id',$request->id)->first();
+            $issues = Issue::orderBy('id', 'ASC')->get();  
+            return view('user::admin.issues', compact('project_data','issues','data_user'));
+         }   
+  
+    }
+
+    public function issue_edit(Request $request)
+    {
+        if ($request->isMethod('post'))
+        {
+
+                $id = $request->id;
+                $name = $request->name; 
+                $eSummary = $request->eSummary; 
+                $eDescription = $request->eDescription; 
+            
+                $validator = Validator::make($request->all(),[
+                    'name' => 'required',
+                    'eSummary'=>'required',
+                    'eDescription'=>'required'
+                ]); 
+
+                if ($validator->fails())
+                {  
+                    return Redirect::back()->withErrors($validator)->withInput();
+                }  
+                    
+                $res = Issue::where('id',$id)
+                ->update([
+                "issue_type"=> $name,
+                "summary" =>$eSummary,
+                "description"=>$eDescription
+                ]); 
+
+                Session::flash('message', 'Issue Update Successfully'); 
+                Session::flash('alert-class', 'alert-success');
+
+                return Redirect::back(); 
+
+
+        }
+
+    }
+
+   
+   public function update_issue(Request $request)
+   {
+
+    if ($request->isMethod('post'))
+    {
+
+        $id = $request->issue_id;
+        $name = $request->issue_name; 
+     
+         $validator = Validator::make($request->all(),[
+            'issue_name' => 'required'
+         ]); 
+
+         if ($validator->fails())
+         {  
+            return Redirect::back()->withErrors($validator)->withInput();
+         }  
+            
+         $res = Sprint_Issue::where('id',$id)
+         ->update([
+          "issue_name"=> $name
+         ]); 
+         
+         return Redirect::back()->with('message','Sprint Update Successfully'); 
+
+    }
+   
+   }
 
 
     public function admin_info(Request $request)
@@ -289,7 +376,8 @@ class UserController extends Controller
 
         if ($request->isMethod('post'))
         { 
-          
+              
+               
                 $user_auth = Auth::user();
                 $validator = Validator::make($request->all(),[
                 'name' => 'required',
@@ -300,24 +388,11 @@ class UserController extends Controller
                 'image' => 'image|mimes:jpeg,png,jpg,bmp,gif,svg|max:2048',
                 ]);  
         
-                if($request->hasFile('image')) 
-                {
-                
-                    $image_name = $this->getFileName($request->image);
-                    $request->image->move(base_path('public/images'), $image_name);
-
-                // $image = $request->file('image'); 
-                // $image_name = rand() . '.' . $image->getClientOriginalExtension();
-                // Storage::disk('public')->putFileAs('images', $request->file('image'), $image_name);
-                }
-                else
-                {
-                    $image_name=null; 
-                }
+              
 
                 if($validator->fails())
                 {
-
+                   // die('error');
                     
                     if($user_auth->user_role==5)
                     {
@@ -330,46 +405,68 @@ class UserController extends Controller
                         ->withErrors($validator)
                         ->withInput();  
                     } 
-                    elseif($user_auth->user_role==6){
+                    elseif($user_auth->user_role==7){
                         return redirect('cto/user')
                         ->withErrors($validator)
                         ->withInput();  
                     }        
                 }
+                else
+                {
 
-                $user_name = $request->name;
-                $email = $request->email;
-                $user_role = $request->user_role;
-                $password = $request->password;
-                $hashed = Hash::make($password);
-        
-                $data = array(
-                        'name'=> $user_name , 
-                        'email' => $email,
-                        'user_role'=> $user_role , 
-                        'password' => $hashed,
-                        'image'=>$image_name
-                );
-
-                $data_val = User::insert($data);
-
-                if($data_val)
-                { 
-                    if($user_auth->user_role==5)
+                    if($request->hasFile('image')) 
                     {
-                        return redirect('admin/user')->with('message', 'Thanks for registering!'); 
+                    
+                        $image_name = $this->getFileName($request->image);
+                        $request->image->move(base_path('public/images'), $image_name);
+    
+                    // $image = $request->file('image'); 
+                    // $image_name = rand() . '.' . $image->getClientOriginalExtension();
+                    // Storage::disk('public')->putFileAs('images', $request->file('image'), $image_name);
                     }
-                    elseif($user_auth->user_role==6)
+                    else
                     {
+                        $image_name=null; 
+                    }
+                     
+                    $user_name = $request->name;
+                    $email = $request->email;
+                    $user_role = $request->user_role;
+                    $password = $request->password;
+                    $hashed = Hash::make($password);
+            
+                    $data = array(
+                            'name'=> $user_name , 
+                            'email' => $email,
+                            'user_role'=> $user_role , 
+                            'password' => $hashed,
+                            'image'=>$image_name
+                    );
+    
+                    $data_val = User::insert($data);
+    
+                    if($data_val)
+                    { 
+                        if($user_auth->user_role==5)
+                        {
+                            return redirect('admin/user')->with('message', 'Thanks for registering!'); 
+                        }
+                        elseif($user_auth->user_role==6)
+                        {
+    
+                        return redirect('ceo/user')->with('message', 'Thanks for registering!'); 
+    
+                        }  
+                        elseif($user_auth->user_role==7)
+                        {
+                            return redirect('cto/user')->with('message', 'Thanks for registering!'); 
+                        }      
+                    }
 
-                    return redirect('ceo/user')->with('message', 'Thanks for registering!'); 
-
-                    }  
-                    elseif($user_auth->user_role==7)
-                    {
-                        return redirect('cto/user')->with('message', 'Thanks for registering!'); 
-                    }      
                 }
+             
+
+               
 
          } 
     }
@@ -725,7 +822,7 @@ class UserController extends Controller
                 elseif($user_auth->user_role==6){
                     return view('user::ceo.userlist')->with(compact('user_list','user_auth','profiledata')); 
                 }
-                elseif($user_auth->user_role==6){
+                elseif($user_auth->user_role==7){
                     return view('user::cto.userlist')->with(compact('user_list','user_auth','profiledata')); 
                 }
         }   

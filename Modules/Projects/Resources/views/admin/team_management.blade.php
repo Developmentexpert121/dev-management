@@ -1,6 +1,6 @@
 
 
-@include('projects::admin.header')
+@include('user::admin.header')
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 

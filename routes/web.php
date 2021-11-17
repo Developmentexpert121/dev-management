@@ -24,10 +24,12 @@ Route::get('/',function (){
 }); 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+
 	return redirect('dashbaord');
 })->name('dashboard');  
 
 Route::get('dashbaord', [DashbaordController::class, 'index'])->middleware('CheckRole');
 
 Auth::routes();    
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

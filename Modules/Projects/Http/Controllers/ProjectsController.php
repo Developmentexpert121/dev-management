@@ -18,6 +18,7 @@ class ProjectsController extends Controller
    
     public function index() 
     {
+      
         return view('projects::index');    
     }
 
@@ -164,7 +165,7 @@ class ProjectsController extends Controller
     
     public function information()
     { 
-          
+       die('234');
         if ($request->isMethod('get'))
         {
              
@@ -172,6 +173,7 @@ class ProjectsController extends Controller
             $user_auth = Auth::user(); 
              
             $profiledata = usersdata::where('user_id' , $tasks)->first(); 
+
             $project_list =  DB::table('project') 
             ->select('project.*','users.name as username') 
             ->join('users','users.id','=','project.createby') 
@@ -179,21 +181,25 @@ class ProjectsController extends Controller
             ->get();
             
             if($user_auth->user_role==5)
-            {
-              return view('projects::admin.datatable1',compact('profiledata'))->with('project_list',$project_list);  
+            { 
+               return view('projects::admin.datatable',compact('profiledata'))->with('project_list',$project_list);  
             }
             elseif($user_auth->user_role==6)
-            {
-                return view('projects::ceo.datatable2',compact('profiledata'))->with('project_list',$project_list);  
+            { 
+                return view('projects::ceo.datatable',compact('profiledata'))->with('project_list',$project_list);  
             }
             elseif($user_auth->user_role==7)
             {
-                return view('projects::cto.datatable3',compact('profiledata'))->with('project_list',$project_list);  
+                return view('projects::cto.datatable',compact('profiledata'))->with('project_list',$project_list);  
             }
+
         }
     }
+   
 
-    public function view(Request $request){ 
+
+    public function view(Request $request)
+    { 
 
         $project_data = Project::where('id',$request->id)->first();
     
