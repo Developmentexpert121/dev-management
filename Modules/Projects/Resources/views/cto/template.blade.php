@@ -15,7 +15,7 @@
       <img src="{{asset('storage/create_project/scrum2.svg')}}">
     </div>
     <div class="col-md-10 mr_top">
-      <a href='{{url("admin/project/scrum/template")}}'> 
+      <a href='{{url("cto/project/scrum/template")}}'> 
         <h4  algin='center'>Scrum</h4> 
       </a>
     </div>

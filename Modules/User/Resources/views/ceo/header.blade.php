@@ -50,7 +50,11 @@
 </head>
 <body> 
 
- 
+<?php
+  
+  $user_auth = Auth::user();  
+
+?>
 <div class="container-scroller">      
       
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row header-navbar">

@@ -22,44 +22,116 @@ use Modules\User\Entities\Usersdata;
 class Projects2Controller extends Controller
 {
 
-  public function index()
+  public function index(Request $request)
   {
-    return view('projects::index');    
+      if ($request->isMethod('get'))
+      { 
+        $user_auth = Auth::user();
+
+        if($user_auth->user_role==5)
+        {
+          return view('projects::admin.template'); 
+        }
+        elseif($user_auth->user_role==6)
+        {
+          return view('projects::ceo.template'); 
+        }
+        elseif($user_auth->user_role==7)
+        {
+          return view('projects::cto.template'); 
+        }   
+
+      }  
   }
 
-  public function scrum_template()
-  {
-    return view('projects::admin.scrum_template');
+  public function scrum_template(Request $request)
+  { 
+      if ($request->isMethod('get'))
+      { 
+
+        $user_auth = Auth::user();
+
+        if($user_auth->user_role==5)
+        {
+          return view('projects::admin.scrum_template');
+        }
+        elseif($user_auth->user_role==6)
+        {
+          return view('projects::ceo.scrum_template');
+        }
+        elseif($user_auth->user_role==7)
+        {
+          return view('projects::cto.scrum_template');
+        }
+
+      }
   }
 
-  public function team_management()
+  public function team_management(Request $request)
   {
-    return view('projects::admin.team_management');  
+    if ($request->isMethod('get'))
+    { 
+
+      $user_auth = Auth::user();
+
+      if($user_auth->user_role==5)
+      {
+         return view('projects::admin.team_management');  
+      }
+      elseif($user_auth->user_role==6){
+
+        return view('projects::ceo.team_management'); 
+
+      }
+      elseif($user_auth->user_role==7){
+
+        return view('projects::cto.team_management');  
+
+      }
+      
+    }   
   }
 
-  public function company_management()
+  public function company_management(Request $request)
   {
-    return view('projects::admin.company_management');  
-  } 
+      if ($request->isMethod('get'))
+      { 
+          $user_auth = Auth::user();
+
+          if($user_auth->user_role==5)
+          {
+            return view('projects::admin.company_management');   
+          } 
+          elseif($user_auth->user_role==6)
+          {
+            return view('projects::ceo.company_management');   
+          } 
+          elseif($user_auth->user_role==7)
+          {
+            return view('projects::cto.company_management');   
+          } 
+      } 
+ 
+ }
 
   public function slug(Request $request)
   {  
-    $divider = '-';
-    $text = $request->name ;
-    //$num = str_pad(mt_rand(1,99999999),8,'0',STR_PAD_LEFT);
-    // replace non letter or digits by divider
-    $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
-    // transliterate
-    $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-    // remove unwanted characters
-    $text = preg_replace('~[^-\w]+~', '', $text);
-    // trim
-    $text = trim($text, $divider);
-    // remove duplicate divider
-    $text = preg_replace('~-+~', $divider, $text);
-    // lowercase
-    $text = strtolower($text);
-    return response()->json(
+     $divider = '-'; 
+     $text = $request->name ;
+     //$num = str_pad(mt_rand(1,99999999),8,'0',STR_PAD_LEFT);
+     // replace non letter or digits by divider
+     $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
+     // transliterate
+     $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+     // remove unwanted characters
+     $text = preg_replace('~[^-\w]+~', '', $text);
+     // trim
+     $text = trim($text, $divider);
+     // remove duplicate divider
+     $text = preg_replace('~-+~', $divider, $text);
+     // lowercase
+      $text = strtolower($text);
+     return response()->json(
       [
       'success' => true,
       'message' => $text 
@@ -67,69 +139,141 @@ class Projects2Controller extends Controller
     );
   }
 
-  public function company_management_insert(Request $request){
-    $validator = Validator::make($request->all(),[
-    'name' => 'required|unique:project',
-    'key' => 'required',
-    ]);
-    if ($validator->fails()){
-      return Redirect::back()->withErrors($validator)->withInput();
-    }
+  public function company_management_insert(Request $request)
+  {
 
-    $user_check = Auth::user();
-    $name = $request->name;
-    $key = $request->key;
-    $template = $request->template;
-    $project_type = $request->project_type;
-    $data = DB::table('project')->insert(
-      array(
-      'name' => $name, 
-      'key' => $key,
-      'createby' => $user_check['id'] , 
-      'template' => $template,
-      'project_type' => $project_type
-      )
-    );
-    $lastId = DB::getPdo()->lastInsertId();
-    if($data){  
-      return Redirect('admin/project/company/'.$lastId);    
-    }
-  } 
-  
-  public function team_management_insert(Request $request){
-    //'cmd 76656gytgygygb' 
-    $validator = Validator::make($request->all(),[
-        'name' => 'required|unique:project',
-        'key' => 'required',
-    ]);
-    if ($validator->fails()){
-      return Redirect::back()->withErrors($validator)->withInput();
-    }
-    $user_check = Auth::user();
-    $name = $request->name;
-    $key = $request->key;
-    $template = $request->template;
-    $project_type = $request->project_type;
-    $data = DB::table('project')->insert(
-        array(
-               'name'=> $name, 
-               'key' => $key,
-               'createby'=> $user_check['id'] , 
-               'template' => $template,
-               'project_type' => $project_type
-        )
-    ); 
-    $lastId = DB::getPdo()->lastInsertId();
-
-    if($data)
-    {
-      return Redirect('admin/project/team/'.$lastId);    
-    }
-  } 
+    if ($request->isMethod('post'))
+    { 
       
-  public function information(){ 
-    $project_list =  DB::table('project')->select('project.*','users.name as username')->join('users','users.id','=','project.createby')->orderBy('project.id', 'DESC')->get();
-    return view('projects::admin.datatable')->with('project_list',$project_list,'single_project', $single_project);  
+        $user_auth = Auth::user();
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|unique:project',
+            'key' => 'required',
+        ]);
+        if ($validator->fails()){
+          return Redirect::back()->withErrors($validator)->withInput();
+        }
+
+        $user_check = Auth::user();
+        $name = $request->name;
+        $key = $request->key;
+        $template = $request->template;
+        $project_type = $request->project_type;
+
+        $data = array(
+              'name'=> $name, 
+              'key' => $key,
+              'createby'=> $user_check['id'] , 
+              'template' => $template,
+              'project_type' => $project_type
+        );
+        $data_val = Project::insert($data);
+        $lastId = DB::getPdo()->lastInsertId();
+
+        if($data_val)
+        {  
+          if($user_auth->user_role==5)
+          {
+             return Redirect('admin/project/company/'.$lastId); 
+          }
+          elseif($user_auth->user_role==6)
+          {
+            return Redirect('admin/project/company/'.$lastId); 
+          }
+          elseif($user_auth->user_role==7)
+          {
+            return Redirect('admin/project/company/'.$lastId); 
+          }       
+        }
+
+     }
+  }
+  
+  public function team_management_insert(Request $request)
+  { 
+    
+    if ($request->isMethod('post'))
+    { 
+          $user_auth = Auth::user();
+      
+          $validator = Validator::make($request->all(),[
+              'name' => 'required|unique:project',
+              'key' => 'required',
+          ]);
+
+          if ($validator->fails())
+          {
+              return Redirect::back()->withErrors($validator)->withInput();
+          }
+
+          $user_check = Auth::user();
+          $name = $request->name;
+          $key = $request->key;
+          $template = $request->template;
+          $project_type = $request->project_type; 
+
+          $data = array(
+                    'name' => $name, 
+                    'key' => $key,
+                    'createby' => $user_check['id'] , 
+                    'template' => $template,
+                    'project_type' => $project_type
+              ); 
+
+          $data_val = Project::insert($data);
+          $lastId = DB::getPdo()->lastInsertId();
+
+          if($data_val)
+          {  
+              if($user_auth->user_role==5)
+              {
+                return Redirect('admin/project/team/'.$lastId);
+              }
+              elseif($user_auth->user_role==6)
+              {
+                return Redirect('admin/project/team/'.$lastId);
+              }
+              elseif($user_auth->user_role==7)
+              {
+                return Redirect('admin/project/team/'.$lastId);
+              }         
+          }
+
+     }  
+
+  }
+      
+  public function information(Request $request){ 
+    
+    if ($request->isMethod('get'))
+    {
+         
+        $tasks = Auth::user()->id; 
+        $user_auth = Auth::user(); 
+         
+        $profiledata = usersdata::where('user_id' , $tasks)->first(); 
+
+        $project_list =  DB::table('project') 
+        ->select('project.*','users.name as username') 
+        ->join('users','users.id','=','project.createby') 
+        ->orderBy('project.id', 'DESC')
+        ->get();
+        
+        if($user_auth->user_role==5)
+        { 
+           return view('projects::admin.datatable',compact('profiledata'))->with('project_list',$project_list);  
+        }
+        elseif($user_auth->user_role==6)
+        { 
+            return view('projects::ceo.datatable',compact('profiledata'))->with('project_list',$project_list);  
+        }
+        elseif($user_auth->user_role==7)
+        {
+            return view('projects::cto.datatable',compact('profiledata'))->with('project_list',$project_list);  
+        }
+
+    }
+  
   }
 
   public function settings_save(Request $request){
@@ -322,15 +466,18 @@ class Projects2Controller extends Controller
    
   public function project_issues(Request $request)
   {  
-    $data_user = Auth::user();
-    $project_data = Project::where('id',$request->id)->first();
-    $drop_down_data = Project::orderBy('id', 'DESC')->get(); 
-    $project_id = $request->id;
-    $single_project = 'single_project';
-    $issues = Issue::orderBy('id', 'ASC')->get();  
-    return view('projects::issues', compact('single_project','project_data','drop_down_data','project_id', 'issues','data_user'));
+
+     $data_user = Auth::user();
+     $project_data = Project::where('id',$request->id)->first();
+     $drop_down_data = Project::orderBy('id', 'DESC')->get(); 
+     $project_id = $request->id;
+     $single_project = 'single_project';
+     $issues = Issue::orderBy('id', 'ASC')->get();  
+     return view('projects::issues', compact('single_project','project_data','drop_down_data','project_id', 'issues','data_user'));
   
   }
+
+  
   public function settings_access(Request $request){
 
     $data_user = Auth::user();

@@ -1,10 +1,10 @@
-@include('user::admin.header')
+@include('user::ceo.header') 
 
 <div class="main-panel">    
     <div class="content-wrapper">
         <div class="row">
             <div class="col-md-6">
-                <a href='{{url("admin/project/template")}}'><button class="cr_btn">Create Project</button></a>
+                <a href='{{url("ceo/project/template")}}'><button class="cr_btn">Create Project</button></a>
             </div>
         </div>
 

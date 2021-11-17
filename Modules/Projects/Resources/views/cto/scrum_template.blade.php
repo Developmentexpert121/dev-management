@@ -1,17 +1,17 @@
-@include('user::admin.header')
+@include('user::cto.header')
 <div class="container">  
   <div class="row">
     <div class="col">
       <div class="t_heading">Team Management</div>
       <div class="t_desc">Set up and maintained by your team.</div>
-      <a href='{{url("admin/project/scrum/team_management")}}'> 
+      <a href='{{url("cto/project/scrum/team_management")}}'> 
         <button class="t_btn" data-testid="project-template-select.ui.layout.screens.project-types.footer.select-project-button-team-managed" type="button" tabindex="0"><span class="css-19r5em7">Select a team management project</span></button>
       </a>
     </div>
     <div class="col">
       <div class="c_heading">Company Management</div>
       <div class="c_desc">Set up and maintained by your Jira admins</div>
-      <a href='{{url("admin/project/scrum/company_management")}}'>  
+      <a href='{{url("cto/project/scrum/company_management")}}'>  
         <button class="c_btn" data-testid="project-template-select.ui.layout.screens.project-types.footer.select-project-button-company-managed" type="button" tabindex="0"><span class="css-19r5em7">Select a company management project</span></button>
       </a>      
     </div>

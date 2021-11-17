@@ -1,4 +1,4 @@
-@include('user::admin.header')
+@include('user::ceo.header')
 <div class="container">
   <div class="row add_project">
     <div class="col-md-2">
@@ -15,7 +15,7 @@
       <img src="{{asset('storage/create_project/scrum2.svg')}}">
     </div>
     <div class="col-md-10 mr_top">
-      <a href='{{url("admin/project/scrum/template")}}'> 
+      <a href='{{url("ceo/project/scrum/template")}}'> 
         <h4  algin='center'>Scrum</h4> 
       </a>
     </div>
