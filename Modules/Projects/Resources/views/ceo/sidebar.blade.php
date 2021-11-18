@@ -2,12 +2,14 @@
   <ul class="nav">
 
     <!-- Main Pages -->
+
     <li class="nav-item active">
       <a class="nav-link" href='{{url("dashboard")}}'>
         <i class="mdi mdi-grid-large menu-icon"></i>
         <span class="menu-title"><i class="fa fa-arrow-left"></i>&nbsp;Back</span>
       </a>
     </li>
+
     <!--<li class="nav-item nav-category"><h4 class="st_color"><?php // echo $project_data->name ?></h4></li>-->
     <li class="nav-item nav-category"><h4 class="st_color"></h4></li>
     <li class="nav-item">
@@ -27,22 +29,22 @@
       </div>
       <!-- Settings Sub Pages Area -->
 
-      <a class="nav-link" href='{{url("admin/project/team/$project_id/sprints")}}'>
+      <a class="nav-link" href='{{url("ceo/project/team/$project_id/sprints")}}'>
         <i class="fa fa-print"></i>&nbsp;
         <span class="menu-title">Sprints</span>
       </a>
 
-      <a class="nav-link" href='{{url("admin/project/team/$project_id/createissue")}}'>
+      <a class="nav-link" href='{{url("ceo/project/team/$project_id/createissue")}}'>
         <i class="fa fa-map"></i>&nbsp;
         <span class="menu-title">Create Issue</span>
       </a>
 
-      <a class="nav-link" href='{{url("admin/project/team/$project_id/backlog")}}'>
+      <a class="nav-link" href='{{url("ceo/project/team/$project_id/backlog")}}'>
         <i class="fa fa-bars"></i>&nbsp;
         <span class="menu-title">Backlog</span>
       </a>
 
-      <a class="nav-link" href='{{url("admin/project/team/$project_id/board")}}'>
+      <a class="nav-link" href='{{url("ceo/project/team/$project_id/board")}}'>
         <i class="fa fa-bars"></i>&nbsp;
         <span class="menu-title">Board</span>   
       </a> 

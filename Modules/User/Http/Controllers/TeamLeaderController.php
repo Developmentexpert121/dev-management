@@ -25,9 +25,16 @@ class TeamLeaderController extends Controller
         return view('user::tl.dashboard');
 
      }
-   public function assignproject(Request $request){
-      //$project_list =  DB::table('project')->select('project.*','project.name as username')->join('sprint_issue','sprint_issue.project_id','=','project.createby')->orderBy('project.id', 'DESC')->get();
-     $id = Auth::user()->id;
+   public function assignproject(Request $request){ 
+     
+      $id = Auth::user()->id;
+   //   $user =Auth::user();
+   //   $project_assign = $user->project_assign;
+
+   //   $Projectss = Project::whereIn('id', array($project_assign))->get();
+   
+
+
      $project_id =  $request->project_id; 
      $tldata = DB::table('sprint_issue')
         ->Join('all_sprints', 'all_sprints.id', '=', 'sprint_issue.sprint_id')
@@ -36,6 +43,7 @@ class TeamLeaderController extends Controller
         ->where(['sprint_issue.assign_to'=>$id])
         ->orderBy('sprint_issue.id', 'desc')
         ->get();
+
      $project_data = Project::where('id',$request->id)->first(); 
      $drop_down_data = Project::orderBy('id', 'DESC')->get();
      $project_ids = $request->id; 

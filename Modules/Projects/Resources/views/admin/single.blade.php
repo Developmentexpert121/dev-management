@@ -16,4 +16,4 @@
   </div>
 </div>
 
-@include('projects::team.footer')
+@include('projects::admin.footer')

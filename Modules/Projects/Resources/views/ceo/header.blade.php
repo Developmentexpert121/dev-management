@@ -238,7 +238,7 @@
     </nav>
     <div class="container-fluid page-body-wrapper">
       
-    @include('projects::admin.sidebar')
+    @include('projects::ceo.sidebar')
 
  
     

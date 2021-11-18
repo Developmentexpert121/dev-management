@@ -2,7 +2,7 @@
 
 <div class="main-panel">    
     <div class="content-wrapper">
-        <div class="row">
+        <div class="row"> 
             <div class="col-md-6">
                 <a href='{{url("cto/project/template")}}'><button class="cr_btn">Create Project</button></a>
             </div>

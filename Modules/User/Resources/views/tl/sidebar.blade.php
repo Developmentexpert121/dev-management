@@ -9,7 +9,7 @@
         </ul>
         <ul class="nav">
           <li class="nav-item active">
-            <a class="nav-link" href='{{url("team_leader/assignproject")}}'>
+            <a class="nav-link" href='{{url("admin/project/information")}}'>
               <i class="mdi mdi-grid-large menu-icon"></i>
               <span class="menu-title">Assign Project</span>
             </a>

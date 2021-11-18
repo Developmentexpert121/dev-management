@@ -1,4 +1,4 @@
-@include('projects::admin.header')
+@include('projects::ceo.header')
 
 <div class="main-panel">    
   <div class="content-wrapper">
@@ -16,4 +16,4 @@
   </div>
 </div>
 
-@include('projects::team.footer')
+@include('projects::ceo.footer')

@@ -22,7 +22,7 @@ Route::prefix('projects')->group(function()
 	Route::post('team/project/add_sprint', 'Projects2Controller@saveSprint');
 	Route::post('sprint/create_issue/action','Projects2Controller@action_issue');
     Route::get('team/sprint/delete/issue_create/{id}','Projects2Controller@delete_issue');
-    Route::post('team/create/issue/update','Projects2Controller@update_issue'); 
+    Route::post('team/create/issue/updateted','Projects2Controller@update_issue');  
     Route::get('team/issue/delete/{id}','Projects2Controller@issue_delete');
     Route::post('team/create/issue/update','Projects2Controller@issue_update'); 
     Route::post('team/sprint/blackLogMove','Projects2Controller@blackLogMove'); 
@@ -59,7 +59,8 @@ Route::prefix('projects')->group(function()
 	
 
 Route::prefix('admin')->group(function()
-{ 
+{  
+	
 	Route::get('project/template', 'Projects2Controller@index')->middleware('CheckRole');
 	Route::get('project/scrum/template', 'Projects2Controller@scrum_template')->middleware('CheckRole');
 	Route::get('project/scrum/team_management', 'Projects2Controller@team_management')->middleware('CheckRole');  
@@ -97,7 +98,7 @@ Route::prefix('admin')->group(function()
 	// Route::get('dashbaord', [DashbaordController::class, 'index'])->middleware('CheckRole');
 	Route::get('project/team/{id}','TeamController@load_page')->middleware('CheckRole');
 	Route::get('project/team/{id}/settings','TeamController@project_settngs')->middleware('CheckRole');
-	Route::get('project/team/{id}/createissue','Projects2Controller@roadmap')->middleware('CheckRole');
+	Route::get('project/team/{id}/createissue','Projects2Controller@createissue')->middleware('CheckRole');
 	Route::get('project/team/{id}/sprints','Projects2Controller@sprints')->middleware('CheckRole');
 	Route::get('project/team/{id}/backlog','Projects2Controller@backlog')->middleware('CheckRole');
     Route::get('project/team/{id}/issues','Projects2Controller@project_issues')->middleware('CheckRole');
@@ -145,8 +146,9 @@ Route::post('photo-save','TeamController@project_photo_save')->middleware('Check
 
 
 
-Route::prefix('ceo')->group(function()
-{ 
+ Route::prefix('ceo')->group(function()
+ { 
+
 	Route::get('project/information','Projects2Controller@information')->middleware('CheckRole');
 	Route::get('project/template', 'Projects2Controller@index')->middleware('CheckRole');
 	Route::get('project/scrum/template', 'Projects2Controller@scrum_template')->middleware('CheckRole');
@@ -154,8 +156,15 @@ Route::prefix('ceo')->group(function()
 	Route::post('project/scrum/team_management/insert','Projects2Controller@team_management_insert')->middleware('CheckRole'); 
 	Route::get('project/scrum/company_management', 'Projects2Controller@company_management')->middleware('CheckRole'); 
 	Route::post('project/scrum/company_management/insert','Projects2Controller@company_management_insert')->middleware('CheckRole'); 
-
-});  
+	Route::get('project/team/{id}/sprints','Projects2Controller@sprints')->middleware('CheckRole');
+	Route::get('project/sprint/create_issue/{project_id}/{sprint_id}','Projects2Controller@sprint_create_issue');
+	Route::post('projects/team/sprint/add_issue_create','Projects2Controller@add_issue_create');
+	Route::get('project/team/{id}/backlog','Projects2Controller@backlog')->middleware('CheckRole');
+	Route::get('project/team/{project_id}/board','Projects2Controller@board'); 
+	Route::get('project/team/{id}/createissue','Projects2Controller@createissue')->middleware('CheckRole');
+	
+	
+ });  
 
 
 Route::prefix('cto')->group(function()
@@ -166,7 +175,17 @@ Route::prefix('cto')->group(function()
 	 Route::get('project/scrum/team_management', 'Projects2Controller@team_management')->middleware('CheckRole'); 
 	 Route::post('project/scrum/team_management/insert','Projects2Controller@team_management_insert')->middleware('CheckRole'); 
 	 Route::get('project/scrum/company_management', 'Projects2Controller@company_management')->middleware('CheckRole'); 
-	 Route::post('project/scrum/company_management/insert','Projects2Controller@company_management_insert')->middleware('CheckRole'); 
+	 Route::post('project/scrum/company_management/insert','Projects2Controller@company_management_insert')->middleware('CheckRole');
+	 Route::get('project/team/{id}/sprints','Projects2Controller@sprints')->middleware('CheckRole'); 
+	 Route::get('project/sprint/create_issue/{project_id}/{sprint_id}','Projects2Controller@sprint_create_issue');
+	 Route::post('projects/team/sprint/add_issue_create','Projects2Controller@add_issue_create');
+	 Route::get('project/edit_sprint/{project_id}/{edit_id}/','Projects2Controller@edit_sprint');
+	 Route::post('project/team/sprints/edit/{id}','Projects2Controller@editData_sprint'); 
+	 Route::get('project/team/delete_sprint/{project_id}/{delete_id}','Projects2Controller@delete_sprint'); 
+	 Route::get('project/team/{id}/createissue','Projects2Controller@createissue')->middleware('CheckRole');
+	 Route::get('project/team/{id}/backlog','Projects2Controller@backlog')->middleware('CheckRole');
+	 Route::get('project/team/{project_id}/board','Projects2Controller@board'); 
+
 });  
 
 

@@ -19,26 +19,51 @@ use Auth;
 
 class TeamController extends Controller
 {
-    public function load_page(Request $request){
-      $data_user = Auth::user();
-      $project_data = Project::where('id',$request->id)->first();
-      $tasks = Auth::user()->id;
-      $profiledata = usersdata::where('user_id' , $tasks)->first();
-      $drop_down_data = Project::orderBy('id', 'DESC')->get();
-      $project_id = $request->id;
-      $single_project = 'single_project';
-      return view("projects::single", compact('drop_down_data','project_data', 'project_id','single_project','data_user','profiledata'));
+    public function load_page(Request $request)
+    {
+
+      if ($request->isMethod('get'))
+      { 
+        
+    
+          $data_user = Auth::user();
+          $project_data = Project::where('id',$request->id)->first();
+          $tasks = Auth::user()->id;
+          $profiledata = usersdata::where('user_id' , $tasks)->first();
+          $drop_down_data = Project::orderBy('id', 'DESC')->get();
+          $project_id = $request->id;
+          $single_project = 'single_project';  
+
+          if($data_user->user_role==5)
+          {
+            return view("projects::admin.single", compact('drop_down_data','project_data', 'project_id','single_project','data_user','profiledata'));
+          }
+          elseif($data_user->user_role==6)
+          {
+            return view("projects::ceo.single", compact('drop_down_data','project_data', 'project_id','single_project','data_user','profiledata'));
+          }
+          elseif($data_user->user_role==7)
+          {
+            return view("projects::ceo.single", compact('drop_down_data','project_data', 'project_id','single_project','data_user','profiledata'));
+          }
+
+      }
+   
     }
 
-   public function backlog_view(Request $request){ 
+   public function backlog_view(Request $request)
+   { 
+
       $project_id = $request->id;
       $project_data = Project::where('id',$request->id)->first();
       $drop_down_data = Project::orderBy('id', 'DESC')->get();
       $sprint = AllSprint::where('project_id',$project_id)->orderBy('id', 'DESC')->get();
       return view("projects::team.backlog", compact('drop_down_data','project_data', 'project_id','sprint'));
+   
    }
 
-   public function create_issue(Request $request){
+   public function create_issue(Request $request)
+   {
       $createdby = Auth::user();
       $project_id = $request->id;
       $sprint = AllSprint::where('project_id',$request->id)->get();
@@ -46,10 +71,12 @@ class TeamController extends Controller
       $drop_down_data = Project::orderBy('id', 'DESC')->get();
       $employee = User::where('user_role',2)->orderBy('id', 'DESC')->get();
       return view('projects::team.createissue', compact('drop_down_data','project_data', 'project_id','sprint','createdby','employee'));
-   }
+  
+    }
 
    
-   public function store_issue(Request $request){
+   public function store_issue(Request $request)
+   {
       $validator = Validator::make($request->all(),[
            'project_name' => 'required',
            'task_type' => 'required', 
@@ -90,14 +117,16 @@ class TeamController extends Controller
 
    }
 
-   public function sprint_view(Request $request){
-    $project_id = $request->id;
-    $project_data = Project::where('id',$request->id)->first();
-    $drop_down_data = Project::orderBy('id', 'DESC')->get();
-    return view('projects::team.Sprintview', compact('drop_down_data','project_data', 'project_id'));
+   public function sprint_view(Request $request)
+   {
+      $project_id = $request->id;
+      $project_data = Project::where('id',$request->id)->first();
+      $drop_down_data = Project::orderBy('id', 'DESC')->get();
+      return view('projects::team.Sprintview', compact('drop_down_data','project_data', 'project_id'));
    }
 
-   public function project_settngs(Request $request){
+   public function project_settngs(Request $request)
+   {
 
       $data_user = Auth::user();
       $categorys = category::get();
@@ -112,7 +141,7 @@ class TeamController extends Controller
      {
       
   
-   }
+    }
   
   public function project_photo_save(Request $request)
 {

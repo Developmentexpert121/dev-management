@@ -1,4 +1,4 @@
-@include('projects::admin.header') 
+@include('projects::ceo.header') 
 
 <style>
 .del-class{
@@ -15,9 +15,9 @@
         <div class="col-md-12">
           <div class="card rounded-3">
             <div class="card-body p-4">
-              <h4 class="text-center my-3 pb-3">Create Issue</h4> 
+              <h4 class="text-center my-3 pb-3"> Create Issue </h4> 
                
-              <form class="row align-items-center" action='{{url("admin/projects/team/sprint/add_issue_create")}}' method='post'>
+              <form class="row align-items-center" action='{{url("ceo/projects/team/sprint/add_issue_create")}}' method='post'>
                 <input type="hidden" name="_token" id="csrf" value="<?php echo csrf_token(); ?>">
                
                 <input type='hidden' id ="project_id" name='project_id' value='{{$project_id}}'/>
@@ -227,7 +227,7 @@
                       <div class="modal-body">
                         
 
-                      <form class="row align-items-center" action='{{url("projects/team/create/issue/update")}}' method='post' >  
+                      <form class="row align-items-center" action='{{url("projects/team/create/issue/updateted")}}' method='post' >  
                          
                           <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">   
                           <input type='hidden' name='project_id' value='{{$project_id}}'/>  
@@ -348,7 +348,7 @@ $('.action').change(function()
   .table-striped tbody tr:nth-of-type(odd){ background-color: unset !important; }
   .table-striped > tbody > tr:nth-of-type(odd){ --bs-table-accent-bg: unset !important; }
 </style>
-@include('projects::admin.footer')
+@include('projects::ceo.footer')
 <script type="text/javascript">
   var dtToday = new Date();
   var month = dtToday.getMonth() + 1;
