@@ -214,6 +214,7 @@
                     </td> 
                 </tr>  
 
+
                 <!-- Modal -->
                 <div class="modal fade" id="edit{{$data->id}}" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -227,7 +228,7 @@
                       <div class="modal-body">
                         
 
-                      <form class="row align-items-center" action='{{url("projects/team/create/issue/update")}}' method='post' >  
+                      <form class="row align-items-center" action='{{url("projects/team/create/issue/updateted")}}' method='post' >  
                          
                           <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">   
                           <input type='hidden' name='project_id' value='{{$project_id}}'/>  
@@ -247,6 +248,54 @@
                                 <br>
                             </div>
                           </div>
+
+
+                            
+                  <div class="row">
+
+                     <div class="col-6"> 
+
+                          <div class="form-outline">
+
+                              <label for="assign">Assign Issue</label>
+
+                              <select name="assign" id="assign" class="form-control" >
+
+                                  <option value="">Please Assign Issue </option>
+
+                                  <?php foreach($project_Assign_Users as $user_name){ 
+                                    
+                                    if($data->assign_to==$user_name->id){
+                                      ?>
+                                          <option value="{{$user_name->id}}" selected>{{$user_name->name}}</option>  
+                                      <?php
+                                    }
+                                    else{
+                                      ?>
+                                      <option value="{{$user_name->id}}">{{$user_name->name}}</option>  
+                                     <?php
+                                    }
+                                    ?>
+
+                               
+                                 
+                                  <?php }  ?>
+
+                            </select>
+
+                              @if($errors->has('assign'))
+                              
+                              <div class="error">{{ $errors->first('assign') }}</div>
+                              @endif
+
+                              <br>
+
+                           </div>
+                        </div>
+                   </div> 
+
+
+                          
                        
                           <div class="row">
                             <div class="col-2">
@@ -262,6 +311,7 @@
                     </div>
                   </div>
                 </div>
+
 
 
             <?php } ?> 

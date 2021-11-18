@@ -27,22 +27,22 @@
       </div>
       <!-- Settings Sub Pages Area -->
 
-      <a class="nav-link" href='{{url("admin/project/team/$project_id/sprints")}}'>
+      <a class="nav-link" href='{{url("cto/project/team/$project_id/sprints")}}'>
         <i class="fa fa-print"></i>&nbsp;
         <span class="menu-title">Sprints</span>
       </a>
 
-      <a class="nav-link" href='{{url("admin/project/team/$project_id/createissue")}}'>
+      <a class="nav-link" href='{{url("cto/project/team/$project_id/createissue")}}'>
         <i class="fa fa-map"></i>&nbsp;
         <span class="menu-title">Create Issue</span>
       </a>
 
-      <a class="nav-link" href='{{url("admin/project/team/$project_id/backlog")}}'>
+      <a class="nav-link" href='{{url("cto/project/team/$project_id/backlog")}}'>
         <i class="fa fa-bars"></i>&nbsp;
         <span class="menu-title">Backlog</span>
       </a>
 
-      <a class="nav-link" href='{{url("admin/project/team/$project_id/board")}}'>
+      <a class="nav-link" href='{{url("cto/project/team/$project_id/board")}}'>
         <i class="fa fa-bars"></i>&nbsp;
         <span class="menu-title">Board</span>   
       </a> 
