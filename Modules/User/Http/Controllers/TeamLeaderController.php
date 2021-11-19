@@ -21,8 +21,10 @@ class TeamLeaderController extends Controller
     
      public function dashbaord(Request $request)
      {
-         
+      if ($request->isMethod('get'))
+      {
         return view('user::tl.dashboard');
+      }
 
      }
    public function assignproject(Request $request){ 

@@ -49,7 +49,7 @@
 
                                   <option value="">Please Assign Issue </option>
                                   <?php foreach($project_Assign_Users as $user_name){  ?>
-                                  <option value="{{$user_name->id}}">{{$user_name->name}}</option>
+                                  <option value="{{$user_name->assign_to}}">{{$user_name->name}}</option>
                                   <?php }  ?>
 
                              </select>
@@ -247,6 +247,50 @@
                                 <br>
                             </div>
                           </div>
+
+                          <div class="row">
+
+                          <div class="col-6"> 
+
+                              <div class="form-outline">
+
+                                  <label for="assign">Assign Issue</label>
+
+                                  <select name="assign" id="assign" class="form-control" >
+
+                                      <option value="">Please Assign Issue </option>
+
+                                      <?php foreach($project_Assign_Users as $user_name){ 
+                                        
+                                        if($data->assign_to==$user_name->assign_to){
+                                          ?>
+                                              <option value="{{$user_name->assign_to}}" selected>{{$user_name->name}}</option>  
+                                          <?php
+                                        }
+                                        else{
+                                          ?>
+                                          <option value="{{$user_name->assign_to}}">{{$user_name->name}}</option>  
+                                          <?php
+                                        }
+                                        ?>
+
+                                    
+                                      
+                                      <?php }  ?>
+
+                                </select>
+
+                                  @if($errors->has('assign'))
+                                  
+                                  <div class="error">{{ $errors->first('assign') }}</div>
+                                  @endif
+
+                                  <br>
+
+                                </div>
+                            </div>
+                            </div> 
+
                        
                           <div class="row">
                             <div class="col-2">

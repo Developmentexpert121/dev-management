@@ -63,7 +63,7 @@
                                         <td><?php echo $i++  ?></td> 
                                         <td><a href='{{url("admin/project/{$project_name}/{$data->id}")}}'><?php echo ucfirst($data->name);  ?></a></td>
                                         <td><?php echo ucfirst($data->key) ; ?></td>
-                                        <td><?php echo ucfirst($data->username) ; ?></td> 
+                                        <td><?php echo ucfirst($data->username) ; ?></td>  
                                         <td><?php echo $templatename ; ?></td>
                                         <td><?php echo $project_type ;?></td>
                                         <td><a href='{{url("admin/project/view/{$data->id}")}}'><i class="fa fa-eye" aria-hidden="true"></i></a>

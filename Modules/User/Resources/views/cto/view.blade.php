@@ -86,6 +86,66 @@
                             </div>
                         </div>
 
+
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                          <div class="card-body">
+                            <h4 class="card-title">Assign Project</h4>
+                            <p class="card-description"> 
+                              
+                            </p>    
+                            @if(Session::has('message'))
+                            <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+                            @endif
+
+                            <form class="forms-sample" action='{{url("admin/assign/project")}}' method='post'>
+                                      
+                                {{ csrf_field()}}
+
+                              <input type="hidden" name="id" value="<?php echo $user_data->id ?>" />
+                              <div class="form-group form-slide"> 
+                              <?php
+                              
+                                $project_assign_id =implode(',',$project_assign_id);
+                                $project_assign_id_array = explode(',', $project_assign_id);
+              
+                              ?>
+                                    <select class="js-example-basic-multiple" name="assign_project[]" multiple="multiple">
+                                    <option value="">Please Select Project</option>
+                                    <?php
+
+                                    if(!empty($project_list))
+                                    {  
+                                      foreach($project_list as $data)
+                                    {
+                                      if (in_array($data->id,$project_assign_id_array))
+                                      {
+                                        ?>
+                                        <option value="{{$data->id}}" selected>{{$data->name}}</option>
+                                      <?php
+                                      }
+                                    else
+                                      {
+                                        ?>
+                                        <option value="{{$data->id}}">{{$data->name}}</option>
+                                      <?php
+                                      }
+                                    
+                                    }  
+                                    }
+                                    ?>
+                                  
+                                    </select>
+
+                                </div>
+
+                              
+                              <button type="submit" class="btn btn-primary me-2">Assign To  Project</button>
+
+                            </form> 
+          
+                          </div>
+                        </div>
+
                     </div>
 
 
@@ -94,72 +154,7 @@
               </div>
 
 
-              <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="card-body">
-                  <h4 class="card-title">Assign Project</h4>
-                  <p class="card-description"> 
-                    
-                  </p>    
-                  @if(Session::has('message'))
-                  <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
-                  @endif
-
-                  <form class="forms-sample" action='{{url("admin/assign/project")}}' method='post'>
-                            
-                      {{ csrf_field()}}
-
-                    <input type="hidden" name="id" value="<?php echo $user_data->id ?>" />
-                    <div class="form-group form-slide"> 
-  
-                    <?php
-
-                      $project_assign_id= $user_data->project_assign;
-                      $project_assign_id_array = explode(',', $project_assign_id);
-                     // print_r($project_assign_id_array);
-
-                     $people = array("Peter", "Joe", "Glenn", "Cleveland");
-
-                    
-
-
-                     
-                     ?>
-                          <select class="js-example-basic-multiple" name="assign_project[]" multiple="multiple">
-                          <option value="">Please Select Project</option>
-                          <?php
-
-                          if(!empty($project_list))
-                          {  
-                            foreach($project_list as $data)
-                           {
-                            if (in_array($data->id,$project_assign_id_array))
-                            {
-                              ?>
-                              <option value="{{$data->id}}" selected>{{$data->name}}</option>
-                            <?php
-                            }
-                          else
-                            {
-                              ?>
-                               <option value="{{$data->id}}">{{$data->name}}</option>
-                             <?php
-                            }
-                          
-                           }  
-                          }
-                          ?>
-                        
-                           </select>
-
-                      </div>
-
-                     
-                    <button type="submit" class="btn btn-primary me-2">Assign To  Project</button>
-
-                  </form> 
- 
-                </div>
-               </div>
+         
             </div>
           </div>
 
@@ -201,7 +196,6 @@
 
 
 </style>
-          
  @include('user::admin.footer') 
 
 </div>

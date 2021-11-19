@@ -49,7 +49,7 @@
 
                                   <option value="">Please Assign Issue </option>
                                   <?php foreach($project_Assign_Users as $user_name){  ?>
-                                  <option value="{{$user_name->id}}">{{$user_name->name}}</option>
+                                  <option value="{{$user_name->assign_to}}">{{$user_name->name}}</option>
                                   <?php }  ?>
 
                              </select>
@@ -209,7 +209,7 @@
                            <i class="fa fa-pencil" title="Edit"  data-toggle="modal" data-target="#edit{{$data->id}}"></i>
                            &nbsp;&nbsp;
 
-                          <a href="<?php echo url('projects/team/sprint/delete/issue_create/'.$data->id) ?>" onclick="return confirm('Are you sure you want delete?')"><i class="fa fa-trash-o fa-lg"></i></a>
+                       <a href="<?php echo url('projects/team/sprint/delete/issue_create/'.$data->id) ?>" onclick="return confirm('Are you sure you want delete?')"><i class="fa fa-trash-o fa-lg"></i></a>
                           
                     </td> 
                 </tr>  
@@ -240,13 +240,57 @@
                                   <input type="text" id="form1" name="issue_name" class="form-control" placeholder="Enter a sprint here" value="{{$data->issue_name}}" />
                                 </div>
                                    
-                                @if($errors->has('issue_name')) 
-                                <div class="error">{{ $errors->first('issue_name') }}</div>
-                                @endif     
+                                @if($errors->has('issue_name'))  
+                                <div class="error">{{ $errors->first('issue_name') }}</div> 
+                                @endif       
 
                                 <br>
                             </div>
                           </div>
+
+
+                          <div class="row">
+
+                          <div class="col-6"> 
+
+                              <div class="form-outline">
+
+                                  <label for="assign">Assign Issue</label>
+
+                                  <select name="assign" id="assign" class="form-control" >
+
+                                      <option value="">Please Assign Issue </option>
+
+                                      <?php foreach($project_Assign_Users as $user_name){ 
+                                        
+                                        if($data->assign_to==$user_name->assign_to){
+                                          ?>
+                                              <option value="{{$user_name->assign_to}}" selected>{{$user_name->name}}</option>  
+                                          <?php
+                                        }
+                                        else{
+                                          ?>
+                                          <option value="{{$user_name->assign_to}}">{{$user_name->name}}</option>  
+                                          <?php
+                                        }
+                                        ?>
+
+                                    
+                                      
+                                      <?php }  ?>
+
+                                </select>
+
+                                  @if($errors->has('assign'))
+                                  
+                                  <div class="error">{{ $errors->first('assign') }}</div>
+                                  @endif
+
+                                  <br>
+
+                                </div>
+                            </div>
+                            </div> 
                        
                           <div class="row">
                             <div class="col-2">

@@ -36,7 +36,7 @@
                     <td><?php echo $data->email; ?></td>
                     <td><?php echo $data->created_at; ?></td> 
                     <td>
-                      <a href="<?php  echo url("ceo/user/view/{$data->id}") ?>"> <i class="fa fa-eye" aria-hidden="true" ></i></a>  &nbsp; <a href="<?php  echo url("ceo/user/delete/{$data->id}") ?>"><i class="fa fa-trash-o fa-lg" style="font-size:21px;color:red"></i> </a>&nbsp; &nbsp; <a href="<?php  echo url("ceo/user/edit/{$data->id}") ?>"><i class="fa fa-edit" style="font-size:18px;color:green"></i></a>
+                      <a href="<?php  echo url("cto/user/view/{$data->id}") ?>"> <i class="fa fa-eye" aria-hidden="true" ></i></a>  &nbsp; <a href="<?php  echo url("cto/user/delete/{$data->id}") ?>"><i class="fa fa-trash-o fa-lg" style="font-size:21px;color:red"></i> </a>&nbsp; &nbsp; <a href="<?php  echo url("cto/user/edit/{$data->id}") ?>"><i class="fa fa-edit" style="font-size:18px;color:green"></i></a>
                     </td>
                   </tr>
                 <?php
