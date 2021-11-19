@@ -113,8 +113,8 @@ Route::prefix('admin')->group(function() {
        Route::group(['middleware' => ['auth:web','CheckRole'], 'prefix' => 'team_leader'],function() 
        {
            Route::get('dashbaord','TeamLeaderController@dashbaord');
-           Route::get('assignproject','TeamLeaderController@assignproject');
-           Route::post('create_issue','TeamLeaderController@create_issue');  
+           //Route::get('assignproject','TeamLeaderController@assignproject');
+           //Route::post('create_issue','TeamLeaderController@create_issue');  
        });
   
        //*******************************End Tl Route*************************************************//

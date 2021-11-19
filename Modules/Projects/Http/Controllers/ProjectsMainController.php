@@ -19,7 +19,8 @@ use Session;
 use Modules\User\Entities\User;
 use Modules\Projects\Entities\Sprint_Issue;
 use Modules\User\Entities\Usersdata;
-class Projects2Controller extends Controller
+use Modules\User\Entities\AssignProjects;
+class ProjectsMainController extends Controller
 {
 
   public function index(Request $request)
@@ -251,7 +252,7 @@ class Projects2Controller extends Controller
         $user_id = Auth::user()->id; 
         $user_auth = Auth::user(); 
         $project_assign= $user_auth->project_assign; 
-
+       
         if($user_auth->user_role==1)
         {
             $project_list =  DB::table('project') 
@@ -268,14 +269,13 @@ class Projects2Controller extends Controller
             ->select('project.*','users.name as username') 
             ->join('users','users.id','=','project.createby') 
             ->orderBy('project.id', 'DESC')
-            ->get(); 
+            ->get();     
 
         } 
          
         $profiledata = usersdata::where('user_id' , $user_id)->first(); 
-
-     
-
+      
+    
         if($user_auth->user_role==1)
         { 
            return view('projects::admin.projectList',compact('profiledata'))->with('project_list',$project_list);  
@@ -860,7 +860,6 @@ class Projects2Controller extends Controller
   { 
 
 
-
     if ($request->isMethod('get'))
     { 
       
@@ -873,18 +872,32 @@ class Projects2Controller extends Controller
        $single_project = 'single_project';   
        $sprintIssue= Sprint_Issue::where(['project_id'=> $project_id,'sprint_id'=>$sprint_id,'status'=>0])->orderBy('id', 'DESC')->get();
        
-       $project_Assign_Users= User::where('project_assign', 'like', '%' . $project_id . '%')->get(); 
+      // $project_Assign_Users= User::where('project_assign', 'like', '%' . $project_id . '%')->get(); 
+       
+       $AssignProjects = AssignProjects::where(['project_id'=>$project_id])->count();
+
+
+      $project_Assign_Users = DB::table('assign_projects')
+       ->select('assign_projects.*','users.name')
+       ->join('users', 'assign_projects.assign_to', '=', 'users.id') 
+       ->where('assign_projects.project_id',$project_id)
+       ->groupBy('assign_projects.assign_to')
+       ->get(); 
+    
+        // echo'<pre>';
+        // print_r($articles);
+        // die();
        if($data_user->user_role==5)
        {
-          return view('projects::admin.sprint_create_issue',compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
+           return view('projects::admin.sprint_create_issue',compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
        }
        elseif($data_user->user_role==6)
        {
-         return view('projects::ceo.sprint_create_issue',compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
+          return view('projects::ceo.sprint_create_issue',compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
        }
        elseif($data_user->user_role==7)
        {
-         return view('projects::cto.sprint_create_issue',compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
+          return view('projects::cto.sprint_create_issue',compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
        }    
 
     }
@@ -1392,6 +1405,9 @@ class Projects2Controller extends Controller
   
   
     }
+
+
+  
 
 
    

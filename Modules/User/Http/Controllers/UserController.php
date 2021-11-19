@@ -13,6 +13,7 @@ use Modules\User\Entities\Usersdata;
 use Modules\Projects\Entities\Project;
 use Modules\Projects\Entities\Issue;
 use Modules\User\Entities\Role;
+use Modules\User\Entities\AssignProjects;
 use Redirect;
 use Session;
 
@@ -148,6 +149,8 @@ class UserController extends Controller
             $profiledata = usersdata::where('user_id' , $tasks)->first();
             $user_list = User::where('user_role','!=',5)
             ->get();
+
+        
             
             if($user_auth->user_role==5)
             {   
@@ -474,48 +477,66 @@ class UserController extends Controller
     public function view(Request $request)
     { 
 
-        $user_auth = Auth::user();  
-        $user_data = User::where('id',$request->id)->first();
-        $url_link = env("APP_URL").'/management/storage/app/public/images';  
-
-        $project_list =  DB::table('project')
-       ->select('*')
-       ->orderBy('name', 'ASC')
-       ->get();
-
-      // $project_assign_id_array = explode(',', $project_assign_id);
+        if ($request->isMethod('get'))
+        {
             
+                $user_auth = Auth::user();  
+                $user_data = User::where('id',$request->id)->first();
+                $url_link = env("APP_URL").'/management/storage/app/public/images';  
 
-        if($user_auth->user_role==5)
-        {
+                $project_list =  DB::table('project')
+                ->select('*')
+                ->orderBy('name', 'ASC')
+                ->get();
 
-            return view('user::admin.view')->with(compact('user_data','url_link','user_auth','project_list')); 
-        }
-        elseif($user_auth->user_role==6)
-        {
-            return view('user::ceo.view')->with(compact('user_data','url_link','user_auth','project_list')); 
 
-        }
-        elseif($user_auth->user_role==7)
-        {
-            return view('user::cto.view')->with(compact('user_data','url_link','user_auth','project_list')); 
+                $assignProjects = AssignProjects::where('assign_to',$request->id)->get();
+                $project_assign_id=array();
 
-        }
+                foreach($assignProjects as $k => $assign_pro_id)
+                {
+                   
+                     $project_assign_id [] .= $assign_pro_id->project_id;
+                   
+                }
+          
+        
+                if($user_auth->user_role==5)
+                {
+
+                    return view('user::admin.view')->with(compact('user_data','url_link','user_auth','project_list','project_assign_id')); 
+                }
+                elseif($user_auth->user_role==6)
+                {
+                    return view('user::ceo.view')->with(compact('user_data','url_link','user_auth','project_list','project_assign_id')); 
+
+                }
+                elseif($user_auth->user_role==7)
+                {
+                    return view('user::cto.view')->with(compact('user_data','url_link','user_auth','project_list','project_assign_id')); 
+
+                }
+         }
 
     }
 
     public function assign_project(Request $request)
     {
-      
+        // echo'<pre>';
+        // print_r($request->all());
+        // die();
         $method = $request->method();
 
-        //$user_auth = Auth::user();  
+        $user_auth = Auth::user();  
 
+     
+        //$user_auth = Auth::user();  
         if ($request->isMethod('post'))
         {
 
             $id = $request->id;
             $assign_project = $request->assign_project; 
+
           
             $validator = Validator::make($request->all(),[
                 'assign_project' => 'required' 
@@ -525,17 +546,30 @@ class UserController extends Controller
              {
                 return Redirect::back()->withErrors($validator)->withInput(); 
              }
-
-            $assign_project = implode(",",$assign_project);
              
-             User::where('id', $id)
-            ->update([
-               'project_assign' => $assign_project
-              ]);
+            
 
+            foreach($assign_project as $project_id)
+            {
+
+                $check = AssignProjects::where(['project_id'=>$project_id,'assign_to'=>$id])->count();
+
+                if($check < 1){
+
+                    $assignProjects = new AssignProjects(); 
+                    $assignProjects->assign_by = $user_auth->id;  // assign by login  user
+                    $assignProjects->assign_to = $id; // assign user id
+                    $assignProjects->project_id = $project_id;
+                    $assignProjects->status = 0;
+                    $assignProjects->save();
+
+                } 
+              
+            }
+
+        
               Session::flash('message', 'Assign Project Successfully'); 
-              Session::flash('alert-class', 'alert-success'); 
-
+              Session::flash('alert-class', 'alert-success');
               return Redirect::back();
 
 
