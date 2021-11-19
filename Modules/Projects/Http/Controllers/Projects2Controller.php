@@ -871,9 +871,9 @@ class Projects2Controller extends Controller
        $project_data = Project::where('id',$project_id)->first();
        $drop_down_data = Project::orderBy('id', 'DESC')->get();
        $single_project = 'single_project';   
-       $sprintIssue= Sprint_Issue::where(['project_id'=> $project_id,'sprint_id'=>$sprint_id])->orderBy('id', 'DESC')->get();
+       $sprintIssue= Sprint_Issue::where(['project_id'=> $project_id,'sprint_id'=>$sprint_id,'status'=>0])->orderBy('id', 'DESC')->get();
        
-       $project_Assign_Users= User::where('project_assign', 'like', '%' . $project_id . '%')->get();
+       $project_Assign_Users= User::where('project_assign', 'like', '%' . $project_id . '%')->get(); 
        if($data_user->user_role==5)
        {
           return view('projects::admin.sprint_create_issue',compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
@@ -956,12 +956,12 @@ class Projects2Controller extends Controller
               $sprintIssue->status= 1; 
               $sprintIssue->save(); 
 
-              return Redirect::back()->with('message','Add Successfully');
+              return Redirect::back()->with('message',' Backlog Issue Create Successfully');
 
           }
           else
           {
-            //not backlog issue
+             //not backlog issue 
               
             $sprintIssue= new Sprint_Issue();
             $sprintIssue->issue_name= $request->issueCreate;
@@ -970,9 +970,10 @@ class Projects2Controller extends Controller
             $sprintIssue->created_by= $userId;
             $sprintIssue->assign_to= $request->assign;
             $sprintIssue->assign_by= $userId;
+            $sprintIssue->status= 0; 
             $sprintIssue->save();
         
-            return Redirect::back()->with('message','Add Successfully');
+            return Redirect::back()->with('message','Issue Create Successfully');
         
           }
 
@@ -996,8 +997,7 @@ class Projects2Controller extends Controller
       return Redirect::back()->withErrors($validator)->withInput();
     }
      
-   
-
+  
      $sprint_start= new Sprint_start();
      $sprint_start->product_id = $request->project_id;
      $sprint_start->sprint_id = $request->sprint_id;
