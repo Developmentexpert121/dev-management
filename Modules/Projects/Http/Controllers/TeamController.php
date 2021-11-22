@@ -39,6 +39,7 @@ class TeamController extends Controller
           }
           elseif($data_user->user_role==6)
           {
+            
             return view("projects::ceo.single", compact('drop_down_data','project_data', 'project_id','data_user','profiledata'));
           }
           elseif($data_user->user_role==7)
