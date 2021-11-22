@@ -1,8 +1,8 @@
-@include('projects::admin.header')
+@include('projects::employee.header')
 
 <div class="container">
   <section class="" style="background-color: #eee;">
-    <div class="custom_div">
+    <!-- <div class="custom_div">
       <div class="row">
         <div class="col-md-12">
           <div class="card rounded-3">
@@ -34,7 +34,7 @@
                     <div class="col-6">
                       <div class="form-outline">
                         <label>Start Date</label>
-                        <input type="date" id="form1" value="{{old('start_date')}}" name="start_date" class="form-control startDate"/>
+                        <input type="date" id="start_date" value="{{old('start_date')}}" name="start_date" class="form-control startDate"/>
                       </div>
                       @if($errors->has('start_date'))
                       <div class="error ">{{ $errors->first('start_date') }}</div>
@@ -48,12 +48,12 @@
                   <div class="col-6">
                     <div class="form-outline">
                       <label>Duration</label>
-                      <select name="duration" class="form-control">
+                      <select name="duration" id="duration" class="form-control">
                         <option value="">Select</option>
                         <option value="1" <?php if(old('duration') == '1'){ echo 'selected'; } ?>>1 week</option>
                         <option value="2" <?php if(old('duration') == '2'){ echo 'selected'; } ?>>2 week</option>
                         <option value="3" <?php if(old('duration') == '3'){ echo 'selected'; } ?>>3 week</option>
-                        <!-- <option value="4">Custom</option> -->
+                      
                       </select>
                     </div>
                     @if($errors->has('duration'))
@@ -65,7 +65,7 @@
                   <div class="col-6">
                       <div class="form-outline">
                         <label>End Date</label>
-                        <input type="date" id="form1" value="{{old('end_date')}}"  name="end_date" class="form-control endDate"/>
+                        <input type="date" id="end_date" value="{{old('end_date')}}"  name="end_date" class="form-control endDate"/>
                       </div>
                       @if($errors->has('end_date'))
                       <div class="error">{{ $errors->first('end_date') }}</div>
@@ -89,7 +89,7 @@
 
                 <div class="row">
                   <div class="col-2">
-                    <button type="submit" class="btn btn-primary">Create Sprint</button>
+                    <button type="submit" class="btn btn-primary">Create Sprint </button>
                   </div>
                 </div>
 
@@ -102,7 +102,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </section>
   <div class="row" style="width: 100%;">
 
@@ -126,9 +126,8 @@
                 <th>End Date</th>
                 <th>Create Issue</th>
                 <th>Created By</th>
+                <!-- <th>Start Sprint</th> -->
                 <th>Action</th> 
-                <th>Start Sprint</th>
-                
             </tr>
         </thead>
         <tbody>
@@ -148,16 +147,16 @@
                     <td>{{date('d-m-Y', strtotime($data->end_date))}}</td> 
 
                     <td>
-                      <a href="<?php echo url('admin/project/sprint/create_issue/'.$project_id.'/'.$data->id) ?>">Create Issue</a>
+                      <a href="<?php echo url('employee/project/sprint/create_issue/'.$project_id.'/'.$data->id) ?>">Create Issue</a>
                     </td>
                     <td>{{ucfirst($data->create_project_user)}}  ({{$data->role}})</td>
 
-                    <td> 
+                    <!-- <td> 
                        
-                    <a href="<?php echo url('admin/project/edit_sprint/'.$project_id.'/'.$data->id) ?>"><i class="fa fa-pencil" title="Edit"></i></a>
-                    <a href="<?php echo url('admin/project/team/delete_sprint/'.$project_id.'/'.$data->id) ?>" onclick="return confirm('Are you sure you want delete?')"><i class="fa fa-trash-o fa-lg"></i></a>
+                    <a href="<?php echo url('employee/project/edit_sprint/'.$project_id.'/'.$data->id) ?>"><i class="fa fa-pencil" title="Edit"></i></a>
+                    <a href="<?php echo url('employee/project/team/delete_sprint/'.$project_id.'/'.$data->id) ?>" onclick="return confirm('Are you sure you want delete?')"><i class="fa fa-trash-o fa-lg"></i></a>
 
-                    </td>  
+                    </td>   -->
 
                     <td> 
                      <!-- Button trigger modal -->
@@ -239,9 +238,9 @@
                               
                   <form class="row align-items-center" action='{{url("admin/projects/team/sprint/complete")}}' method='post'> 
                           
-                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> 
-                            <input type='hidden' name='project_id' value='{{$project_id}}'/> 
-                            <input type='hidden' name='sprint_id' value='{{$data->id}}'/>   
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>"> 
+                        <input type='hidden' name='project_id' value='{{$project_id}}'/> 
+                        <input type='hidden' name='sprint_id' value='{{$data->id}}'/>   
                           <?php 
                           
                             if($i-1==$nums)
@@ -398,17 +397,24 @@
                 <th>End Date</th>
                 <th>Create Issue</th>
                 <th>Created By</th>
+                <!-- <th>Start Sprint</th> -->
                 <th>Action</th>
-                <th>Start Sprint</th>
             </tr>
         </tfoot>
       </table>
-    <?php } ?>
+   
+      <?php 
+
+      } 
+
+    ?>
   </div>
 </div>
 
 
 <style type="text/css">
+
+
 
 .btn:not(:disabled):not(.disabled) {
     cursor: pointer;
@@ -421,4 +427,20 @@
   .table-striped tbody tr:nth-of-type(odd){ background-color: unset !important; }
   .table-striped > tbody > tr:nth-of-type(odd){ --bs-table-accent-bg: unset !important; }
 </style>
-@include('projects::admin.footer')
+
+<script>
+
+  
+  $('#start_date').on("change", function(){
+
+     // let duration =$("#duration").val();
+      
+   })
+
+   
+
+</script>
+
+@include('projects::employee.footer')
+
+

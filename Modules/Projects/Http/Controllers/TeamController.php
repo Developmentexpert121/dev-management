@@ -32,19 +32,27 @@ class TeamController extends Controller
           $profiledata = usersdata::where('user_id' , $tasks)->first();
           $drop_down_data = Project::orderBy('id', 'DESC')->get();
           $project_id = $request->id;
-          $single_project = 'single_project';  
-
+         
           if($data_user->user_role==5)
           {
-            return view("projects::admin.single", compact('drop_down_data','project_data', 'project_id','single_project','data_user','profiledata'));
+            return view("projects::admin.single", compact('drop_down_data','project_data', 'project_id','data_user','profiledata'));
           }
           elseif($data_user->user_role==6)
           {
-            return view("projects::ceo.single", compact('drop_down_data','project_data', 'project_id','single_project','data_user','profiledata'));
+            
+            return view("projects::ceo.single", compact('drop_down_data','project_data', 'project_id','data_user','profiledata'));
           }
           elseif($data_user->user_role==7)
           {
-            return view("projects::ceo.single", compact('drop_down_data','project_data', 'project_id','single_project','data_user','profiledata'));
+            return view("projects::cto.single", compact('drop_down_data','project_data', 'project_id','data_user','profiledata'));
+          }
+          elseif($data_user->user_role==1)
+          {
+            return view("projects::team_leader.single", compact('drop_down_data','project_data', 'project_id','data_user','profiledata'));
+          }
+          elseif($data_user->user_role==2)
+          { 
+            return view("projects::employee.single", compact('drop_down_data','project_data', 'project_id','data_user','profiledata'));
           }
 
       }
@@ -64,6 +72,10 @@ class TeamController extends Controller
 
    public function create_issue(Request $request)
    {
+     
+  
+    if ($request->isMethod('get'))
+    { 
       $createdby = Auth::user();
       $project_id = $request->id;
       $sprint = AllSprint::where('project_id',$request->id)->get();
@@ -71,6 +83,7 @@ class TeamController extends Controller
       $drop_down_data = Project::orderBy('id', 'DESC')->get();
       $employee = User::where('user_role',2)->orderBy('id', 'DESC')->get();
       return view('projects::team.createissue', compact('drop_down_data','project_data', 'project_id','sprint','createdby','employee'));
+    }
   
     }
 

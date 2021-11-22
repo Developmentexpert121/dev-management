@@ -1,4 +1,4 @@
-@include('projects::cto.header') 
+@include('projects::team_leader.header') 
 
 <style>
 .del-class{
@@ -17,7 +17,7 @@
             <div class="card-body p-4">
               <h4 class="text-center my-3 pb-3">Create Issue</h4> 
                
-              <form class="row align-items-center" action='{{url("cto/projects/team/sprint/add_issue_create")}}' method='post'>
+              <form class="row align-items-center" action='{{url("team_leader/projects/team/sprint/add_issue_create")}}' method='post'>
                 <input type="hidden" name="_token" id="csrf" value="<?php echo csrf_token(); ?>">
                
                 <input type='hidden' id ="project_id" name='project_id' value='{{$project_id}}'/>
@@ -209,10 +209,11 @@
                            <i class="fa fa-pencil" title="Edit"  data-toggle="modal" data-target="#edit{{$data->id}}"></i>
                            &nbsp;&nbsp;
 
-                       <a href="<?php echo url('projects/team/sprint/delete/issue_create/'.$data->id) ?>" onclick="return confirm('Are you sure you want delete?')"><i class="fa fa-trash-o fa-lg"></i></a>
+                          <a href="<?php echo url('projects/team/sprint/delete/issue_create/'.$data->id) ?>" onclick="return confirm('Are you sure you want delete?')"><i class="fa fa-trash-o fa-lg"></i></a>
                           
                     </td> 
                 </tr>  
+
 
                 <!-- Modal -->
                 <div class="modal fade" id="edit{{$data->id}}" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
@@ -240,58 +241,57 @@
                                   <input type="text" id="form1" name="issue_name" class="form-control" placeholder="Enter a sprint here" value="{{$data->issue_name}}" />
                                 </div>
                                    
-                                @if($errors->has('issue_name'))  
-                                <div class="error">{{ $errors->first('issue_name') }}</div> 
-                                @endif       
+                                @if($errors->has('issue_name')) 
+                                <div class="error">{{ $errors->first('issue_name') }}</div>
+                                @endif     
 
                                 <br>
                             </div>
                           </div>
 
+                            
+                         <div class="row">
 
-                          <div class="row">
+                           <div class="col-6"> 
 
-                          <div class="col-6"> 
+                                <div class="form-outline">
 
-                              <div class="form-outline">
+                                    <label for="assign">Assign Issue</label>
 
-                                  <label for="assign">Assign Issue</label>
+                                    <select name="assign" id="assign" class="form-control" >
 
-                                  <select name="assign" id="assign" class="form-control" >
+                                        <option value="">Please Assign Issue </option>
 
-                                      <option value="">Please Assign Issue </option>
-
-                                      <?php foreach($project_Assign_Users as $user_name){ 
-                                        
-                                        if($data->assign_to==$user_name->assign_to){
-                                          ?>
-                                              <option value="{{$user_name->assign_to}}" selected>{{$user_name->name}}</option>  
+                                        <?php foreach($project_Assign_Users as $user_name){ 
+                                          
+                                          if($data->assign_to==$user_name->assign_to){
+                                            ?>
+                                                <option value="{{$user_name->assign_to}}" selected>{{$user_name->name}}</option>  
+                                            <?php
+                                          }
+                                          else{
+                                            ?>
+                                            <option value="{{$user_name->assign_to}}">{{$user_name->name}}</option>  
                                           <?php
-                                        }
-                                        else{
+                                          }
                                           ?>
-                                          <option value="{{$user_name->assign_to}}">{{$user_name->name}}</option>  
-                                          <?php
-                                        }
-                                        ?>
+                                          
+                                        <?php }  ?>
 
+                                  </select>
+
+                                    @if($errors->has('assign'))
                                     
-                                      
-                                      <?php }  ?>
+                                    <div class="error">{{ $errors->first('assign') }}</div>
+                                    @endif
 
-                                </select>
-
-                                  @if($errors->has('assign'))
-                                  
-                                  <div class="error">{{ $errors->first('assign') }}</div>
-                                  @endif
-
-                                  <br>
+                                    <br>
 
                                 </div>
-                            </div>
-                            </div> 
-                       
+                              </div>
+                          </div> 
+
+
                           <div class="row">
                             <div class="col-2">
                               <button type="submit" class="btn btn-primary">Update</button>
@@ -306,6 +306,7 @@
                     </div>
                   </div>
                 </div>
+
 
 
             <?php } ?> 
@@ -378,5 +379,18 @@ $('.action').change(function()
 </script>
 
 
-@include('projects::cto.footer')
 
+
+<style type="text/css">
+
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+    width: 190px;
+}
+  .btn { width: 100%; }
+  section { height: auto!important; }
+  #projects_table_wrapper{ margin-left: 15px; margin-top: 15px; }
+  .table-striped tbody tr:nth-of-type(odd){ background-color: unset !important; }
+  .table-striped > tbody > tr:nth-of-type(odd){ --bs-table-accent-bg: unset !important; }
+</style>
+@include('projects::team_leader.footer')

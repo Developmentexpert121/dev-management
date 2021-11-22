@@ -12,19 +12,19 @@
     <li class="nav-item nav-category"><h4 class="st_color"></h4></li>
     <li class="nav-item">
 
-      <a class="nav-link" data-bs-toggle="collapse" href="#settings_tabs" aria-expanded="false" aria-controls="settings_tabs">
+      <!-- <a class="nav-link" data-bs-toggle="collapse" href="#settings_tabs" aria-expanded="false" aria-controls="settings_tabs">
         <i class="fa fa-gear"></i>&nbsp;
         <span class="menu-title">Project setting</span>&nbsp;
-        <i class="fa fa-chevron-circle-down"></i>
-      </a>
+        <i class="fa fa-chevron-circle-down"></i>    
+      </a> -->
       <!-- Settings Sub Pages Area -->
-      <div class="collapse" id="settings_tabs">
+      <!-- <div class="collapse" id="settings_tabs">
         <ul class="nav flex-column">
           <li class=""> <a class="nav-link" href='{{url("admin/project/team/$project_id/settings")}}'><i class="fa fa-info-circle"></i>&nbsp; Details</a></li>
           <li class=""> <a class="nav-link" href='{{url("admin/project/team/$project_id/access")}}'><i class="fa fa-info-circle"></i>&nbsp; Access</a></li>
           <li class=""> <a class="nav-link" href='{{url("admin/project/team/$project_id/issues")}}'><i class="fa fa-info-circle"></i>&nbsp; Issue Types</a></li>
         </ul>
-      </div>
+      </div> -->
       <!-- Settings Sub Pages Area -->
 
       <a class="nav-link" href='{{url("cto/project/team/$project_id/sprints")}}'>

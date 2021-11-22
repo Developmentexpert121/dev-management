@@ -17,8 +17,8 @@ class EmployeeController extends Controller
     
      public function dashbaord(Request $request)
      {
-       
-        return view('user::employee.dashboard');
+      
+        return view('user::employee.dashboard');    
 
      }
     

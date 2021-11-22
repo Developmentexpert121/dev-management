@@ -162,6 +162,7 @@ Route::post('photo-save','TeamController@project_photo_save')->middleware('Check
 	Route::get('project/team/{id}/backlog','ProjectsMainController@backlog')->middleware('CheckRole');
 	Route::get('project/team/{project_id}/board','ProjectsMainController@board'); 
 	Route::get('project/team/{id}/createissue','ProjectsMainController@createissue')->middleware('CheckRole');
+	Route::get('project/team/{id}','TeamController@load_page')->middleware('CheckRole');
 	
 	
  });  
@@ -185,15 +186,41 @@ Route::prefix('cto')->group(function()
 	 Route::get('project/team/{id}/createissue','ProjectsMainController@createissue')->middleware('CheckRole');
 	 Route::get('project/team/{id}/backlog','ProjectsMainController@backlog')->middleware('CheckRole');
 	 Route::get('project/team/{project_id}/board','ProjectsMainController@board'); 
+	 Route::get('project/team/{id}','TeamController@load_page')->middleware('CheckRole');
 
 });  
 
  Route::prefix('team_leader')->group(function()
- {   
-	 
+ {    
+
     Route::get('project/assign','TeamLeaderController@index')->middleware('CheckRole'); 
+	Route::get('project/team/{id}/sprints','ProjectsMainController@sprints')->middleware('CheckRole');
+	Route::get('project/team/{id}/createissue','ProjectsMainController@createissue')->middleware('CheckRole');
+	Route::get('project/team/{id}/backlog','ProjectsMainController@backlog')->middleware('CheckRole');
+    Route::get('project/team/{project_id}/board','ProjectsMainController@board'); 
+	Route::get('project/sprint/create_issue/{project_id}/{sprint_id}','ProjectsMainController@sprint_create_issue');
+	Route::get('project/edit_sprint/{project_id}/{edit_id}/','ProjectsMainController@edit_sprint'); 
+	Route::post('project/team/sprints/edit/{id}','ProjectsMainController@editData_sprint'); 
+	Route::get('project/team/delete_sprint/{project_id}/{delete_id}','ProjectsMainController@delete_sprint'); 
+	Route::post('projects/team/sprint/complete','ProjectsMainController@complete_sprint'); 
+	Route::post('projects/team/sprint/add_issue_create','ProjectsMainController@add_issue_create'); 
+	
+ });
+
+ Route::prefix('employee')->group(function()
+ {    
+     Route::get('project/assign','TeamLeaderController@index')->middleware('CheckRole'); 
+	 Route::get('project/team/{id}','TeamController@load_page')->middleware('CheckRole');
+	 Route::get('project/team/{id}/sprints','ProjectsMainController@sprints')->middleware('CheckRole');
+	 Route::get('project/sprint/create_issue/{project_id}/{sprint_id}','ProjectsMainController@sprint_create_issue')->middleware('CheckRole');
+	 Route::post('projects/team/sprint/add_issue_create','ProjectsMainController@add_issue_create');
+	 Route::get('project/team/{id}/createissue','ProjectsMainController@createissue')->middleware('CheckRole');
+	 Route::get('project/team/{id}/backlog','ProjectsMainController@backlog')->middleware('CheckRole');
+	 Route::get('project/team/{project_id}/board','ProjectsMainController@board'); 
+	
 
  });
+
 
 
  

@@ -130,6 +130,7 @@ Route::prefix('admin')->group(function() {
         Route::get('dashbaord','EmployeeController@dashbaord'); 
        
       });
+      
        //*******************************end Employee  Route*************************************************//
 
        
