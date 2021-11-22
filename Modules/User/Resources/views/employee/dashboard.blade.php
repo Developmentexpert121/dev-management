@@ -1,5 +1,6 @@
-@include('user::manager.header')
+@include('user::employee.header')
  
+
     <div class="main-panel">    
           
     <div class="row"> 
@@ -13,7 +14,7 @@
                                    <h4 class="card-title card-title-dash">Performance Line Chart</h4>
                                    <h5 class="card-subtitle card-subtitle-dash">Lorem Ipsum is simply dummy text of the printing</h5>
                                   </div>
-                                  <div id="performance-line-legend"></div>
+                                   <div id="performance-line-legend"></div>
                                 </div>
                                 <div class="chartjs-wrapper mt-5">
                                   <canvas id="performaneLine"></canvas>
@@ -77,7 +78,7 @@
                       </div>
                     </div>
  
-    @include('user::manager.footer') 
+    @include('user::employee.footer') 
 
            
         

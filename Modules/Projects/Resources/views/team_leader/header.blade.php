@@ -5,17 +5,19 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Employee Dashboard</title>
+  <title>Software development</title>
   
 <!--  Data Table --> 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" defer></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap4.min.css">
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap4.min.css">
+
   <!-- plugins:css -->
   <link rel="stylesheet" href=" {{ asset('vendors/feather/feather.css') }} ">
   <!--<link rel="stylesheet" href="{{ asset('vendors/mdi/css/materialdesignicons.min.css') }}">-->
@@ -25,29 +27,29 @@
   <link rel="stylesheet" href="{{ asset('vendors/css/vendor.bundle.base.css') }}">
   <!-- endinject -->
   <!-- Plugin css for this page -->
-
+  
+ 
   <!-- End plugin css for this page -->
   <!-- inject:css -->  
   <link rel="stylesheet" href="{{ asset('css/vertical-layout-light/style.css') }}">
   <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+
   <!-- endinject -->
   <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
+
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+
+
   <link href="https://parsleyjs.org/src/parsley.css" rel="stylesheet" />
   <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.3.4/parsley.min.js"></script>  
 
 
 </head>
 <body> 
-<?php
-use Modules\User\Entities\Usersdata;
-$user_auth = Auth::user(); 
-$tasks = Auth::user()->id;
-$profiledata = usersdata::where('user_id' , $tasks)->first();
-?>
 
-
+ <?php $data_user = Auth::user(); ?>
 <div class="container-scroller">      
       
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
@@ -61,12 +63,11 @@ $profiledata = usersdata::where('user_id' , $tasks)->first();
        
         </div>
       </div>
-
       <div class="navbar-menu-wrapper d-flex align-items-top"> 
 
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">Employee <span class="text-black fw-bold"></span></h1>
+            <h1 class="welcome-text"><?php if(!empty($project_data)){ echo $project_data->name;} ?> <span class="text-black fw-bold"></span></h1>
             <h3 class="welcome-sub-text">Your performance summary this week </h3>
           </li>
         </ul>
@@ -199,48 +200,45 @@ $profiledata = usersdata::where('user_id' , $tasks)->first();
           </li>
           <li class="nav-item dropdown d-none d-lg-block user-dropdown">
             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-            <?php if(!empty($profiledata->image)){  ?>
+              <?php if(!empty($profiledata->image)){  ?>
               <img class="img-xs rounded-circle" src="{{ asset('user/images/' . $profiledata->image)}}" alt="Profile image">
               <?php }else{ ?>
                 <img class="img-xs rounded-circle" src="{{asset('user/images/default.png')}}" alt="Profile image">
               <?php } ?></a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
-              <?php if(!empty($profiledata->image)){  ?>
+                <?php if(!empty($profiledata->image)){  ?>
               <img class="img-xs rounded-circle" src="{{ asset('user/images/' . $profiledata->image)}}" alt="Profile image">
               <?php }else{ ?>
                 <img class="img-xs rounded-circle" src="{{asset('user/images/default.png')}}" alt="Profile image">
-              <?php } ?>
-                <p class="mb-1 mt-3 font-weight-semibold">{{$user_auth->name}}</p>
-                <p class="fw-light text-muted mb-0">{{$user_auth->email}}</p> 
+              <?php } ?></a>
+                <p class="mb-1 mt-3 font-weight-semibold">{{$data_user->name}}</p>
+                <p class="fw-light text-muted mb-0">{{$data_user->email}}</p> 
               </div>
-              <a class="dropdown-item" href='{{url("admin/user/profile")}}' ><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
+              <a class="dropdown-item" href="{{ URL('admin/user/profile') }}" ><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>
               <a class="dropdown-item" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{ route('logout') }}"
-               onclick="event.preventDefault();
-               document.getElementById('logout-form').submit();">
-              {{ __('Logout') }}
-              </a> <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-              @csrf
-              </form>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+
             </div> 
           </li>
         </ul>
-
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
           <span class="mdi mdi-menu"></span>
         </button>
-
       </div>
-
     </nav>
-
-
-
     <div class="container-fluid page-body-wrapper">
-   
-   
-    @include('user::employee.sidebar')  
+      
+    @include('projects::team_leader.sidebar')
+
+ 
+    

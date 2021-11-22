@@ -21,7 +21,7 @@
                                     <th>Sr.No</th>
                                     <th>Name</th>
                                     <th>key</th>
-                                    <th>Created by</th>
+                                    <th>Created by (Role)</th>
                                     <th>Template</th>
                                     <th>Project Type</th>
                                     <th>Action</th>
@@ -61,9 +61,9 @@
                                     ?>
                                     <tr> 
                                         <td><?php echo $i++  ?></td> 
-                                        <td><a href='{{url("admin/project/{$project_name}/{$data->id}")}}'><?php echo ucfirst($data->name);  ?></a></td>
+                                        <td><a href='{{url("ceo/project/{$project_name}/{$data->id}")}}'><?php echo ucfirst($data->name);  ?></a></td>
                                         <td><?php echo ucfirst($data->key) ; ?></td>
-                                        <td><?php echo ucfirst($data->username) ; ?></td> 
+                                        <td><?php echo ucfirst($data->username).' ('.$data->role.')' ; ?></td>  
                                         <td><?php echo $templatename ; ?></td>
                                         <td><?php echo $project_type ;?></td>
                                         <td><a href='{{url("admin/project/view/{$data->id}")}}'><i class="fa fa-eye" aria-hidden="true"></i></a>
@@ -79,7 +79,7 @@
                                     <th>Sr.No</th>
                                     <th>Name</th>
                                     <th>key</th>
-                                    <th>Created by</th>
+                                    <th>Created by (Role)</th>
                                     <th>Template</th>
                                     <th>Project Type</th>
                                     <th>Action</th>

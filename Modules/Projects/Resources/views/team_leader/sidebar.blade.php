@@ -2,19 +2,17 @@
   <ul class="nav">
 
     <!-- Main Pages -->
-
     <li class="nav-item active">
       <a class="nav-link" href='{{url("dashboard")}}'>
         <i class="mdi mdi-grid-large menu-icon"></i>
         <span class="menu-title"><i class="fa fa-arrow-left"></i>&nbsp;Back</span>
       </a>
     </li>
-
     <!--<li class="nav-item nav-category"><h4 class="st_color"><?php // echo $project_data->name ?></h4></li>-->
     <li class="nav-item nav-category"><h4 class="st_color"></h4></li>
     <li class="nav-item">
-<!-- 
-      <a class="nav-link" data-bs-toggle="collapse" href="#settings_tabs" aria-expanded="false" aria-controls="settings_tabs">
+
+      <!-- <a class="nav-link" data-bs-toggle="collapse" href="#settings_tabs" aria-expanded="false" aria-controls="settings_tabs">
         <i class="fa fa-gear"></i>&nbsp;
         <span class="menu-title">Project setting</span>&nbsp;
         <i class="fa fa-chevron-circle-down"></i>
@@ -29,22 +27,22 @@
       </div> -->
       <!-- Settings Sub Pages Area -->
 
-      <a class="nav-link" href='{{url("ceo/project/team/$project_id/sprints")}}'>
+      <a class="nav-link" href='{{url("team_leader/project/team/$project_id/sprints")}}'>
         <i class="fa fa-print"></i>&nbsp;
         <span class="menu-title">Sprints</span>
       </a>
 
-      <a class="nav-link" href='{{url("ceo/project/team/$project_id/createissue")}}'>
+      <a class="nav-link" href='{{url("team_leader/project/team/$project_id/createissue")}}'>
         <i class="fa fa-map"></i>&nbsp;
         <span class="menu-title">Create Issue</span>
       </a>
 
-      <a class="nav-link" href='{{url("ceo/project/team/$project_id/backlog")}}'>
+      <a class="nav-link" href='{{url("team_leader/project/team/$project_id/backlog")}}'>
         <i class="fa fa-bars"></i>&nbsp;
         <span class="menu-title">Backlog</span>
       </a>
 
-      <a class="nav-link" href='{{url("ceo/project/team/$project_id/board")}}'>
+      <a class="nav-link" href='{{url("team_leader/project/team/$project_id/board")}}'>
         <i class="fa fa-bars"></i>&nbsp;
         <span class="menu-title">Board</span>   
       </a> 

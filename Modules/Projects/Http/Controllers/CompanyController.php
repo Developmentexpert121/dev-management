@@ -220,14 +220,14 @@ class CompanyController extends Controller
 
   public function board(Request $request)
     {
-
+     
       $data_user = Auth::user();
       $project_data = Project::where('id',$request->id)->first(); 
       $drop_down_data = Project::orderBy('id', 'DESC')->get(); 
       $project_id = $request->project_id;  
       $single_project = 'single_project'; 
       $statusResult = DB::table('board_heading')->get();
-
+     
 
       $getSprint = AllSprint::where('project_id',$project_id)->first();
 

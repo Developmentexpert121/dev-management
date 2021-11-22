@@ -89,9 +89,9 @@
 
                 <div class="row">
                   <div class="col-2">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Create Sprint</button>
                   </div>
-                </div>
+                </div> 
                 <!-- <div class="col-2">
                   <button type="submit" class="btn btn-warning">Get tasks</button>
                 </div> -->
@@ -405,6 +405,10 @@
 
 
 <style type="text/css">
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+    width: 182px;
+}
   .btn { width: 100%; }
   section { height: auto!important; }
   #projects_table_wrapper{ margin-left: 15px; margin-top: 15px; }
@@ -414,17 +418,3 @@
 
 @include('projects::ceo.footer')
 
-<script type="text/javascript">
-  var dtToday = new Date();
-  var month = dtToday.getMonth() + 1;
-  var day = dtToday.getDate();
-  var year = dtToday.getFullYear();
-  if(month < 10){
-    month = '0' + month.toString();
-  }
-  if(day < 10){
-    day = '0' + day.toString();
-  }
-  var maxDate = year + '-' + month + '-' + day;
-  $('.startDate').attr('min', maxDate);
-  $('.endDate').attr('min', max{{url("projects/team/project/add_sprint")}}
