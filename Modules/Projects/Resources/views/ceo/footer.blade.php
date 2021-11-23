@@ -1,12 +1,7 @@
 <footer class="footer">
           
-        </footer>
-
       
-
   
-  
-  <script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script>
   <!-- endinject -->
   <!-- Plugin js for this page -->
   <script src="{{ asset('vendors/chart.js/Chart.min.js') }}"></script>
@@ -24,6 +19,10 @@
   <!-- Custom js for this page-->
   <script src="{{ asset('js/dashboard.js') }}"></script>
   <script src="{{ asset('js/Chart.roundedBarCharts.js') }}"></script>
+
+
+
+  <!-- <script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script> -->
   
   <script>
     $(document).ready(function() {
@@ -36,3 +35,4 @@
 </body>
 </html>
 
+</footer>

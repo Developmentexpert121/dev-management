@@ -1,6 +1,6 @@
 
 
-@include('user::cto.header')
+@include('user::tl.header')
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
@@ -16,11 +16,11 @@
 
                               <div class="card-body">
                      
-                   @if(Session::has('message'))
+                   @if(Session::has('message')) 
                     <p class="alert alert-info">{{ Session::get('message') }}</p>
                    @endif 
 
-                  <form class="forms-sample" action='{{url("cto/project/scrum/team_management/insert")}}' method='post'>
+                  <form class="forms-sample" action='{{url("team_leader/project/scrum/team_management/insert")}}' method='post'>
 
                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
@@ -106,6 +106,7 @@
 		})
 
      </script>
-    @include('projects::admin.footer')
+   
+    @include('user::tl.footer')
    </div>
    </div>

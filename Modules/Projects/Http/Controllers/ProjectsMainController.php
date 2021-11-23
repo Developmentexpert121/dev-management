@@ -40,7 +40,11 @@ class ProjectsMainController extends Controller
         elseif($user_auth->user_role==7)
         {
           return view('projects::cto.template'); 
-        }   
+        }
+        elseif($user_auth->user_role==1)
+        {
+          return view('projects::team_leader.template'); 
+        }    
 
       }  
   }
@@ -63,6 +67,10 @@ class ProjectsMainController extends Controller
         elseif($user_auth->user_role==7)
         {
           return view('projects::cto.scrum_template');
+        }
+        elseif($user_auth->user_role==1)
+        {
+          return view('projects::team_leader.scrum_template');
         }
 
       }
@@ -89,6 +97,11 @@ class ProjectsMainController extends Controller
         return view('projects::cto.team_management');  
 
       }
+      elseif($user_auth->user_role==1){
+
+        return view('projects::team_leader.team_management');  
+
+      }
       
     }   
   }
@@ -110,6 +123,10 @@ class ProjectsMainController extends Controller
           elseif($user_auth->user_role==7)
           {
             return view('projects::cto.company_management');   
+          } 
+          elseif($user_auth->user_role==1)
+          {
+            return view('projects::team_leader.company_management');   
           } 
       } 
  
@@ -168,6 +185,7 @@ class ProjectsMainController extends Controller
               'template' => $template,
               'project_type' => $project_type
         );
+
         $data_val = Project::insert($data);
         $lastId = DB::getPdo()->lastInsertId();
 
@@ -184,6 +202,10 @@ class ProjectsMainController extends Controller
           elseif($user_auth->user_role==7)
           {
             return Redirect('admin/project/company/'.$lastId); 
+          } 
+          elseif($user_auth->user_role==1)
+          {
+            return Redirect('team_leader/project/company/'.$lastId); 
           }       
         }
 
@@ -232,11 +254,15 @@ class ProjectsMainController extends Controller
               }
               elseif($user_auth->user_role==6)
               {
-                return Redirect('admin/project/team/'.$lastId);
+                return Redirect('ceo/project/team/'.$lastId);
               }
               elseif($user_auth->user_role==7)
               {
-                return Redirect('admin/project/team/'.$lastId);
+                return Redirect('cto/project/team/'.$lastId);
+              } 
+              elseif($user_auth->user_role==1)
+              {
+                return Redirect('team_leader/project/team/'.$lastId);
               }         
           }
 
@@ -894,17 +920,13 @@ class ProjectsMainController extends Controller
 
     if ($request->isMethod('get'))
     { 
-       
+    
        $data_user = Auth::user();
        $project_id =  $request->project_id;  
        $sprint_id =  $request->sprint_id;
        $project_data = Project::where('id',$project_id)->first();
-       $drop_down_data = Project::orderBy('id', 'DESC')->get();
-       $single_project = 'single_project';   
-       $sprintIssue= Sprint_Issue::where(['project_id'=> $project_id,'sprint_id'=>$sprint_id,'status'=>0])->orderBy('id', 'DESC')->get();
-       
-      // $project_Assign_Users= User::where('project_assign', 'like', '%' . $project_id . '%')->get(); 
-       
+       $sprintIssue = Sprint_Issue::where(['project_id'=> $project_id,'sprint_id'=>$sprint_id,'status'=>0])
+       ->orderBy('id', 'DESC')->get();
        $AssignProjects = AssignProjects::where(['project_id'=>$project_id])->count();
        $project_Assign_Users = DB::table('assign_projects')
        ->select('assign_projects.*','users.name')
@@ -913,36 +935,30 @@ class ProjectsMainController extends Controller
        ->groupBy('assign_projects.assign_to')
        ->get(); 
     
-        // echo'<pre>';
-        // print_r($articles);
-        // die();
-
        if($data_user->user_role==5)
        {
-           return view('projects::admin.sprint_create_issue',compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
+           return view('projects::admin.sprint_create_issue',compact('project_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
        }
        elseif($data_user->user_role==6)
        {
-          return view('projects::ceo.sprint_create_issue',compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
+          return view('projects::ceo.sprint_create_issue',compact('project_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
        }
        elseif($data_user->user_role==7)
        {
-          return view('projects::cto.sprint_create_issue',compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
+          return view('projects::cto.sprint_create_issue',compact('project_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
        } 
        elseif($data_user->user_role==1)
-       {
-          return view('projects::team_leader.sprint_create_issue',compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
+       { 
+          return view('projects::team_leader.sprint_create_issue',compact('project_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
        }
        elseif($data_user->user_role==2)
-       {
-          return view('projects::employee.sprint_create_issue',compact('single_project','project_data','drop_down_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
+       { 
+          return view('projects::employee.sprint_create_issue',compact('project_data','project_id','sprint_id','sprintIssue','project_Assign_Users'));
        }   
 
 
     }
   
-   
-    
     
   }
   
@@ -1275,7 +1291,8 @@ class ProjectsMainController extends Controller
     {
       
       if ($request->isMethod('get'))
-      { 
+      {  
+      
           
           $data_user = Auth::user(); 
           $project_data = Project::where('id',$request->id)->first();
@@ -1330,7 +1347,7 @@ class ProjectsMainController extends Controller
 
       if ($request->isMethod('get'))
       { 
-       
+          
           $data_user = Auth::user();
           $project_data = Project::where('id',$request->project_id)->first(); 
           $drop_down_data = Project::orderBy('id', 'DESC')->get(); 
@@ -1344,6 +1361,7 @@ class ProjectsMainController extends Controller
             {
             
               $sprint_id = $getSprint['id'];
+
               $taskResult = DB::table('sprint_issue')
               ->Join('all_sprints', 'all_sprints.id', '=', 'sprint_issue.sprint_id')
               ->select(['sprint_issue.*','all_sprints.sprint_start_status'])
@@ -1366,7 +1384,7 @@ class ProjectsMainController extends Controller
         {
           $taskResult='';
         }
-
+        
         if($data_user->user_role==5)
         {
           return view('projects::admin.board',compact('project_data','drop_down_data','project_id','statusResult','taskResult','data_user')); 

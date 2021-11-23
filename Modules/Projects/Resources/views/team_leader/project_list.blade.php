@@ -3,11 +3,11 @@
 <div class="main-panel">    
     <div class="content-wrapper">
 
-        <!-- <div class="row">
+       <div class="row">
             <div class="col-md-6"> 
-                <a href='{{url("admin/project/template")}}'><button class="cr_btn">Create Project</button></a>
+                <a href='{{url("team_leader/project/template")}}'><button class="cr_btn">Create Project</button></a>
             </div>
-        </div> -->
+        </div> 
 
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">

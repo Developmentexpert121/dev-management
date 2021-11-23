@@ -46,7 +46,7 @@
                              @endif
                            </div>
                                 
-                              <button type="submit" class="btn btn-primary me-2" >Submit</button>
+                              <button type="submit" class="btn btn-primary me-2" >Create Project</button>
 
                                 </form>
 

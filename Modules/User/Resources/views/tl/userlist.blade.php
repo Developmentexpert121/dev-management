@@ -1,4 +1,5 @@
-@include('user::admin.header')
+@include('user::tl.header')
+
 <div class="main-panel">
   <div class="content-wrapper">
     <div class="row">
@@ -13,7 +14,6 @@
                   <tr>
                     <th>Sr.No</th>
                     <th>Name</th>
-                    <th>Role</th>
                     <th>Email</th>
                     <th>Created at</th>
                     <th>Action</th>
@@ -26,18 +26,19 @@
 
                   foreach($user_list as $data)
                   {
-                  
+                    
                     if($data->user_role == 1){  $user_role='Team Leader'; }elseif($data->user_role == 2){ $user_role='Employee';  
                     }elseif($data->user_role == 3){ $user_role='Manager'; }elseif($data->user_role == 4){ $user_role='Hr'; }elseif($data->user_role == 6){ $user_role='Ceo'; }else{ $data->$user_role = 'Employee'; }
                 ?>
                   <tr>
                     <td><?php echo $i++; ?></td>
                     <td><?php echo $data->name; ?></td>
-                    <td><?php echo $data->role; ?></td>
                     <td><?php echo $data->email; ?></td>
                     <td><?php echo $data->created_at; ?></td> 
                     <td>
-                      <a href="<?php  echo url("admin/user/view/{$data->id}") ?>"> <i class="fa fa-eye" aria-hidden="true" ></i></a>  &nbsp; <a href="<?php  echo url("admin/user/delete/{$data->id}") ?>"><i class="fa fa-trash-o fa-lg" style="font-size:21px;color:red"></i> </a>&nbsp; &nbsp; <a href="<?php  echo url("admin/user/edit/{$data->id}") ?>"><i class="fa fa-edit" style="font-size:18px;color:green"></i></a>
+                      <a href="<?php  echo url("team_leader/user/view/{$data->id}") ?>"> <i class="fa fa-eye" aria-hidden="true" ></i></a>  &nbsp; 
+                      <!-- <a href="<?php // echo url("cto/user/delete/{$data->id}") ?>"><i class="fa fa-trash-o fa-lg" style="font-size:21px;color:red"></i> </a>&nbsp; &nbsp; 
+                      <a href="<?php // echo url("cto/user/edit/{$data->id}") ?>"><i class="fa fa-edit" style="font-size:18px;color:green"></i></a> -->
                     </td>
                   </tr>
                 <?php
@@ -48,7 +49,6 @@
                 <tr>
                   <th>Sr.No</th>
                   <th>Name</th>
-                  <th>Role</th>
                   <th>Email</th>
                   <th>Created At</th>
                   <th>Action</th>
@@ -61,4 +61,4 @@
     </div>
   </div>
 </div>
-@include('user::admin.footer') 
+@include('user::tl.footer') 

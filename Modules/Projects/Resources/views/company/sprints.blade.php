@@ -25,11 +25,7 @@
                       <div class="error">{{ $errors->first('new_sprint') }}</div>
                       @endif
                       <br>
-                   
-                     
                     </div>
-
-
 
                     <div class="col-6">
                       <div class="form-outline">
@@ -89,7 +85,7 @@
 
                 <div class="row">
                   <div class="col-2">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Create Sprint</button>
                   </div>
                 </div>
                 <!-- <div class="col-2">
@@ -125,6 +121,7 @@
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Create Issue</th>
+                <th>Created By</th>
                 <th>Start Sprint</th>
                 <th>Action</th> 
             </tr>
@@ -148,6 +145,8 @@
                     <td>
                       <a href="<?php echo url('/projects/sprint/company/create_issue/'.$project_id.'/'.$data->id) ?>">Create Issue</a>
                     </td>
+
+                    <td>{{ucfirst($data->create_project_user)}}  ({{$data->role}})</td>
 
                     <td> 
                        
@@ -402,6 +401,7 @@
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Create Issue</th>
+                <th>Created By</th>
                 <th>Start Sprint</th>
                 <th>Action</th>
             </tr>
@@ -411,24 +411,14 @@
   </div>
 </div>
 <style type="text/css">
-  .btn { width: 100%; }
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+    width: 150px;
+}
   section { height: auto!important; }
   #projects_table_wrapper{ margin-left: 15px; margin-top: 15px; }
   .table-striped tbody tr:nth-of-type(odd){ background-color: unset !important; }
   .table-striped > tbody > tr:nth-of-type(odd){ --bs-table-accent-bg: unset !important; }
 </style>
+
 @include('projects::admin.footer')
-<script type="text/javascript">
-  var dtToday = new Date();
-  var month = dtToday.getMonth() + 1;
-  var day = dtToday.getDate();
-  var year = dtToday.getFullYear();
-  if(month < 10){
-    month = '0' + month.toString();
-  }
-  if(day < 10){
-    day = '0' + day.toString();
-  }
-  var maxDate = year + '-' + month + '-' + day;
-  $('.startDate').attr('min', maxDate);
-  $('.endDate').attr('min', max{{url("projects/team/project/add_sprint")}}

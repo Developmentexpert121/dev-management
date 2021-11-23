@@ -104,10 +104,12 @@ ul {
                  success: function(response){
                      }
              });
-             }
+             } 
      }).disableSelection();
      } );
   </script>
+
+@include('projects::admin.footer')
 
 
 

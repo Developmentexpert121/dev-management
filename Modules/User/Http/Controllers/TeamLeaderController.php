@@ -13,8 +13,10 @@ use Modules\Projects\Entities\Issue;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Modules\Projects\Entities\Sprint_Issue;
+use Modules\User\Entities\Usersdata;
 use Auth;
 use App\Models\User;
+
 
 class TeamLeaderController extends Controller
 {
@@ -28,6 +30,21 @@ class TeamLeaderController extends Controller
       }
 
      }
+
+
+     public function userlist(Request $request)
+     {
+          if ($request->isMethod('get'))
+          {
+              $user_auth = Auth::user();
+              $tasks = Auth::user()->id;
+              $profiledata = usersdata::where('user_id' , $tasks)->first();
+              $user_list = User::where('user_role','!=',5)
+              ->get();
+              return view('user::tl.userlist')->with(compact('user_list','user_auth','profiledata')); 
+        }
+
+    }
 
 
    public function assignproject(Request $request){ 

@@ -234,3 +234,5 @@
 		})
 
      </script>
+
+@include('user::admin.footer')

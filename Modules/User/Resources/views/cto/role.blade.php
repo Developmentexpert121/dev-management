@@ -234,3 +234,5 @@
 		})
 
      </script>
+
+@include('user::cto.footer')

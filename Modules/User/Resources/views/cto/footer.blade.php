@@ -1,16 +1,10 @@
-<footer class="footer">
-          
-       
-
-      
-
-  
-  
+<footer class="footer"></footer>
+  <script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script>
   <!-- endinject -->
   <!-- Plugin js for this page -->
   <script src="{{ asset('vendors/chart.js/Chart.min.js') }}"></script>
   <script src="{{ asset('vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
-  <!--<script src="{{ asset('vendors/progressbar.js/progressbar.min.js') }}"></script>-->
+  <script src="{{ asset('vendors/progressbar.js/progressbar.min.js') }}"></script>
 
   <!-- End plugin js for this page -->
   <!-- inject:js -->
@@ -23,20 +17,12 @@
   <!-- Custom js for this page-->
   <script src="{{ asset('js/dashboard.js') }}"></script>
   <script src="{{ asset('js/Chart.roundedBarCharts.js') }}"></script>
-
-
-
-  <!-- <script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script> -->
   
   <script>
-    $(document).ready(function() {
-      $('#projects_table').DataTable();
-    });
-    $(document).ready(function() {
-      $('#example').DataTable();
-    });
-</script>
+  $(document).ready(function() { 
+    $('#example').DataTable();
+} );
+</script> 
 </body>
 </html>
 
-</footer>

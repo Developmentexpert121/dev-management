@@ -1,6 +1,6 @@
 
 
-@include('user::cto.header')
+@include('user::tl.header')
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 
@@ -15,40 +15,42 @@
                            <div class="card card-rounded">
 
                               <div class="card-body">
-                     
-                   @if(Session::has('message'))
+                             
+                        
+
+
+                  @if(Session::has('message'))
                     <p class="alert alert-info">{{ Session::get('message') }}</p>
-                   @endif 
+                   @endif             
+                     
 
-                  <form class="forms-sample" action='{{url("cto/project/scrum/team_management/insert")}}' method='post'>
-
+                  <form class="forms-sample" action='{{url("team_leader/project/scrum/company_management/insert")}}' method='post'>
                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
 
                              <div class="form-group">
                               <label for="exampleInputUsername1">Name</label>
-                             <input type="text" class="form-control" id="name" name='name' placeholder="Project Name"  value="{{old('name')}}">
-                             @if($errors->has('name'))
-                           <div class="error">{{ $errors->first('name') }}</div>
-                             @endif
+                             <input type="text" class="form-control" id="name" name='name'  value="{{old('name')}}" placeholder="Project Name" >
+                              @if($errors->has('name'))
+                              <div class="error">{{ $errors->first('name') }}</div>
+                              @endif
+                              </div>
 
-                           </div>
-                      
                                <input type='hidden' name='template' value='2'/>
-                               <input type='hidden' name='project_type' value='1'/>
+                               <input type='hidden' name='project_type' value='2'/>
 
                               <div class="form-group">
                               <label for="exampleInputEmail1">key</label>
                               <input type="text" class="form-control" id="key" name='key' value="{{old('key')}}" placeholder="key" readonly>
-                              @if($errors->has('key'))
-                             <div class="error">{{ $errors->first('key') }}</div>
-                             @endif
-                             </div>
-                            
+                               @if($errors->has('key'))
+                           
+                               <div class="error">{{ $errors->first('key') }}</div>
+                                @endif
+                                </div>
                                 
-                              <button type="submit" class="btn btn-primary me-2" >Create Project</button>
+                                <button type="submit" class="btn btn-primary me-2" >Create Project</button>
 
-                    </form>
+                                </form>
 
                               </div>
 
@@ -61,8 +63,6 @@
       </div>
 </div>
 
-
-
 <script>
 
 	$(document).ready(function(){
@@ -74,7 +74,7 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-   
+
     $("#name").change(function(){ 
        var name = $(`#name`).val();
       
@@ -88,6 +88,7 @@
            {
               if(response.success)
               {
+                 console.log(response.message);
                  $("#key").val(response.message)
 
               }
@@ -100,12 +101,17 @@
               console.log(error)
            }
         });
-	   });
+	});
 	
+
+  
+
 			
 		})
+</script>
 
-     </script>
-    @include('projects::admin.footer')
+@include('user::tl.footer')
+
    </div>
    </div>
+

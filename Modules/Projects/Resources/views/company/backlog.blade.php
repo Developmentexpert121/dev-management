@@ -87,7 +87,7 @@
                      <select id="action" class="action" name='sprint'> 
                      <option value="">Please Select Sprint</option> 
                          <?php  foreach($sprints as $val){?>
-                       <option value="<?php $val->id ?>"><?php echo $val->sprint_name ?></option> 
+                       <option value="<?php echo $val->id ?>"><?php echo $val->sprint_name ?></option> 
      
                        <?php  } ?>
                        </select>   

@@ -36,11 +36,50 @@
                       @endif
                       <br>
                      </div>
-                  </div>      
+                  </div>  
+                  
+                     
+                  <div class="row">
+
+                      <div class="col-6"> 
+                          <div class="form-outline">
+
+                              <label for="assign">Assign Issue</label>
+                              <select name="assign" id="assign" class="form-control" >
+
+                                  <option value="">Please Assign Issue </option>
+                                  <?php foreach($project_Assign_Users as $user_name){  ?>
+                                  <option value="{{$user_name->assign_to}}">{{$user_name->name}}</option>
+                                  <?php }  ?>
+
+                             </select>
+
+                              @if($errors->has('assign'))
+                              <div class="error">{{ $errors->first('assign') }}</div>
+                              @endif
+                              <br>
+
+                          </div>
+                      </div>
+                  </div> 
+
+
+                  <div class="row">
+
+                    <div class="col-6"> 
+
+                      <div class="form-outline">  
+                        <input type="checkbox" id="backlog" name="backlog" value="backlog" >
+                        <label for="backlog">backlog issue</label><br>
+                      </div>
+
+                    </div>
+
+                  </div>  
               
                 <div class="row">
                   <div class="col-2">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Create Issue</button>
                   </div>
                 </div>
                 <!-- <div class="col-2">
@@ -54,18 +93,17 @@
     </div>
   </section>
 
-
+<!-- 
   <div class="container">
 
-  <!-- Trigger the modal with a button -->
+  
   <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">BackLog</button>
 
 
-  <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
     
-      <!-- Modal content-->
+     
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -100,9 +138,9 @@
                     <button type="submit" class="btn btn-primary">Save</button>
                   </div>
                 </div>
-                <!-- <div class="col-2">
+                <div class="col-2">
                   <button type="submit" class="btn btn-warning">Get tasks</button>
-                </div> -->
+                </div> 
               </form>
 
 
@@ -114,7 +152,7 @@
   </div>  
 
   
-</div>
+</div> -->
 
   
 
@@ -166,9 +204,9 @@
                     </td>
                     <td> 
                             <!-- Button trigger modal -->
-                           <button type="button"  data-toggle="modal" data-target="#edit{{$data->id}}">
-                           <i class="fa fa-pencil" title="Edit"></i>
-                            </button>
+                          
+                           <i class="fa fa-pencil" title="Edit"  data-toggle="modal" data-target="#edit{{$data->id}}" ></i>
+                            
 
                           <a href="<?php echo url('projects/team/sprint/delete/issue_create/'.$data->id) ?>" onclick="return confirm('Are you sure you want delete?')"><i class="fa fa-trash-o fa-lg"></i></a>
                           
@@ -188,7 +226,7 @@
                       <div class="modal-body">
                         
 
-                      <form class="row align-items-center" action='{{url("projects/team/create/issue/update")}}' method='post' >  
+                      <form class="row align-items-center" action='{{url("projects/team/create/issue/updateted")}}' method='post' >  
                          
                           <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">   
                           <input type='hidden' name='project_id' value='{{$project_id}}'/>  
@@ -208,6 +246,48 @@
                                 <br>
                             </div>
                           </div>
+
+                          <div class="row">
+
+                          <div class="col-6"> 
+
+                              <div class="form-outline">
+
+                                  <label for="assign">Assign Issue</label>
+
+                                  <select name="assign" id="assign" class="form-control" >
+
+                                      <option value="">Please Assign Issue </option>
+
+                                      <?php foreach($project_Assign_Users as $user_name){ 
+                                        
+                                        if($data->assign_to==$user_name->assign_to){
+                                          ?>
+                                              <option value="{{$user_name->assign_to}}" selected>{{$user_name->name}}</option>  
+                                          <?php
+                                        }
+                                        else{
+                                          ?>
+                                          <option value="{{$user_name->assign_to}}">{{$user_name->name}}</option>  
+                                        <?php
+                                        }
+                                        ?>
+                                        
+                                      <?php }  ?>
+
+                                </select>
+
+                                  @if($errors->has('assign'))
+                                  
+                                  <div class="error">{{ $errors->first('assign') }}</div>
+                                  @endif
+
+                                  <br>
+
+                              </div>
+                            </div>
+                          </div> 
+
                        
                           <div class="row">
                             <div class="col-2">
@@ -219,10 +299,7 @@
 
 
                       </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    
-                      </div>
+                  
                     </div>
                   </div>
                 </div>
@@ -301,6 +378,14 @@ $('.action').change(function()
 
 
 <style type="text/css">
+
+btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+    width: 110px;
+}
+
+
+
   .btn { width: 100%; }
   section { height: auto!important; }
   #projects_table_wrapper{ margin-left: 15px; margin-top: 15px; }
@@ -308,17 +393,3 @@ $('.action').change(function()
   .table-striped > tbody > tr:nth-of-type(odd){ --bs-table-accent-bg: unset !important; }
 </style>
 @include('projects::company.footer')
-<script type="text/javascript">
-  var dtToday = new Date();
-  var month = dtToday.getMonth() + 1;
-  var day = dtToday.getDate();
-  var year = dtToday.getFullYear();
-  if(month < 10){
-    month = '0' + month.toString();
-  }
-  if(day < 10){
-    day = '0' + day.toString();
-  }
-  var maxDate = year + '-' + month + '-' + day;
-  $('.startDate').attr('min', maxDate);
-  $('.endDate').attr('min', max{{url("projects/team/project/add_sprint")}}
