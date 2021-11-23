@@ -113,4 +113,4 @@ ul {
 
 
 
-  
+@include('projects::ceo.footer')

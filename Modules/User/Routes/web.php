@@ -160,4 +160,14 @@ Route::prefix('admin')->group(function() {
             Route::get('dashbaord','UserController@dashbaord');  
 
 
-        });
+        });  
+
+
+
+        
+        Route::prefix('team_leader')->group(function() {
+
+          Route::get('userlist', 'TeamLeaderController@userlist')->middleware('CheckRole');
+          Route::get('user/view/{id}','UserController@view')->middleware('CheckRole'); 
+
+      }); 

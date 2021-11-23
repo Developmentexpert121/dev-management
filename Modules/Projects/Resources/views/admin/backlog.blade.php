@@ -251,8 +251,3 @@
 </div>
 
 @include('projects::admin.footer')
-<style>
-  .container {
-    margin: 19px 0px 0 23px;
-}
-  </style>

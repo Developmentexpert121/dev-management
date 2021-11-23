@@ -25,6 +25,8 @@
   <link rel="stylesheet" href="{{ asset('vendors/typicons/typicons.css') }}">
   <link rel="stylesheet" href="{{ asset('vendors/simple-line-icons/css/simple-line-icons.css') }}">
   <link rel="stylesheet" href="{{ asset('vendors/css/vendor.bundle.base.css') }}">
+  <script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script>
+
   <!-- endinject -->
   <!-- Plugin css for this page -->
   
@@ -67,7 +69,7 @@
 
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">Company Management<span class="text-black fw-bold"></span></h1>
+            <h1 class="welcome-text"><?php if(!empty($project_data)){ echo $project_data->name;} ?> <span class="text-black fw-bold"></span></h1>
             <h3 class="welcome-sub-text">Your performance summary this week </h3>
           </li>
         </ul>
@@ -239,6 +241,10 @@
     <div class="container-fluid page-body-wrapper">
       
     @include('projects::ceo.sidebar')
+
+ 
+    
+
 
  
     

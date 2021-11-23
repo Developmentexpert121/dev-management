@@ -147,10 +147,16 @@ class UserController extends Controller
             $user_auth = Auth::user();
             $tasks = Auth::user()->id;
             $profiledata = usersdata::where('user_id' , $tasks)->first();
-            $user_list = User::where('user_role','!=',5)
-            ->get();
 
-        
+            //$user_list = User::where('user_role','!=',5)
+           // ->get();
+
+            $user_list =  DB::table('users') 
+            ->select('users.*','role.name as role') 
+            ->join('role','role.id','=','users.user_role')  
+            ->where('user_role','!=',5)
+            ->orderBy('users.id', 'DESC')
+            ->get(); 
             
             if($user_auth->user_role==5)
             {   
@@ -516,6 +522,11 @@ class UserController extends Controller
                     return view('user::cto.view')->with(compact('user_data','url_link','user_auth','project_list','project_assign_id')); 
 
                 }
+                elseif($user_auth->user_role==1)
+                {
+                    return view('user::tl.view')->with(compact('user_data','url_link','user_auth','project_list','project_assign_id')); 
+
+                }
          }
 
     }
@@ -824,8 +835,16 @@ class UserController extends Controller
             $user_auth = Auth::user();
             $tasks = Auth::user()->id;
             $profiledata = usersdata::where('user_id' , $tasks)->first();
-            $user_list = User::where('user_role','=',1)
-            ->get();
+            // $user_list = User::where('user_role','=',1)
+            // ->get();
+
+            $user_list =  DB::table('users') 
+            ->select('users.*','role.name as role') 
+            ->join('role','role.id','=','users.user_role')  
+            ->where('user_role','=',1)
+            ->orderBy('users.id', 'DESC')
+            ->get(); 
+            
             if($user_auth->user_role==5)
             {
                 return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
@@ -842,13 +861,22 @@ class UserController extends Controller
     }
 
     public function employeelist(Request $request){
+
         if ($request->isMethod('get'))
         { 
                 $user_auth = Auth::user();
                 $tasks = Auth::user()->id;
                 $profiledata = usersdata::where('user_id' , $tasks)->first();
-                $user_list = User::where('user_role','=',2)
-                ->get();
+                // $user_list = User::where('user_role','=',2)
+                // ->get();
+
+                 $user_list =  DB::table('users') 
+                 ->select('users.*','role.name as role') 
+                 ->join('role','role.id','=','users.user_role')  
+                 ->where('user_role','=',2)
+                 ->orderBy('users.id', 'DESC')
+                  ->get(); 
+
                 if($user_auth->user_role==5)
                 {
                   return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
@@ -860,6 +888,7 @@ class UserController extends Controller
                     return view('user::cto.userlist')->with(compact('user_list','user_auth','profiledata')); 
                 }
         }   
+
     }
    public function managerlist(Request $request)
    {
@@ -869,8 +898,17 @@ class UserController extends Controller
         $user_auth = Auth::user();
         $tasks = Auth::user()->id;
         $profiledata = usersdata::where('user_id' , $tasks)->first();
-        $user_list = User::where('user_role','=',3)
-        ->get();
+
+        // $user_list = User::where('user_role','=',3)
+        // ->get();
+
+        $user_list =  DB::table('users') 
+            ->select('users.*','role.name as role') 
+            ->join('role','role.id','=','users.user_role')  
+            ->where('user_role','=',3)
+            ->orderBy('users.id', 'DESC')
+            ->get(); 
+
         if($user_auth->user_role==5)
         {
            return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 
@@ -893,8 +931,18 @@ class UserController extends Controller
             $user_auth = Auth::user();
             $tasks = Auth::user()->id;
             $profiledata = usersdata::where('user_id' , $tasks)->first();
-            $user_list = User::where('user_role','=',4)
-            ->get();
+            
+            // $user_list = User::where('user_role','=',4)
+            // ->get();
+
+            $user_list =  DB::table('users') 
+            ->select('users.*','role.name as role') 
+            ->join('role','role.id','=','users.user_role')  
+            ->where('user_role','=',4)
+            ->orderBy('users.id', 'DESC')
+            ->get(); 
+
+
             if($user_auth->user_role==5)
             {
                return view('user::admin.userlist')->with(compact('user_list','user_auth','profiledata')); 

@@ -25,6 +25,8 @@
   <link rel="stylesheet" href="{{ asset('vendors/typicons/typicons.css') }}">
   <link rel="stylesheet" href="{{ asset('vendors/simple-line-icons/css/simple-line-icons.css') }}">
   <link rel="stylesheet" href="{{ asset('vendors/css/vendor.bundle.base.css') }}">
+  <script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script>
+
   <!-- endinject -->
   <!-- Plugin css for this page -->
   

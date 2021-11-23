@@ -28,6 +28,7 @@ class TeamLeaderController extends Controller
 
        if ($request->isMethod('get'))
        { 
+          
           $user_id = Auth::user()->id; 
           $user_auth = Auth::user(); 
           $project_list = DB::table('users')
@@ -36,14 +37,16 @@ class TeamLeaderController extends Controller
           ->join('project', 'project.id', '=', 'assign_projects.project_id')
           ->where('assign_projects.assign_to', $user_id)
           ->get();
-
+           
+        
           if( $user_auth->user_role ==1 )
           { 
+            
             return view('projects::team_leader.project_list')->with('project_list',$project_list);  
           }
           elseif( $user_auth->user_role ==2 )
           {
-           
+            
             return view('projects::employee.project_list')->with('project_list',$project_list);  
           }
 

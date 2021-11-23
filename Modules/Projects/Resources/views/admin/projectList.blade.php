@@ -98,15 +98,4 @@
     .cr_btn { -webkit-box-align: center; align-items: center; border-width: 0px; border-radius: 3px; box-sizing: border-box; display: flex; font-size: inherit; font-style: normal; font-family: inherit; font-weight: 500; max-width: 100%; position: relative;    text-align: center; text-decoration: none; transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s; white-space: nowrap; background: rgb(9 147 20); color: rgb(255, 255, 255); cursor: pointer; height: 48px;    line-height: 40px; padding: 0px 10px; vertical-align: middle; width: 420px; -webkit-box-pack: center; justify-content: center;outline: none;  margin: 0px 0px 6px; }
     a , a:hover { text-decoration: none; }
 </style>
-@include('projects::admin.footer')
-
-<script>
-    function ConfirmDelete()
-    {
-      var x = confirm("Are you sure you want to delete?");
-      if (x)
-          return true;
-      else
-        return false;
-    }
-</script>
+@include('user::admin.footer')
